@@ -27,7 +27,7 @@ const FooterSection = () => {
         <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-primary/5 to-transparent" />
         
         {/* Skull watermark */}
-        <div className="absolute -bottom-20 -right-20 md:right-10 w-[300px] md:w-[400px] h-[300px] md:h-[400px] opacity-[0.03] pointer-events-none">
+        <div className="absolute -bottom-32 -right-32 lg:-right-20 w-[300px] lg:w-[400px] h-[300px] lg:h-[400px] opacity-[0.03] pointer-events-none">
           <img src={skullFooter} alt="" className="w-full h-full object-contain" />
         </div>
         
