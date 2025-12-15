@@ -20,14 +20,14 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 hidden lg:block"> {/* Alterado de md:block para lg:block */}
+    <header className="fixed top-0 left-0 right-0 z-50 hidden lg:block">
       <div className="mx-2 mt-2 sm:mx-4 sm:mt-4 md:mx-8">
         <nav className="bg-card/95 backdrop-blur-sm border border-border rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-lg">
           <div className="flex items-center justify-between w-full">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
               <span className="text-base sm:text-xl font-impact tracking-wider text-foreground group-hover:text-primary transition-colors">
-                MANGAVERSE
+                JUSTICE
               </span>
             </Link>
 
