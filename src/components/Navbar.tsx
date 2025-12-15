@@ -20,7 +20,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 hidden lg:block">
+    <header className="fixed top-0 left-0 right-0 z-50 hidden md:block"> {/* Alterado de lg:block para md:block */}
       <div className="mx-2 mt-2 sm:mx-4 sm:mt-4 md:mx-8">
         <nav className="bg-card/95 backdrop-blur-sm border border-border rounded-xl px-3 sm:px-4 py-2 sm:py-3 shadow-lg">
           <div className="flex items-center justify-between w-full">
