@@ -16,6 +16,7 @@ const categoryTags = [
 const RecentSection = () => {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [splashKey, setSplashKey] = useState(0);
+  const [triggerBulletAnimation, setTriggerBulletAnimation] = useState(false); // New state for bullet animation
 
   const filteredMangas = activeCategory === "Todos" 
     ? recentMangas 
@@ -24,6 +25,11 @@ const RecentSection = () => {
         (activeCategory === "Ação" && manga.type === "manga") ||
         (activeCategory === "Manhwa" && manga.type === "manhwa")
       );
+
+  const handlePress = () => {
+    setTriggerBulletAnimation(true);
+    setTimeout(() => setTriggerBulletAnimation(false), 300); // Reset animation state after 300ms
+  };
 
   return (
     <section id="lancamentos" className="relative py-16 sm:py-24 px-4 grunge-texture overflow-hidden">
@@ -42,13 +48,13 @@ const RecentSection = () => {
         <div className="flex flex-col items-center text-center mb-6 sm:mb-8 animate-fade-up">
           <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center shadow-lg shadow-primary/30 hover:scale-110 transition-transform duration-300 rounded-lg">
-              <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
+              <Clock className="w-5 h-5 sm:w-6 h-6 text-primary-foreground" />
             </div>
             <div className="flex items-center gap-2">
               <h2 className="text-xl sm:text-2xl md:text-3xl font-impact tracking-wider">
                 RECENTEMENTE ATUALIZADOS
               </h2>
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-primary animate-pulse" />
+              <Sparkles className="w-4 h-4 sm:w-5 h-5 text-primary animate-pulse" />
             </div>
           </div>
         </div>
@@ -106,10 +112,12 @@ const RecentSection = () => {
         <div className="flex justify-end mb-4">
           <a 
             href="#" 
-            className="flex items-center gap-2 text-primary hover:text-primary/80 text-base sm:text-lg font-impact uppercase tracking-wide transition-all duration-300 group py-2 px-3 -mr-3 active:scale-95"
+            className="flex items-center gap-2 text-primary hover:text-primary/80 text-base sm:text-lg font-impact uppercase tracking-wide transition-all duration-300 group py-2 px-3 -mr-3 active:scale-95" // Added active:scale-95
+            onMouseDown={handlePress}
+            onTouchStart={(e) => { e.preventDefault(); handlePress(); }}
           >
             Ver todos
-            <BulletIcon size="md" className="group-hover:translate-x-2 transition-transform duration-300 animate-[slide-in-right_0.6s_ease-out_infinite_alternate]" />
+            <BulletIcon size="md" className={triggerBulletAnimation ? 'animate-bullet-fire' : ''} /> {/* Conditional animation */}
           </a>
         </div>
 
