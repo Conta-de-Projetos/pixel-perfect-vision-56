@@ -438,3 +438,9 @@
 .animate-bullet-fire {
   animation: bullet-fire 0.3s ease-out forwards;
 }
+
+/* New fade-in animation */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

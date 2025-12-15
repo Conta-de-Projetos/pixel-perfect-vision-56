@@ -5,6 +5,13 @@ import { Clock, Sparkles } from "lucide-react";
 import { recentMangas } from "@/data/mangaData";
 import { cn } from "@/lib/utils";
 import BulletIcon from "./BulletIcon";
+import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile
+import { // Import DropdownMenu components
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const categoryTags = [
   "Todos", "4-Koma", "Ação", "Adaptação", "Aventura", "Aliens", "Animais", 
@@ -16,7 +23,8 @@ const categoryTags = [
 const RecentSection = () => {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [splashKey, setSplashKey] = useState(0);
-  const [triggerBulletAnimation, setTriggerBulletAnimation] = useState(false); // New state for bullet animation
+  const [triggerBulletAnimation, setTriggerBulletAnimation] = useState(false);
+  const isMobile = useIsMobile(); // Use the hook
 
   const filteredMangas = activeCategory === "Todos" 
     ? recentMangas 
@@ -28,7 +36,12 @@ const RecentSection = () => {
 
   const handlePress = () => {
     setTriggerBulletAnimation(true);
-    setTimeout(() => setTriggerBulletAnimation(false), 300); // Reset animation state after 300ms
+    setTimeout(() => setTriggerBulletAnimation(false), 300);
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setActiveCategory(category);
+    setSplashKey((prev) => prev + 1);
   };
 
   return (
@@ -61,17 +74,96 @@ const RecentSection = () => {
 
         {/* Horizontal Category Tags Bar */}
         <div className="relative mb-10 sm:mb-8 -mx-4 sm:mx-0">
-          {/* Gradient glow edges removidos para barra de categorias mais limpa */}
           <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-4 px-4 sm:px-0">
-            {categoryTags.map((category) => {
+            {/* "Todos" button with conditional rendering for DropdownMenu */}
+            {!isMobile ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className={cn(
+                      "relative flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-display uppercase tracking-wider transition-all duration-300 whitespace-nowrap overflow-hidden",
+                      activeCategory === "Todos"
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-card/80 text-muted-foreground hover:text-foreground hover:bg-card active:scale-95"
+                    )}
+                  >
+                    <span className="relative z-10">Todos</span>
+                    {activeCategory === "Todos" && (
+                      <div key={splashKey} className="absolute inset-0 pointer-events-none overflow-visible">
+                        <div className="absolute inset-0 bg-primary/20 rounded-full animate-[scale-in_0.3s_ease-out]" />
+                        <div 
+                          className="absolute top-1/2 left-1/2 w-2 h-2 bg-primary/60 rounded-full animate-[fade-in_0.2s_ease-out]"
+                          style={{ transform: 'translate(-50%, -50%) translate(-12px, -8px)' }}
+                        />
+                        <div 
+                          className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-primary/50 rounded-full animate-[fade-in_0.3s_ease-out]"
+                          style={{ transform: 'translate(-50%, -50%) translate(10px, -6px)' }}
+                        />
+                        <div 
+                          className="absolute top-1/2 left-1/2 w-1 h-1 bg-primary/40 rounded-full animate-[fade-in_0.4s_ease-out]"
+                          style={{ transform: 'translate(-50%, -50%) translate(8px, 8px)' }}
+                        />
+                      </div>
+                    )}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-80 p-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-xl">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {categoryTags.map((category) => (
+                      <DropdownMenuItem 
+                        key={category} 
+                        onClick={() => handleCategoryClick(category)}
+                        className={cn(
+                          "cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                          activeCategory === category
+                            ? "bg-primary text-primary-foreground"
+                            : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                        )}
+                      >
+                        {category}
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <button
+                onClick={() => handleCategoryClick("Todos")}
+                className={cn(
+                  "relative flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-display uppercase tracking-wider transition-all duration-300 whitespace-nowrap overflow-hidden",
+                  activeCategory === "Todos"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card/80 text-muted-foreground hover:text-foreground hover:bg-card active:scale-95"
+                )}
+              >
+                <span className="relative z-10">Todos</span>
+                {activeCategory === "Todos" && (
+                  <div key={splashKey} className="absolute inset-0 pointer-events-none overflow-visible">
+                    <div className="absolute inset-0 bg-primary/20 rounded-full animate-[scale-in_0.3s_ease-out]" />
+                    <div 
+                      className="absolute top-1/2 left-1/2 w-2 h-2 bg-primary/60 rounded-full animate-[fade-in_0.2s_ease-out]"
+                      style={{ transform: 'translate(-50%, -50%) translate(-12px, -8px)' }}
+                    />
+                    <div 
+                      className="absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-primary/50 rounded-full animate-[fade-in_0.3s_ease-out]"
+                      style={{ transform: 'translate(-50%, -50%) translate(10px, -6px)' }}
+                    />
+                    <div 
+                      className="absolute top-1/2 left-1/2 w-1 h-1 bg-primary/40 rounded-full animate-[fade-in_0.4s_ease-out]"
+                      style={{ transform: 'translate(-50%, -50%) translate(8px, 8px)' }}
+                    />
+                  </div>
+                )}
+              </button>
+            )}
+
+            {/* Other category tags */}
+            {categoryTags.filter(cat => cat !== "Todos").map((category) => {
               const isActive = activeCategory === category;
               return (
                 <button
                   key={category}
-                  onClick={() => {
-                    setActiveCategory(category);
-                    setSplashKey((prev) => prev + 1);
-                  }}
+                  onClick={() => handleCategoryClick(category)}
                   className={cn(
                     "relative flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-display uppercase tracking-wider transition-all duration-300 whitespace-nowrap overflow-hidden",
                     isActive
@@ -79,13 +171,9 @@ const RecentSection = () => {
                       : "bg-card/80 text-muted-foreground hover:text-foreground hover:bg-card active:scale-95"
                   )}
                 >
-                  {/* Blood splatter animation ao clicar - todas as versões */}
                   {isActive && (
                     <div key={splashKey} className="absolute inset-0 pointer-events-none overflow-visible">
-                      {/* Main blood splash */}
                       <div className="absolute inset-0 bg-primary/20 rounded-full animate-[scale-in_0.3s_ease-out]" />
-                      
-                      {/* Drip effects */}
                       <div 
                         className="absolute top-1/2 left-1/2 w-2 h-2 bg-primary/60 rounded-full animate-[fade-in_0.2s_ease-out]"
                         style={{ transform: 'translate(-50%, -50%) translate(-12px, -8px)' }}
@@ -100,7 +188,6 @@ const RecentSection = () => {
                       />
                     </div>
                   )}
-
                   <span className="relative z-10">{category}</span>
                 </button>
               );
