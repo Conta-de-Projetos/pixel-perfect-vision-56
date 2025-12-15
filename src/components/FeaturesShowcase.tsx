@@ -60,30 +60,6 @@ const FeaturesShowcase = () => {
                 A PARTIR DE R$ 19,90/MÊS
               </div>
             </div>
-
-            {/* Statistics Section */}
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 pt-6 border-t border-border/30">
-              {[
-                { value: '409', label: 'Total de Mangás', accent: false },
-                { value: '43.7K', label: 'Total de Capítulos', accent: false },
-                { value: '8', label: 'Mangás Hoje', accent: true },
-                { value: '127', label: 'Capítulos Hoje', accent: true },
-                { value: '24', label: 'Mangás na Semana', accent: true },
-                { value: '843', label: 'Capítulos na Semana', accent: true },
-              ].map((stat) => (
-                <div 
-                  key={stat.label}
-                  className="text-center p-1 sm:p-2"
-                >
-                  <div className={`text-lg sm:text-xl md:text-2xl font-impact tracking-wide ${stat.accent ? 'text-primary' : 'text-foreground'}`}>
-                    {stat.value}
-                  </div>
-                  <div className="text-[7px] sm:text-[8px] text-muted-foreground mt-0.5 font-display uppercase tracking-wide leading-tight">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Right Visual - Justiceiro Featured - menor no mobile */}
