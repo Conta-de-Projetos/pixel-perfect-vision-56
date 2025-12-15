@@ -87,7 +87,8 @@ const RecentSection = () => {
                   <button
                     className={cn(
                       "relative flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-display uppercase tracking-wider transition-all duration-300 whitespace-nowrap overflow-hidden",
-                      "focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0", // Adicionado para remover a borda branca em todos os estados de foco
+                      "focus:outline-none focus:ring-0 focus:shadow-none focus:border-transparent", // Adicionado para remover borda, anel e sombra
+                      "focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none focus-visible:border-transparent", // Adicionado para remover borda, anel e sombra
                       activeCategory === "Todos"
                         ? "bg-primary text-primary-foreground"
                         : "bg-card/80 text-muted-foreground hover:text-foreground hover:bg-card active:scale-95"
@@ -137,7 +138,8 @@ const RecentSection = () => {
                 onClick={() => handleCategoryClick("Todos")}
                 className={cn(
                   "relative flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-display uppercase tracking-wider transition-all duration-300 whitespace-nowrap overflow-hidden",
-                  "focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0", // Adicionado para remover a borda branca em todos os estados de foco
+                  "focus:outline-none focus:ring-0 focus:shadow-none focus:border-transparent", // Adicionado para remover borda, anel e sombra
+                  "focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none focus-visible:border-transparent", // Adicionado para remover borda, anel e sombra
                   activeCategory === "Todos"
                     ? "bg-primary text-primary-foreground"
                     : "bg-card/80 text-muted-foreground hover:text-foreground hover:bg-card active:scale-95"
