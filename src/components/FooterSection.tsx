@@ -132,24 +132,10 @@ const FooterSection = () => {
           <div className="max-w-6xl mx-auto px-4 py-4 sm:py-6">
             <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
               <p className="text-xs text-muted-foreground text-center sm:text-left">
-                © 2024 JUSTICE. Todos os direitos reservados.
+                © 2026 JUSTICE. Todos os direitos reservados.
               </p>
               
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
-                <div className="flex items-center gap-3 sm:gap-4">
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    Privacidade
-                  </a>
-                  <span className="w-1 h-1 rounded-full bg-border" />
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    Termos
-                  </a>
-                  <span className="w-1 h-1 rounded-full bg-border" />
-                  <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-                    Cookies
-                  </a>
-                </div>
-                
                 {/* Scroll to top */}
                 <button 
                   onClick={scrollToTop}
