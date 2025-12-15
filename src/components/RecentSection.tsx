@@ -6,6 +6,7 @@ import { recentMangas } from "@/data/mangaData";
 import { cn } from "@/lib/utils";
 import BulletIcon from "./BulletIcon";
 import { useIsMobile } from "@/hooks/use-mobile"; // Import useIsMobile
+import { useDragScroll } from "@/hooks/useDragScroll"; // Import useDragScroll
 import { // Import DropdownMenu components
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +26,7 @@ const RecentSection = () => {
   const [splashKey, setSplashKey] = useState(0);
   const [triggerBulletAnimation, setTriggerBulletAnimation] = useState(false);
   const isMobile = useIsMobile(); // Use the hook
+  const dragScrollRef = useDragScroll<HTMLDivElement>(); // Use the drag scroll hook
 
   const filteredMangas = activeCategory === "Todos" 
     ? recentMangas 
@@ -74,7 +76,10 @@ const RecentSection = () => {
 
         {/* Horizontal Category Tags Bar */}
         <div className="relative mb-10 sm:mb-8 -mx-4 sm:mx-0">
-          <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-4 px-4 sm:px-0">
+          <div 
+            ref={dragScrollRef} // Apply drag scroll ref here
+            className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-4 px-4 sm:px-0 cursor-grab" // Added cursor-grab
+          >
             {/* "Todos" button with conditional rendering for DropdownMenu */}
             {!isMobile ? (
               <DropdownMenu>
@@ -108,13 +113,13 @@ const RecentSection = () => {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-80 p-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-xl">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-2"> {/* Changed to grid-cols-3 for better layout */}
                     {categoryTags.map((category) => (
                       <DropdownMenuItem 
                         key={category} 
                         onClick={() => handleCategoryClick(category)}
                         className={cn(
-                          "cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                          "cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition-colors justify-center text-center", // Added justify-center text-center
                           activeCategory === category
                             ? "bg-primary text-primary-foreground"
                             : "text-muted-foreground hover:bg-secondary hover:text-foreground"
