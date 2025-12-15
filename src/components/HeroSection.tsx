@@ -29,7 +29,7 @@ const HeroSection = () => {
 
       <div className="relative z-10 max-w-6xl mx-auto text-center">
         {/* Main Title with enhanced animation */}
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-impact leading-[1.1] mb-8 animate-fade-up-delay-1 tracking-wider">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-impact leading-[1.1] mb-6 animate-fade-up-delay-1 tracking-wider max-w-4xl mx-auto">
           LOGO MAIS LANÇAMOS
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-primary/80 drop-shadow-lg">
@@ -38,14 +38,14 @@ const HeroSection = () => {
         </h1>
 
         {/* Subtitle with better contrast */}
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-up-delay-2 leading-relaxed">
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 animate-fade-up-delay-2 leading-relaxed">
           Mergulhe em um universo de mangás e HQs. 
           <br className="hidden md:block" />
           Leitura sem limites, atualizações diárias.
         </p>
 
         {/* Blood line separator with glow */}
-        <div className="relative max-w-md mx-auto mb-10 animate-fade-up-delay-2">
+        <div className="relative max-w-md mx-auto mb-8 animate-fade-up-delay-2">
           <div className="blood-line" />
           <div className="absolute inset-0 blood-line blur-sm opacity-50" />
         </div>
