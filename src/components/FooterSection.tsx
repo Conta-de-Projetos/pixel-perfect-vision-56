@@ -5,7 +5,7 @@ const footerLinks = {
   Explorar: ["Populares", "Lançamentos", "Categorias", "Rankings"],
   Conta: ["Meu Perfil", "Favoritos", "Histórico", "Configurações"],
   Recursos: ["Premium", "App Mobile", "Como Usar", "FAQ"],
-  Legal: ["DMCA", "Contato"] // Removido Privacidade e Termos daqui
+  Legal: ["DMCA", "Contato"]
 };
 
 const socialLinks = [
@@ -26,7 +26,7 @@ const FooterSection = () => {
   };
 
   return (
-    <footer className="relative border-t border-border/20 overflow-hidden pb-20 lg:pb-0"> {/* Adicionado pb-20 para mobile, pb-0 para desktop */}
+    <footer className="relative border-t border-border/20 overflow-hidden pb-20 lg:pb-0">
       {/* Epic Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-t from-card via-background to-background" />
@@ -48,6 +48,9 @@ const FooterSection = () => {
             
             {/* Brand Section */}
             <div className="lg:col-span-4 flex flex-col items-center text-center md:items-center md:text-center lg:items-start lg:text-left">
+              <h4 className="font-display uppercase tracking-wider mb-4 sm:mb-5 text-foreground text-sm">
+                SOBRE NÓS
+              </h4>
               {/* Logo with Skull */}
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-14 h-14 relative">
