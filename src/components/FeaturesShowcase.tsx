@@ -106,7 +106,10 @@ const FeaturesShowcase = () => {
                 <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
                   "Justiça não é gentil."
                 </p>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-accent font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-lg">
+                <Button 
+                  variant="outline" // Alterado para variant="outline"
+                  className="w-full border-primary text-primary hover:bg-primary/10 font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-lg"
+                >
                   LER AGORA
                 </Button>
               </div>
