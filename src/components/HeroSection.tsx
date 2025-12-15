@@ -41,7 +41,7 @@ const HeroSection = () => {
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 animate-fade-up-delay-2 leading-relaxed">
           Explore o universo dos mangás e HQs. 
           <br />
-          Leitura ilimitada, atualizações diárias!
+          
         </p>
 
         {/* Blood line separator with glow */}
