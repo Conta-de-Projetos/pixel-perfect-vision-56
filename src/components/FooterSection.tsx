@@ -107,7 +107,7 @@ const FooterSection = () => {
                     <h4 className="font-display uppercase tracking-wider mb-4 sm:mb-5 text-foreground text-sm">
                       {category}
                     </h4>
-                    <ul className="space-y-2 sm:space-y-3">
+                    <ul className="space-y-2 sm:space-y-3 md:flex md:flex-col md:items-start lg:items-start">
                       {links.map((link) => (
                         <li key={link}>
                           <a 
