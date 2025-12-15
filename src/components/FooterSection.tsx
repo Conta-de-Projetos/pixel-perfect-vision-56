@@ -20,7 +20,7 @@ const FooterSection = () => {
   };
 
   return (
-    <footer className="relative border-t border-border/20 overflow-hidden">
+    <footer className="relative border-t border-border/20 overflow-hidden pb-20 lg:pb-0"> {/* Adicionado pb-20 para mobile, pb-0 para desktop */}
       {/* Epic Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-t from-card via-background to-background" />
