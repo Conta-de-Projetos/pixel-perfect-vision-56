@@ -83,8 +83,8 @@ const FeaturesShowcase = () => {
                   "Justiça não é gentil."
                 </p>
                 <Button 
-                  variant="outline" // Alterado para variant="outline"
-                  className="w-full border-primary text-primary hover:bg-primary/10 font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-lg"
+                  variant="outline" 
+                  className="w-full border-muted-foreground/50 text-muted-foreground hover:border-foreground hover:text-foreground hover:bg-card/20 font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-lg"
                 >
                   LER AGORA
                 </Button>
