@@ -5,13 +5,19 @@ const footerLinks = {
   Explorar: ["Populares", "Lançamentos", "Categorias", "Rankings"],
   Conta: ["Meu Perfil", "Favoritos", "Histórico", "Configurações"],
   Recursos: ["Premium", "App Mobile", "Como Usar", "FAQ"],
-  Legal: ["Privacidade", "Termos", "DMCA", "Contato"]
+  Legal: ["DMCA", "Contato"] // Removido Privacidade e Termos daqui
 };
 
 const socialLinks = [
   { name: "Twitter", icon: Twitter, href: "#" },
   { name: "Discord", icon: MessageCircle, href: "#" },
   { name: "Instagram", icon: Instagram, href: "#" },
+];
+
+const bottomBarLinks = [
+  { label: "Privacidade", href: "#" },
+  { label: "Termos", href: "#" },
+  { label: "Cookies", href: "#" },
 ];
 
 const FooterSection = () => {
@@ -26,8 +32,8 @@ const FooterSection = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-card via-background to-background" />
         <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-primary/5 to-transparent" />
         
-        {/* Skull watermark */}
-        <div className="absolute -bottom-20 -left-20 lg:-left-0 w-[200px] lg:w-[300px] h-[200px] lg:h-[300px] opacity-[0.03] pointer-events-none z-20">
+        {/* Skull watermark - Posicionado no canto inferior direito */}
+        <div className="absolute -bottom-20 -right-20 lg:-right-0 w-[250px] lg:w-[350px] h-[250px] lg:h-[350px] opacity-[0.03] pointer-events-none z-20">
           <img src={skullFooter} alt="" className="w-full h-full object-contain" />
         </div>
         
@@ -136,6 +142,18 @@ const FooterSection = () => {
               </p>
               
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
+                {/* Bottom Bar Links */}
+                <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                  {bottomBarLinks.map((link, index) => (
+                    <>
+                      <a key={link.label} href={link.href} className="hover:text-foreground transition-colors">
+                        {link.label}
+                      </a>
+                      {index < bottomBarLinks.length - 1 && <span>•</span>}
+                    </>
+                  ))}
+                </div>
+
                 {/* Scroll to top */}
                 <button 
                   onClick={scrollToTop}
