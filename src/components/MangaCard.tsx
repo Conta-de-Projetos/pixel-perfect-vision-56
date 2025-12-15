@@ -31,8 +31,8 @@ const MangaCard = ({
   const [imageError, setImageError] = useState(false);
   const [showPremiumOverlay, setShowPremiumOverlay] = useState(false);
   
-  // Extract dominant color only for non-premium cards
-  const dominantColor = useImageColor(imageUrl, !isPremium && !imageError);
+  // Extract dominant color only for non-premium and non-new cards
+  const dominantColor = useImageColor(imageUrl, !isPremium && !isNew && !imageError);
 
   const formatRating = (r: number) => r.toFixed(1);
 
@@ -42,9 +42,9 @@ const MangaCard = ({
     }
   };
 
-  // Dynamic border style for non-premium cards
-  const hasDynamicBorder = !isPremium && dominantColor;
-  const dynamicBorderStyle = hasDynamicBorder ? {
+  // Dynamic border style for non-premium, non-new cards
+  const hasDynamicBorderStyle = !isPremium && !isNew && dominantColor;
+  const dynamicBorderStyle = hasDynamicBorderStyle ? {
     boxShadow: `0 0 0 2px ${dominantColor}, 0 4px 20px -4px ${dominantColor}50`,
   } : {};
 
@@ -53,15 +53,17 @@ const MangaCard = ({
       className="group relative cursor-pointer transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-1"
       onClick={handleCardClick}
     >
-      {/* Image container with premium border */}
+      {/* Image container with conditional borders */}
       <div 
         className={cn(
           "relative aspect-[3/4] overflow-hidden bg-secondary shadow-lg group-hover:shadow-2xl transition-all duration-500 rounded-lg",
           isPremium 
-            ? "ring-2 ring-primary/60 ring-offset-2 ring-offset-background" 
-            : !hasDynamicBorder && "border border-border/50 group-hover:shadow-primary/20"
+            ? "ring-2 ring-primary/60 ring-offset-2 ring-offset-background" // Strong red ring for premium
+            : isNew 
+              ? "border-2 border-primary/40 group-hover:border-primary/60" // Subtle red border for new (non-premium)
+              : "border border-border/50 group-hover:shadow-primary/20" // Default border
         )}
-        style={dynamicBorderStyle}
+        style={dynamicBorderStyle} // Apply dynamic boxShadow if applicable
       >
         <img
           src={imageError ? '/placeholder.svg' : imageUrl}
