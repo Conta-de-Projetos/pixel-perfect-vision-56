@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Star } from "lucide-react";
 import justiceiroCover from "@/assets/justiceiro-cover.jpg";
+import { Link } from "react-router-dom"; // Import Link
 
 const HeroSection = () => {
   return (
@@ -61,12 +62,15 @@ const HeroSection = () => {
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
           <Button 
+            asChild // Add asChild here
             size="lg" 
             variant="outline" 
             className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base font-display uppercase tracking-wider group transition-all duration-300 transform hover:scale-105"
           >
-            <Star className="mr-2 w-5 h-5 group-hover:fill-primary group-hover:scale-110 transition-all" />
-            VER PREMIUM
+            <Link to="/premium" className="flex items-center"> {/* Wrap content in Link */}
+              <Star className="mr-2 w-5 h-5 group-hover:fill-primary group-hover:scale-110 transition-all" />
+              VER PREMIUM
+            </Link>
           </Button>
         </div>
 
