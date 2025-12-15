@@ -40,7 +40,7 @@ const HeroSection = () => {
         {/* Subtitle with better contrast */}
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 animate-fade-up-delay-2 leading-relaxed">
           Mergulhe em um universo de mangás e HQs. 
-          <br className="hidden md:block" />
+          <br />
           Leitura sem limites, atualizações diárias.
         </p>
 
