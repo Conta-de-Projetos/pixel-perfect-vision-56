@@ -87,6 +87,7 @@ const RecentSection = () => {
                   <button
                     className={cn(
                       "relative flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-display uppercase tracking-wider transition-all duration-300 whitespace-nowrap overflow-hidden",
+                      "focus-visible:outline-none focus-visible:ring-0", // Adicionado para remover a borda branca
                       activeCategory === "Todos"
                         ? "bg-primary text-primary-foreground"
                         : "bg-card/80 text-muted-foreground hover:text-foreground hover:bg-card active:scale-95"
@@ -113,13 +114,13 @@ const RecentSection = () => {
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-80 p-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-xl">
-                  <div className="grid grid-cols-3 gap-2"> {/* Changed to grid-cols-3 for better layout */}
+                  <div className="grid grid-cols-3 gap-2">
                     {categoryTags.map((category) => (
                       <DropdownMenuItem 
                         key={category} 
                         onClick={() => handleCategoryClick(category)}
                         className={cn(
-                          "cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition-colors justify-center text-center", // Added justify-center text-center
+                          "cursor-pointer px-3 py-2 rounded-md text-sm font-medium transition-colors justify-center text-center",
                           activeCategory === category
                             ? "bg-primary text-primary-foreground"
                             : "text-muted-foreground hover:bg-secondary hover:text-foreground"
@@ -136,6 +137,7 @@ const RecentSection = () => {
                 onClick={() => handleCategoryClick("Todos")}
                 className={cn(
                   "relative flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-display uppercase tracking-wider transition-all duration-300 whitespace-nowrap overflow-hidden",
+                  "focus-visible:outline-none focus-visible:ring-0", // Adicionado para remover a borda branca
                   activeCategory === "Todos"
                     ? "bg-primary text-primary-foreground"
                     : "bg-card/80 text-muted-foreground hover:text-foreground hover:bg-card active:scale-95"
