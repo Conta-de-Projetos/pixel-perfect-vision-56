@@ -175,12 +175,15 @@ const MangaDetailsPage = () => {
                   {manga.title.toUpperCase()}
                 </h1>
                 
-                {/* Tags */}
+                {/* Tags - Updated to match category button style */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
                   {manga.tags?.map((tag, index) => (
-                    <Badge key={index} className="bg-primary text-primary-foreground font-display uppercase tracking-wide text-xs px-3 py-1 rounded-md">
+                    <span 
+                      key={index} 
+                      className="bg-card/80 text-foreground hover:text-primary transition-colors duration-300 font-display uppercase tracking-wider text-xs px-4 py-2 rounded-full border border-border/50 cursor-default"
+                    >
                       {tag}
-                    </Badge>
+                    </span>
                   ))}
                 </div>
 
