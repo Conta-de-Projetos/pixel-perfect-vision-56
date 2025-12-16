@@ -55,7 +55,7 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up-delay-3">
           <Button 
             size="lg" 
-            className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/90 hover:to-primary px-8 py-6 text-base font-display uppercase tracking-wider group shadow-xl shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 transform hover:scale-105"
+            className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/90 text-primary-foreground hover:from-primary/90 hover:to-primary px-8 py-6 text-base font-display uppercase tracking-wider group transition-all duration-300 transform hover:scale-105 active:scale-95"
           >
             <BookOpen className="mr-2 w-5 h-5 group-hover:animate-pulse" />
             COMEÇAR A LER
@@ -65,7 +65,7 @@ const HeroSection = () => {
             asChild // Add asChild here
             size="lg" 
             variant="outline" 
-            className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base font-display uppercase tracking-wider group transition-all duration-300 transform hover:scale-105"
+            className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base font-display uppercase tracking-wider group transition-all duration-300 transform hover:scale-105 active:scale-95"
           >
             <Link to="/premium" className="flex items-center"> {/* Wrap content in Link */}
               <Star className="mr-2 w-5 h-5 group-hover:fill-primary group-hover:scale-110 transition-all" />

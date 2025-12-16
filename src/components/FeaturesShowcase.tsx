@@ -48,7 +48,7 @@ const FeaturesShowcase = () => {
               <Button 
                 asChild
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-accent px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base font-display uppercase tracking-wider glow-blood w-full sm:w-auto"
+                className="bg-primary text-primary-foreground hover:bg-accent px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base font-display uppercase tracking-wider w-full sm:w-auto transition-all duration-300 transform hover:scale-105 active:scale-95"
               >
                 <Link to="/premium">
                   VER PLANOS
@@ -84,7 +84,7 @@ const FeaturesShowcase = () => {
                 </p>
                 <Button 
                   variant="outline" 
-                  className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-2xl"
+                  className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-2xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
                 >
                   LER AGORA
                 </Button>

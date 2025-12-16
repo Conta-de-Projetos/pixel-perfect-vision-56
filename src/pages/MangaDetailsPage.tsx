@@ -136,7 +136,7 @@ const MangaDetailsPage = () => {
                       {/* Botão Começar a Ler - Estilo Vermelho Escuro */}
                       <Button 
                         size="lg" 
-                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95"
                       >
                         <BookOpen className="mr-2 w-5 h-5" />
                         Começar a Ler
@@ -146,7 +146,7 @@ const MangaDetailsPage = () => {
                       <Button 
                         variant="outline" 
                         size="lg" 
-                        className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                        className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95"
                         onClick={() => {
                           setIsFavorite(!isFavorite);
                           toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
@@ -324,7 +324,7 @@ const MangaDetailsPage = () => {
             <h2 className="text-2xl md:text-3xl font-impact tracking-wider mb-6 text-foreground">Mangás Relacionados</h2>
             <div 
               ref={relatedMangasRef} 
-              className="flex overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 cursor-grab active:cursor-grabbing pt-4" // Adicionado pt-4 aqui
+              className="flex overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 cursor-grab active:cursor-grabbing pt-4"
             >
               <div className="flex gap-4 pr-4">
                 {relatedMangas.map((relatedManga) => (
