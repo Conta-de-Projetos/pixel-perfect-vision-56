@@ -324,7 +324,7 @@ const MangaDetailsPage = () => {
             <h2 className="text-2xl md:text-3xl font-impact tracking-wider mb-6 text-foreground">Mangás Relacionados</h2>
             <div 
               ref={relatedMangasRef} 
-              className="flex overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 cursor-grab active:cursor-grabbing"
+              className="flex overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 cursor-grab active:cursor-grabbing pt-4" // Adicionado pt-4 aqui
             >
               <div className="flex gap-4 pr-4">
                 {relatedMangas.map((relatedManga) => (
