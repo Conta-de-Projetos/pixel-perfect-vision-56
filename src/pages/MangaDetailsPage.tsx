@@ -113,7 +113,7 @@ const MangaDetailsPage = () => {
                   {manga.title.toUpperCase()}
                 </h1>
                 
-                {/* Tags */}
+                {/* Tags - Adicionando flex-wrap e gap-2 para espaçamento */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
                   {manga.tags?.map((tag, index) => (
                     <Badge key={index} className="bg-primary text-primary-foreground font-display uppercase tracking-wide text-xs px-3 py-1 rounded-md">
