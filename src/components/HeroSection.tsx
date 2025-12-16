@@ -65,10 +65,10 @@ const HeroSection = () => {
             asChild // Add asChild here
             size="lg" 
             variant="outline" 
-            className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-accent hover:text-accent hover:bg-accent/10 px-8 py-6 text-base font-display uppercase tracking-wider group transition-all duration-300"
+            className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-foreground/50 hover:text-foreground hover:bg-secondary px-8 py-6 text-base font-display uppercase tracking-wider group transition-all duration-300"
           >
             <Link to="/premium" className="flex items-center"> {/* Wrap content in Link */}
-              <Star className="mr-2 w-5 h-5 group-hover:fill-accent group-hover:scale-110 transition-all" />
+              <Star className="mr-2 w-5 h-5 group-hover:fill-foreground group-hover:scale-110 transition-all" />
               VER PREMIUM
             </Link>
           </Button>
