@@ -1,13 +1,5 @@
 // Dados diversificados de mangá para evitar repetição
 
-export interface Chapter {
-  id: number;
-  title: string;
-  releaseDate: Date;
-  language: string;
-  isPremium?: boolean;
-}
-
 export interface MangaData {
   id: number;
   title: string;
@@ -18,17 +10,11 @@ export interface MangaData {
   isPremium?: boolean;
   category?: string;
   views?: string;
-  type?: 'manga' | 'manhwa' | 'novel' | 'hq';
+  type?: 'manga' | 'manhwa' | 'novel';
   status?: 'ongoing' | 'completed' | 'hiatus';
   author?: string;
   lastUpdated?: Date; // Data da última atualização
   synopsis?: string;
-  genres?: string[]; // Novo campo para gêneros
-  year?: number; // Novo campo para ano de lançamento
-  originalLanguage?: string; // Novo campo para idioma original
-  ageRating?: string; // Novo campo para faixa etária
-  demographic?: string; // Novo campo para demografia
-  chapters?: Chapter[]; // Novo campo para lista de capítulos
 }
 
 // Função para calcular tempo relativo
@@ -57,12 +43,6 @@ import justiceiroCover from "@/assets/justiceiro-cover.jpg";
 import nanatsuCover from "@/assets/nanatsu-cover.jpg";
 import jujutsuCover from "@/assets/jujutsu-cover.jpg";
 import deadpoolCover from "@/assets/deadpool-cover.jpg";
-import jojolandsCover from "@/assets/jojolands-cover.jpg"; // Nova capa
-import chainsawManCover from "@/assets/chainsaw-man-cover.jpg"; // Nova capa
-import bleachCover from "@/assets/bleach-cover.jpg"; // Nova capa
-import sakamotoDaysCover from "@/assets/sakamoto-days-cover.jpg"; // Nova capa
-import dragonBallCover from "@/assets/dragon-ball-cover.jpg"; // Nova capa
-
 
 // URLs de imagens de placeholder para demonstração
 const coverImages = {
@@ -71,11 +51,6 @@ const coverImages = {
   nanatsu: nanatsuCover,
   jujutsu: jujutsuCover,
   deadpool: deadpoolCover,
-  jojolands: jojolandsCover,
-  chainsawMan: chainsawManCover,
-  bleach: bleachCover,
-  sakamotoDays: sakamotoDaysCover,
-  dragonBall: dragonBallCover,
   soloLeveling: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=600&fit=crop",
   onePiece: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=400&h=600&fit=crop",
   demonSlayer: "https://images.unsplash.com/photo-1601850494422-3cf14624b0b3?w=400&h=600&fit=crop",
@@ -122,7 +97,7 @@ export const popularMangas: MangaData[] = [
     isNew: true,
     isPremium: true,
     category: 'HQs',
-    type: 'hq',
+    type: 'manga',
     status: 'ongoing',
     author: 'Rob Liefeld',
     lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 dia atrás
@@ -151,7 +126,7 @@ export const popularMangas: MangaData[] = [
     isNew: true,
     isPremium: true,
     category: 'HQs',
-    type: 'hq',
+    type: 'manga',
     status: 'ongoing',
     author: 'Garth Ennis',
     lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7), // 1 semana atrás
@@ -175,10 +150,10 @@ export const popularMangas: MangaData[] = [
 
 export const recentMangas: MangaData[] = [
   { id: 1, title: "Jujutsu Kaisen", chapter: "Cap. 271", imageUrl: coverImages.jujutsu, isNew: true, isPremium: false, category: "Mangá", type: 'manga', status: 'completed', lastUpdated: new Date(Date.now() - 1000 * 60 * 15), synopsis: 'Yuji Itadori entra no mundo das Maldições após engolir um dedo do Rei Sukuna.' },
-  { id: 2, title: "Deadpool", chapter: "Cap. 89", imageUrl: coverImages.deadpool, isNew: true, isPremium: true, category: "HQs", type: 'hq', status: 'ongoing', lastUpdated: new Date(Date.now() - 1000 * 60 * 45), synopsis: 'O Mercenário Tagarela em mais uma aventura sangrenta e hilária.' },
+  { id: 2, title: "Deadpool", chapter: "Cap. 89", imageUrl: coverImages.deadpool, isNew: true, isPremium: true, category: "HQs", type: 'manga', status: 'ongoing', lastUpdated: new Date(Date.now() - 1000 * 60 * 45), synopsis: 'O Mercenário Tagarela em mais uma aventura sangrenta e hilária.' },
   { id: 3, title: "Blue Lock", chapter: "Cap. 276", imageUrl: coverImages.bluelock, isNew: true, isPremium: false, category: "Mangá", type: 'manga', status: 'ongoing', lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3), synopsis: 'Após a derrota na Copa do Mundo, o Japão cria um programa radical para formar o atacante perfeito.' },
   { id: 4, title: "Nanatsu no Taizai", chapter: "Cap. 346", imageUrl: coverImages.nanatsu, isNew: true, isPremium: false, category: "Mangá", type: 'manga', status: 'completed', lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 8), synopsis: 'Os Sete Pecados Capitais eram os cavaleiros mais poderosos do Reino de Liones.' },
-  { id: 5, title: "O Justiceiro", chapter: "Cap. 45", imageUrl: coverImages.justiceiro, isNew: true, isPremium: true, category: "HQs", type: 'hq', status: 'ongoing', lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2), synopsis: 'Frank Castle trava uma guerra implacável contra o crime organizado.' },
+  { id: 5, title: "O Justiceiro", chapter: "Cap. 45", imageUrl: coverImages.justiceiro, isNew: true, isPremium: true, category: "HQs", type: 'manga', status: 'ongoing', lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2), synopsis: 'Frank Castle trava uma guerra implacável contra o crime organizado.' },
   { id: 6, title: "Jujutsu Kaisen", chapter: "Cap. 270", imageUrl: coverImages.jujutsu, isNew: false, isPremium: false, category: "Mangá", type: 'manga', status: 'completed', lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5), synopsis: 'A batalha final contra Sukuna atinge seu clímax.' },
 ];
 
@@ -207,41 +182,3 @@ export const topMangasData = {
 };
 
 export const categories = ["Todos", "Mangá", "Manhwa", "Novel", "HQs", "Shoujo", "Seinen"];
-
-// Dados de exemplo para a página de detalhes do mangá
-export const jojoMangaDetails: MangaData = {
-  id: 100,
-  title: "JoJo's Bizarre Adventure, Part 9: The JOJOLands (Official Colored)",
-  chapter: "Cap. 6",
-  imageUrl: coverImages.jojolands,
-  rating: 9.4,
-  isNew: true,
-  isPremium: false,
-  type: 'manga',
-  status: 'ongoing',
-  author: 'Hirohiko Araki',
-  lastUpdated: new Date('2024-08-29T10:00:00Z'),
-  synopsis: "The ninth story arc of JoJo's Bizarre Adventure. O'ahu, early 2020s. Dua Lipa is a trending musician, and COVID is still a major concern. On this island lives a 15-year-old boy named Jodio Joestar. Alongside his sibling, Dragona Joestar, they act as dealers for certain illegal substances. One day, their employer comes and shows them an excellent find: a Japanese person has landed in Hawaii with a diamond worth over six million dollars. Normally it would be impossible to steal, but for two siblings with Stands... This is a story of a young boy and his quest to become rich.",
-  genres: ["Ação", "Comédia", "Crime", "Aventura", "Drama"],
-  year: 2023,
-  originalLanguage: "Japonês",
-  ageRating: "Livre",
-  demographic: "Seinen",
-  chapters: [
-    { id: 6, title: "Capítulo 6 - Vulcão do Haulalai - Cat Size, Parte 1", releaseDate: new Date('2024-08-29T10:00:00Z'), language: "PT-BR" },
-    { id: 5, title: "Capítulo 5 - Suba Mais Alto", releaseDate: new Date('2024-08-29T10:00:00Z'), language: "PT-BR" },
-    { id: 4, title: "Capítulo 4 - A Casa de Campo na Ilha do Hawaii, Parte 2", releaseDate: new Date('2024-08-29T10:00:00Z'), language: "PT-BR" },
-    { id: 3, title: "Capítulo 3 - A Casa de Campo na Ilha do Hawaii, Parte 1", releaseDate: new Date('2024-01-08T10:00:00Z'), language: "PT-BR" },
-    { id: 2, title: "Capítulo 2 - South King Street (Calle South King)", releaseDate: new Date('2023-12-25T10:00:00Z'), language: "PT-BR" },
-    { id: 1, title: "Capítulo 1 - Partida (DEPARTURE)", releaseDate: new Date('2023-12-25T10:00:00Z'), language: "PT-BR" },
-  ]
-};
-
-export const relatedMangas: MangaData[] = [
-  { id: 101, title: "Chainsaw Man (Official Colored)", chapter: "Cap. 168", imageUrl: coverImages.chainsawMan, lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), rating: 9.1, type: 'manga' },
-  { id: 102, title: "Bleach (Official Colored)", chapter: "Cap. 686", imageUrl: coverImages.bleach, lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), rating: 9.0, type: 'manga' },
-  { id: 103, title: "JoJo's Bizarre Adventure, Part 8: JoJolion (Official Colored)", chapter: "Cap. 110", imageUrl: coverImages.jojolands, lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), rating: 9.2, type: 'manga' },
-  { id: 104, title: "Sakamoto Days (Official Colored)", chapter: "Cap. 170", imageUrl: coverImages.sakamotoDays, lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30 * 14), rating: 8.9, type: 'manga' },
-  { id: 105, title: "Dragon Ball Super (Official Colored)", chapter: "Cap. 108", imageUrl: coverImages.dragonBall, lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), rating: 8.8, type: 'manga' },
-  { id: 106, title: "JoJo's Bizarre Adventure, Part 7: Steel Ball Run (Official Colored)", chapter: "Cap. 95", imageUrl: coverImages.jojolands, lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), rating: 9.3, type: 'manga' },
-];
