@@ -77,6 +77,7 @@ const PopularSection = () => {
                 lastUpdated={manga.lastUpdated}
                 synopsis={manga.synopsis}
                 simplified
+                slug={manga.slug} {/* Passando o slug aqui */}
               />
             </ScrollRevealCard>
           ))}
