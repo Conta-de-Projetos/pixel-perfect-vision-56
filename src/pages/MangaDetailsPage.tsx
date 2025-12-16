@@ -6,7 +6,7 @@ import BottomNavbar from "@/components/BottomNavbar";
 import MangaCard from "@/components/MangaCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen, Crown, User, Eye } from "lucide-react"; // Importar Eye
+import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen, Crown, User, Eye } from "lucide-react";
 import { allMangas, getRelativeTime } from "@/data/mangaData";
 import { cn } from "@/lib/utils";
 import { useDragScroll } from "@/hooks/useDragScroll";
@@ -53,6 +53,12 @@ const MangaDetailsPage = () => {
     // Aqui você pode adicionar a lógica para navegar para a página de leitura do capítulo
     console.log(`Navegando para o capítulo ${chapterId}`);
     toast.info(`Abrindo Capítulo ${chapterId}`);
+  };
+  
+  // Função para extrair apenas o número do capítulo
+  const getChapterTitle = (fullTitle: string) => {
+    const match = fullTitle.match(/Capítulo \d+/);
+    return match ? match[0].toUpperCase() : fullTitle.toUpperCase();
   };
 
   return (
@@ -236,7 +242,7 @@ const MangaDetailsPage = () => {
                 >
                   <div>
                     <p className="font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide text-foreground">
-                      {chapter.title}
+                      {getChapterTitle(chapter.title)} {/* Usando a nova função */}
                     </p>
                     <span className="text-muted-foreground text-sm">
                       {getRelativeTime(chapter.date)}
