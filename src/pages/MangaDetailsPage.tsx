@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useDragScroll } from "@/hooks/useDragScroll";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import SkullRadialMenu from "@/components/SkullRadialMenu"; // Importar SkullRadialMenu
 
 const dummyChapters = [
   { id: 1, title: "Capítulo 271 - O Incidente de Shibuya, Parte Final", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 0), lang: "PT-BR" },
@@ -54,6 +55,7 @@ const MangaDetailsPage = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden noise-bg">
       <Navbar />
+      <SkullRadialMenu /> {/* Adicionando o SkullRadialMenu aqui */}
       <main className="pb-20 md:pb-0 pt-24">
         {/* Manga Info Section */}
         <section className="relative py-8 px-4 overflow-hidden">
