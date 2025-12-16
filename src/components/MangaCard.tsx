@@ -139,16 +139,19 @@ const MangaCard = ({
     >
       {slug ? (
         <Link to={`/manga/${slug}`} className="block">
-          {cardContent}
-          {/* Title and chapter below card - simplified */}
-          <div className="mt-2 sm:mt-3 space-y-0.5">
-            <h3 className="text-xs sm:text-sm font-display uppercase tracking-wide text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-tight">
-              {title}
-            </h3>
-            
-            <span className="text-[11px] sm:text-sm text-primary font-semibold tracking-wide block">
-              {chapter}
-            </span>
+          {/* Wrap children in a single div for Link */}
+          <div> 
+            {cardContent}
+            {/* Title and chapter below card - simplified */}
+            <div className="mt-2 sm:mt-3 space-y-0.5">
+              <h3 className="text-xs sm:text-sm font-display uppercase tracking-wide text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-tight">
+                {title}
+              </h3>
+              
+              <span className="text-[11px] sm:text-sm text-primary font-semibold tracking-wide block">
+                {chapter}
+              </span>
+            </div>
           </div>
         </Link>
       ) : (
