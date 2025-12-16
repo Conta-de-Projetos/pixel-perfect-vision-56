@@ -30,7 +30,6 @@ const MangaDetailsPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
-  const [readChapterIds, setReadChapterIds] = useState<number[]>([]); // Novo estado para capítulos lidos
   const relatedMangasRef = useDragScroll<HTMLDivElement>();
 
   const manga = allMangas.find(m => m.slug === slug);
@@ -47,14 +46,9 @@ const MangaDetailsPage = () => {
   const relatedMangas = allMangas.filter(m => m.id !== manga.id).slice(0, 6);
 
   const handleChapterClick = (chapterId: number) => {
-    if (!readChapterIds.includes(chapterId)) {
-      setReadChapterIds(prev => [...prev, chapterId]);
-      toast.info(`Capítulo ${chapterId} marcado como lido!`);
-    } else {
-      toast.info(`Capítulo ${chapterId} já foi lido.`);
-    }
     // Aqui você pode adicionar a lógica para navegar para a página de leitura do capítulo
     console.log(`Navegando para o capítulo ${chapterId}`);
+    toast.info(`Abrindo Capítulo ${chapterId}`);
   };
 
   return (
@@ -212,36 +206,30 @@ const MangaDetailsPage = () => {
             </div>
 
             <div className="max-h-[600px] overflow-y-auto scrollbar-hide border border-border/50 rounded-lg shadow-inner bg-background/20 brutal-card">
-              {dummyChapters.map((chapter) => {
-                const isChapterRead = readChapterIds.includes(chapter.id);
-                return (
-                  <div 
-                    key={chapter.id} 
-                    className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group"
-                    onClick={() => handleChapterClick(chapter.id)} // Adiciona o handler de clique
-                  >
-                    <div>
-                      <p className={cn(
-                        "font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide",
-                        isChapterRead ? "text-muted-foreground" : "text-foreground" // Altera a cor se lido
-                      )}>
-                        {chapter.title}
-                      </p>
-                      <span className="text-muted-foreground text-sm">
-                        {getRelativeTime(chapter.date)}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide">
-                        {chapter.lang}
-                      </Badge>
-                      <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                        <Download className="w-5 h-5" />
-                      </Button>
-                    </div>
+              {dummyChapters.map((chapter) => (
+                <div 
+                  key={chapter.id} 
+                  className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group"
+                  onClick={() => handleChapterClick(chapter.id)}
+                >
+                  <div>
+                    <p className="font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide text-foreground">
+                      {chapter.title}
+                    </p>
+                    <span className="text-muted-foreground text-sm">
+                      {getRelativeTime(chapter.date)}
+                    </span>
                   </div>
-                );
-              })}
+                  <div className="flex items-center gap-3">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide">
+                      {chapter.lang}
+                    </Badge>
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                      <Download className="w-5 h-5" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
