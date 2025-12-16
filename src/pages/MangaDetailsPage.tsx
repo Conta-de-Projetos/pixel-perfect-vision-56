@@ -134,13 +134,13 @@ const MangaDetailsPage = () => {
                 </div>
 
                 {/* Synopsis */}
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-2xl mx-auto lg:mx-0">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-2xl mx-auto lg:mx-0"> {/* Reduzido mb-6 para mb-4 */}
                   {manga.synopsis}
                 </p>
 
                 {/* Information Grid */}
-                <div className="mt-10 pt-8 border-t border-border/30">
-                  <h2 className="text-xl font-display tracking-wider mb-6 text-foreground text-center lg:text-left">
+                <div className="mt-6 pt-0"> {/* Reduzido mt-10 para mt-6 e pt-8 para pt-0, removido border-t */}
+                  <h2 className="text-xl font-display tracking-wider mb-4 text-foreground text-center lg:text-left"> {/* Reduzido mb-6 para mb-4 */}
                     Informações
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 text-sm text-muted-foreground text-center lg:text-left">
