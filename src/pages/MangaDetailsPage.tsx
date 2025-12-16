@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
@@ -34,6 +34,7 @@ const MangaDetailsPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest'); // Estado para ordenação
   const relatedMangasRef = useDragScroll<HTMLDivElement>();
 
   const manga = allMangas.find(m => m.slug === slug);
@@ -59,6 +60,28 @@ const MangaDetailsPage = () => {
   const getChapterTitle = (fullTitle: string) => {
     const match = fullTitle.match(/Capítulo \d+/);
     return match ? match[0].toUpperCase() : fullTitle.toUpperCase();
+  };
+
+  // Lógica de ordenação
+  const sortedChapters = useMemo(() => {
+    // Clonar para evitar mutação direta do estado/dados
+    const chapters = [...dummyChapters];
+    
+    chapters.sort((a, b) => {
+      // Ordena pela data. Mais novos (maior data) primeiro.
+      if (sortOrder === 'newest') {
+        return b.date.getTime() - a.date.getTime();
+      } else {
+        // Mais antigos (menor data) primeiro.
+        return a.date.getTime() - b.date.getTime();
+      }
+    });
+    return chapters;
+  }, [sortOrder]);
+
+  const handleSortChange = (order: 'newest' | 'oldest') => {
+    setSortOrder(order);
+    toast.info(`Capítulos ordenados por ${order === 'newest' ? 'Mais Novos' : 'Mais Antigos'}`);
   };
 
   return (
@@ -215,14 +238,26 @@ const MangaDetailsPage = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="bg-card/50 border-border/50 text-muted-foreground hover:bg-card hover:text-foreground font-display uppercase tracking-wide">
-                      Mais... <MoreHorizontal className="ml-2 w-4 h-4" />
+                      {sortOrder === 'newest' ? 'Mais Novos' : 'Mais Antigos'} <MoreHorizontal className="ml-2 w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-xl">
-                    <DropdownMenuItem className="cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground font-display uppercase tracking-wide">
+                    <DropdownMenuItem 
+                      className={cn(
+                        "cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground font-display uppercase tracking-wide",
+                        sortOrder === 'newest' && 'bg-secondary text-foreground'
+                      )}
+                      onClick={() => handleSortChange('newest')}
+                    >
                       Ordenar por mais novos
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground font-display uppercase tracking-wide">
+                    <DropdownMenuItem 
+                      className={cn(
+                        "cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground font-display uppercase tracking-wide",
+                        sortOrder === 'oldest' && 'bg-secondary text-foreground'
+                      )}
+                      onClick={() => handleSortChange('oldest')}
+                    >
                       Ordenar por mais antigos
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -234,7 +269,7 @@ const MangaDetailsPage = () => {
             </div>
 
             <div className="max-h-[600px] overflow-y-auto scrollbar-hide border border-border/50 rounded-lg shadow-inner bg-background/20 brutal-card">
-              {dummyChapters.map((chapter) => (
+              {sortedChapters.map((chapter) => (
                 <div 
                   key={chapter.id} 
                   className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group"
@@ -242,7 +277,7 @@ const MangaDetailsPage = () => {
                 >
                   <div>
                     <p className="font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide text-foreground">
-                      {getChapterTitle(chapter.title)} {/* Usando a nova função */}
+                      {getChapterTitle(chapter.title)}
                     </p>
                     <span className="text-muted-foreground text-sm">
                       {getRelativeTime(chapter.date)}
