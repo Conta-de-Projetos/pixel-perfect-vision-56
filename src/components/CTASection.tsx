@@ -36,7 +36,8 @@ const CTASection = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm px-10 py-6 text-base rounded-2xl font-display uppercase tracking-wider"
+              className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm px-10 py-6 text-base rounded-2xl font-display uppercase tracking-wider
+              hover:bg-card/50 hover:border-border/50 hover:text-foreground hover:shadow-none transition-none"
             >
               Explorar Catálogo
             </Button>
