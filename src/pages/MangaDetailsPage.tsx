@@ -109,7 +109,7 @@ const MangaDetailsPage = () => {
               <div className="lg:col-span-1 w-full flex flex-col items-center lg:items-start">
                 
                 {/* Card Container for Cover and Buttons (Mobile Only) */}
-                <div className="w-full max-w-[300px] mx-auto brutal-card p-3 lg:p-0 lg:bg-transparent lg:border-none lg:shadow-none lg:max-w-none">
+                <div className="w-full max-w-[300px] mx-auto bg-card/70 backdrop-blur-md border border-border/50 rounded-xl p-4 lg:p-0 lg:bg-transparent lg:border-none lg:shadow-none lg:max-w-none">
                   
                   {/* Cover Image */}
                   <div className="relative aspect-[3/4] w-full overflow-hidden shadow-xl border border-border/50 rounded-lg">
@@ -125,8 +125,13 @@ const MangaDetailsPage = () => {
                     )}
                   </div>
 
+                  {/* Title (Mobile) */}
+                  <h1 className="lg:hidden text-2xl font-impact tracking-wider mt-4 mb-2 text-foreground leading-tight text-center">
+                    {manga.title.toUpperCase()}
+                  </h1>
+
                   {/* Action Buttons */}
-                  <div className="p-4 lg:p-0 lg:mt-6">
+                  <div className="pt-2 lg:p-0 lg:mt-6">
                     <div className="flex flex-col gap-3 w-full">
                       {/* Botão Começar a Ler - Estilo Vermelho Escuro */}
                       <Button 
@@ -162,11 +167,11 @@ const MangaDetailsPage = () => {
                 </div>
               </div>
 
-              {/* Right Column: Details (Mobile: Full Width below buttons, Desktop: Right side) */}
+              {/* Right Column: Details (Mobile: Full Width below card, Desktop: Right side) */}
               <div className="lg:col-span-2 text-center lg:text-left px-4 lg:px-0 pt-4 lg:pt-0">
                 
-                {/* Title */}
-                <h1 className="text-3xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight lg:text-left text-center">
+                {/* Desktop Title (Hidden on Mobile) */}
+                <h1 className="hidden lg:block text-4xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight">
                   {manga.title.toUpperCase()}
                 </h1>
                 
