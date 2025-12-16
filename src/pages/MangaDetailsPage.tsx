@@ -88,7 +88,7 @@ const MangaDetailsPage = () => {
     <div className="min-h-screen bg-background relative overflow-x-hidden noise-bg">
       <Navbar />
       <SkullRadialMenu />
-      <main className="pb-20 md:pb-0 pt-0 lg:pt-24"> {/* Remove padding top on mobile */}
+      <main className="pb-20 md:pb-0 pt-0 lg:pt-24"> {/* pt-0 ensures content starts at the top on mobile */}
         {/* Manga Info Section */}
         <section className="relative py-0 lg:py-8 px-0 lg:px-4 overflow-hidden">
           <div className="max-w-6xl mx-auto relative">
@@ -105,10 +105,11 @@ const MangaDetailsPage = () => {
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
               
-              {/* Mobile Cover & Fixed Buttons (Top Section) */}
-              <div className="lg:col-span-1 w-full">
-                {/* Cover Image (Mobile Full Width, Desktop Fixed Size) */}
-                <div className="relative aspect-[3/4] w-full lg:w-[280px] mx-auto overflow-hidden shadow-xl border-b lg:border border-border/50 rounded-none lg:rounded-lg">
+              {/* Left Column: Cover Image and Action Buttons (Mobile: Centralized Block) */}
+              <div className="lg:col-span-1 w-full flex flex-col items-center lg:items-start">
+                
+                {/* Cover Image (Mobile: Limited width, Desktop: Fixed Size) */}
+                <div className="relative aspect-[3/4] w-full max-w-[280px] mx-auto overflow-hidden shadow-xl border-b lg:border border-border/50 rounded-none lg:rounded-lg">
                   <img 
                     src={manga.imageUrl} 
                     alt={manga.title} 
@@ -119,17 +120,12 @@ const MangaDetailsPage = () => {
                       <Crown className="w-6 h-6 text-amber-100" />
                     </div>
                   )}
-                  {/* Mobile Title Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background/90 to-transparent lg:hidden">
-                    <h1 className="text-2xl font-impact tracking-wider text-foreground leading-tight">
-                      {manga.title.toUpperCase()}
-                    </h1>
-                  </div>
+                  {/* Mobile Title Overlay - Removed as per reference, title is below */}
                 </div>
 
-                {/* Action Buttons - Fixed on Mobile, Static on Desktop */}
-                <div className="fixed bottom-16 left-0 right-0 z-40 bg-card/90 backdrop-blur-md p-4 border-t border-border/50 lg:static lg:bg-transparent lg:p-0 lg:border-none lg:mt-6">
-                  <div className="flex flex-col gap-3 w-full max-w-md mx-auto lg:max-w-none">
+                {/* Action Buttons - Static, centered, limited width on mobile */}
+                <div className="p-4 w-full max-w-[280px] mx-auto lg:max-w-none lg:p-0 lg:mt-6">
+                  <div className="flex flex-col gap-3 w-full">
                     <Button 
                       size="lg" 
                       className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
@@ -159,16 +155,13 @@ const MangaDetailsPage = () => {
                     </Button>
                   </div>
                 </div>
-                
-                {/* Spacer for fixed buttons on mobile */}
-                <div className="h-[150px] lg:hidden" /> 
               </div>
 
-              {/* Right Column: Details (Mobile: Full Width below cover, Desktop: Right side) */}
+              {/* Right Column: Details (Mobile: Full Width below buttons, Desktop: Right side) */}
               <div className="lg:col-span-2 text-center lg:text-left px-4 lg:px-0 pt-4 lg:pt-0">
                 
-                {/* Desktop Title (Hidden on Mobile) */}
-                <h1 className="hidden lg:block text-4xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight">
+                {/* Title (Mobile: Visible, Desktop: Block) */}
+                <h1 className="text-3xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight lg:text-left text-center">
                   {manga.title.toUpperCase()}
                 </h1>
                 
