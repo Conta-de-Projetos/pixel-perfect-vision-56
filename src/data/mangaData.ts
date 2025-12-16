@@ -1,4 +1,6 @@
 // Dados diversificados de mangá para evitar repetição
+import { format, formatDistanceToNow, differenceInDays } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 export interface MangaData {
   id: number;
@@ -25,22 +27,15 @@ export interface MangaData {
 
 // Função para calcular tempo relativo
 export const getRelativeTime = (date: Date): string => {
-  const now = new Date();
-  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  const daysDifference = differenceInDays(new Date(), date);
 
-  if (diffInSeconds < 60) return `${diffInSeconds}s atrás`;
-  const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) return `${diffInMinutes}min atrás`;
-  const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) return `${diffInHours}h atrás`;
-  const diffInDays = Math.floor(diffInHours / 24);
-  if (diffInDays < 7) return `${diffInDays}d atrás`;
-  const diffInWeeks = Math.floor(diffInDays / 7);
-  if (diffInWeeks < 4) return `${diffInWeeks}sem atrás`;
-  const diffInMonths = Math.floor(diffInDays / 30);
-  if (diffInMonths < 12) return `${diffInMonths}mês${diffInMonths > 1 ? 'es' : ''} atrás`;
-  const diffInYears = Math.floor(diffInDays / 365);
-  return `${diffInYears}ano${diffInYears > 1 ? 's' : ''} atrás`;
+  if (daysDifference >= 30) {
+    // Para capítulos com mais de 30 dias, use a data fixa (ex: 12 Out 2024)
+    return format(date, 'dd MMM yyyy', { locale: ptBR });
+  }
+
+  // Para capítulos recentes, use tempo relativo
+  return formatDistanceToNow(date, { addSuffix: true, locale: ptBR });
 };
 
 // Importação das capas
