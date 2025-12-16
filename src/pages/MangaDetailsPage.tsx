@@ -90,7 +90,7 @@ const MangaDetailsPage = () => {
       <SkullRadialMenu />
       <main className="pb-20 md:pb-0 pt-0 lg:pt-24"> {/* pt-0 ensures content starts at the top on mobile */}
         {/* Manga Info Section */}
-        <section className="relative py-0 lg:py-8 px-0 lg:px-4 overflow-hidden">
+        <section className="relative py-8 px-4 overflow-hidden"> {/* Adicionando py-8 para afastar do topo no mobile */}
           <div className="max-w-6xl mx-auto relative">
             {/* Background image with subtle overlay - Desktop only */}
             <div className="absolute inset-0 z-0 hidden lg:block">
@@ -108,51 +108,56 @@ const MangaDetailsPage = () => {
               {/* Left Column: Cover Image and Action Buttons (Mobile: Centralized Block) */}
               <div className="lg:col-span-1 w-full flex flex-col items-center lg:items-start">
                 
-                {/* Cover Image (Mobile: Limited width, Desktop: Fixed Size) */}
-                <div className="relative aspect-[3/4] w-full max-w-[280px] mx-auto overflow-hidden shadow-xl border-b lg:border border-border/50 rounded-none lg:rounded-lg">
-                  <img 
-                    src={manga.imageUrl} 
-                    alt={manga.title} 
-                    className="w-full h-full object-cover"
-                  />
-                  {manga.isPremium && (
-                    <div className="absolute top-3 right-3 flex items-center justify-center w-10 h-10 bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 rounded-xl shadow-lg shadow-amber-500/40">
-                      <Crown className="w-6 h-6 text-amber-100" />
-                    </div>
-                  )}
-                  {/* Mobile Title Overlay - Removed as per reference, title is below */}
-                </div>
+                {/* Card Container for Cover and Buttons (Mobile Only) */}
+                <div className="w-full max-w-[300px] mx-auto brutal-card p-3 lg:p-0 lg:bg-transparent lg:border-none lg:shadow-none lg:max-w-none">
+                  
+                  {/* Cover Image */}
+                  <div className="relative aspect-[3/4] w-full overflow-hidden shadow-xl border border-border/50 rounded-lg">
+                    <img 
+                      src={manga.imageUrl} 
+                      alt={manga.title} 
+                      className="w-full h-full object-cover"
+                    />
+                    {manga.isPremium && (
+                      <div className="absolute top-3 right-3 flex items-center justify-center w-10 h-10 bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 rounded-xl shadow-lg shadow-amber-500/40">
+                        <Crown className="w-6 h-6 text-amber-100" />
+                      </div>
+                    )}
+                  </div>
 
-                {/* Action Buttons - Static, centered, limited width on mobile */}
-                <div className="p-4 w-full max-w-[280px] mx-auto lg:max-w-none lg:p-0 lg:mt-6">
-                  <div className="flex flex-col gap-3 w-full">
-                    <Button 
-                      size="lg" 
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
-                    >
-                      <BookOpen className="mr-2 w-5 h-5" />
-                      Começar a Ler
-                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="lg" 
-                      className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
-                      onClick={() => {
-                        setIsFavorite(!isFavorite);
-                        toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
-                      }}
-                    >
-                      <Heart 
-                        className={cn(
-                          "mr-2 w-5 h-5 transition-all", 
-                          isFavorite 
-                            ? "fill-primary text-primary" 
-                            : "text-muted-foreground group-hover:text-primary group-hover:fill-primary"
-                        )} 
-                      />
-                      {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-                    </Button>
+                  {/* Action Buttons */}
+                  <div className="p-4 lg:p-0 lg:mt-6">
+                    <div className="flex flex-col gap-3 w-full">
+                      {/* Botão Começar a Ler - Estilo Vermelho Escuro */}
+                      <Button 
+                        size="lg" 
+                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                      >
+                        <BookOpen className="mr-2 w-5 h-5" />
+                        Começar a Ler
+                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                      {/* Botão Adicionar aos Favoritos - Estilo Outline Escuro */}
+                      <Button 
+                        variant="outline" 
+                        size="lg" 
+                        className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                        onClick={() => {
+                          setIsFavorite(!isFavorite);
+                          toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
+                        }}
+                      >
+                        <Heart 
+                          className={cn(
+                            "mr-2 w-5 h-5 transition-all", 
+                            isFavorite 
+                              ? "fill-primary text-primary" 
+                              : "text-muted-foreground group-hover:text-primary group-hover:fill-primary"
+                          )} 
+                        />
+                        {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -160,7 +165,7 @@ const MangaDetailsPage = () => {
               {/* Right Column: Details (Mobile: Full Width below buttons, Desktop: Right side) */}
               <div className="lg:col-span-2 text-center lg:text-left px-4 lg:px-0 pt-4 lg:pt-0">
                 
-                {/* Title (Mobile: Visible, Desktop: Block) */}
+                {/* Title */}
                 <h1 className="text-3xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight lg:text-left text-center">
                   {manga.title.toUpperCase()}
                 </h1>
