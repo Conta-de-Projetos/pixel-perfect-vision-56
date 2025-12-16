@@ -1,6 +1,4 @@
 // Dados diversificados de mangá para evitar repetição
-import { formatDistanceToNow, isToday, isYesterday, format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 
 export interface MangaData {
   id: number;
@@ -25,27 +23,24 @@ export interface MangaData {
   ageRating?: string; // Novo campo para faixa etária
 }
 
-// Função para formatar o tempo relativo de forma mais amigável
-export const getFormattedTime = (date: Date): string => {
+// Função para calcular tempo relativo
+export const getRelativeTime = (date: Date): string => {
   const now = new Date();
-  const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  if (isToday(date)) {
-    const distance = formatDistanceToNow(date, { addSuffix: true, locale: ptBR });
-    // Ajusta a saída para ser mais limpa (ex: "há 5 minutos")
-    return distance.replace('cerca de ', 'Há ').replace('menos de um minuto', 'Há poucos segundos');
-  }
-
-  if (isYesterday(date)) {
-    return 'Ontem';
-  }
-
-  if (diffInDays <= 30) {
-    return `Há ${diffInDays} dia${diffInDays > 1 ? 's' : ''}`;
-  }
-
-  // Mais de 30 dias: usa data fixa
-  return format(date, 'dd MMM yyyy', { locale: ptBR });
+  if (diffInSeconds < 60) return `${diffInSeconds}s atrás`;
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) return `${diffInMinutes}min atrás`;
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours}h atrás`;
+  const diffInDays = Math.floor(diffInHours / 24);
+  if (diffInDays < 7) return `${diffInDays}d atrás`;
+  const diffInWeeks = Math.floor(diffInDays / 7);
+  if (diffInWeeks < 4) return `${diffInWeeks}sem atrás`;
+  const diffInMonths = Math.floor(diffInDays / 30);
+  if (diffInMonths < 12) return `${diffInMonths}mês${diffInMonths > 1 ? 'es' : ''} atrás`;
+  const diffInYears = Math.floor(diffInDays / 365);
+  return `${diffInYears}ano${diffInYears > 1 ? 's' : ''} atrás`;
 };
 
 // Importação das capas
@@ -121,7 +116,7 @@ const baseMangas: MangaData[] = [
     type: 'manga',
     status: 'ongoing',
     author: 'Rob Liefeld',
-    lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 dia atrás (Ontem)
+    lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 dia atrás
     synopsis: 'Wade Wilson, o Mercenário Tagarela, é um anti-herói imortal com humor negro e habilidades de regeneração. Entre piadas e violência extrema, ele luta contra vilões enquanto quebra a quarta parede.',
     slug: 'deadpool',
     tags: ['Ação', 'Comédia', 'Anti-Herói', 'HQs'],
@@ -164,7 +159,7 @@ const baseMangas: MangaData[] = [
     type: 'manga',
     status: 'ongoing',
     author: 'Garth Ennis',
-    lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7), // 7 dias atrás
+    lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7), // 1 semana atrás
     synopsis: 'Frank Castle perdeu sua família em um tiroteio entre gangues. Agora, como O Justiceiro, ele trava uma guerra implacável contra o crime organizado, usando métodos brutais para eliminar criminosos.',
     slug: 'o-justiceiro',
     tags: ['Ação', 'Crime', 'Anti-Herói', 'HQs'],
@@ -185,7 +180,7 @@ const baseMangas: MangaData[] = [
     type: 'manga',
     status: 'ongoing',
     author: 'Muneyuki Kaneshiro',
-    lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 45), // 45 dias atrás (Data fixa)
+    lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14), // 2 semanas atrás
     synopsis: 'Após a derrota na Copa do Mundo, o Japão cria um programa radical para formar o atacante perfeito. 300 jogadores são confinados no Blue Lock para uma competição brutal onde apenas os mais egoístas sobrevivem.',
     slug: 'blue-lock-old-chapter',
     tags: ['Esporte', 'Ação', 'Shounen'],

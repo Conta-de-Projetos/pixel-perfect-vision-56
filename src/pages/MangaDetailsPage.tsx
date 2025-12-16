@@ -6,8 +6,8 @@ import BottomNavbar from "@/components/BottomNavbar";
 import MangaCard from "@/components/MangaCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen, Crown, User, Eye } from "lucide-react";
-import { allMangas, getFormattedTime } from "@/data/mangaData"; // Usando getFormattedTime
+import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen, Crown, User, Eye } from "lucide-react"; // Importar Eye
+import { allMangas, getRelativeTime } from "@/data/mangaData";
 import { cn } from "@/lib/utils";
 import { useDragScroll } from "@/hooks/useDragScroll";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -15,18 +15,17 @@ import { toast } from "sonner";
 import SkullRadialMenu from "@/components/SkullRadialMenu";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 
-// Usando a nova função de formatação de tempo para os capítulos dummy
 const dummyChapters = [
-  { id: 1, title: "O Incidente de Shibuya, Parte Final", number: 271, date: new Date(Date.now() - 1000 * 60 * 5), lang: "PT-BR" }, // 5 minutos atrás (NOVO)
-  { id: 2, title: "O Confronto Final", number: 270, date: new Date(Date.now() - 1000 * 60 * 60 * 2), lang: "PT-BR" }, // 2 horas atrás (NOVO)
-  { id: 3, title: "O Despertar de Yuji", number: 269, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1), lang: "PT-BR" }, // Ontem
-  { id: 4, title: "A Maldição Suprema", number: 268, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), lang: "PT-BR" }, // 3 dias atrás
-  { id: 5, title: "O Sacrifício de Gojo", number: 267, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 15), lang: "PT-BR" }, // 15 dias atrás
-  { id: 6, title: "O Plano de Kenjaku", number: 266, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 35), lang: "PT-BR" }, // Data fixa
-  { id: 7, title: "A Chegada de Sukuna", number: 265, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 42), lang: "PT-BR" }, // Data fixa
-  { id: 8, title: "O Legado de Itadori", number: 264, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 49), lang: "PT-BR" }, // Data fixa
-  { id: 9, title: "A Batalha dos Feiticeiros", number: 263, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 56), lang: "PT-BR" }, // Data fixa
-  { id: 10, title: "O Fim da Era", number: 262, date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 63), lang: "PT-BR" }, // Data fixa
+  { id: 1, title: "Capítulo 271 - O Incidente de Shibuya, Parte Final", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 0), lang: "PT-BR" },
+  { id: 2, title: "Capítulo 270 - O Confronto Final", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7), lang: "PT-BR" },
+  { id: 3, title: "Capítulo 269 - O Despertar de Yuji", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14), lang: "PT-BR" },
+  { id: 4, title: "Capítulo 268 - A Maldição Suprema", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 21), lang: "PT-BR" },
+  { id: 5, title: "Capítulo 267 - O Sacrifício de Gojo", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 28), lang: "PT-BR" },
+  { id: 6, title: "Capítulo 266 - O Plano de Kenjaku", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 35), lang: "PT-BR" },
+  { id: 7, title: "Capítulo 265 - A Chegada de Sukuna", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 42), lang: "PT-BR" },
+  { id: 8, title: "Capítulo 264 - O Legado de Itadori", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 49), lang: "PT-BR" },
+  { id: 9, title: "Capítulo 263 - A Batalha dos Feiticeiros", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 56), lang: "PT-BR" },
+  { id: 10, title: "Capítulo 262 - O Fim da Era", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 63), lang: "PT-BR" },
 ];
 
 const MangaDetailsPage = () => {
@@ -229,48 +228,30 @@ const MangaDetailsPage = () => {
             </div>
 
             <div className="max-h-[600px] overflow-y-auto scrollbar-hide border border-border/50 rounded-lg shadow-inner bg-background/20 brutal-card">
-              {dummyChapters.map((chapter) => {
-                const formattedTime = getFormattedTime(chapter.date);
-                const isNew = formattedTime.includes('minuto') || formattedTime.includes('hora') || formattedTime === 'Ontem';
-                
-                return (
-                  <div 
-                    key={chapter.id} 
-                    className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group"
-                    onClick={() => handleChapterClick(chapter.id)}
-                  >
-                    {/* Left Side: Chapter Number, Title, and New Indicator */}
-                    <div className="flex items-center gap-3">
-                      <span className="text-primary font-impact tracking-wider text-lg flex-shrink-0">
-                        {chapter.number}
-                      </span>
-                      <div className="flex flex-col items-start">
-                        <p className="font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide text-foreground flex items-center gap-2">
-                          {chapter.title}
-                          {isNew && (
-                            <span className="w-2 h-2 rounded-full bg-primary animate-pulse flex-shrink-0" />
-                          )}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Right Side: Date, Language, Download */}
-                    <div className="flex items-center gap-4 flex-shrink-0">
-                      {/* Date - Increased legibility (text-foreground/60) */}
-                      <span className="text-sm text-foreground/60 font-medium hidden sm:block">
-                        {formattedTime}
-                      </span>
-                      
-                      <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide">
-                        {chapter.lang}
-                      </Badge>
-                      <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                        <Download className="w-5 h-5" />
-                      </Button>
-                    </div>
+              {dummyChapters.map((chapter) => (
+                <div 
+                  key={chapter.id} 
+                  className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group"
+                  onClick={() => handleChapterClick(chapter.id)}
+                >
+                  <div>
+                    <p className="font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide text-foreground">
+                      {chapter.title}
+                    </p>
+                    <span className="text-muted-foreground text-sm">
+                      {getRelativeTime(chapter.date)}
+                    </span>
                   </div>
-                );
-              })}
+                  <div className="flex items-center gap-3">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide">
+                      {chapter.lang}
+                    </Badge>
+                    <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
+                      <Download className="w-5 h-5" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
