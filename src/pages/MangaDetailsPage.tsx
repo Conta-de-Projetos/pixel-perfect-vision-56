@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useDragScroll } from "@/hooks/useDragScroll";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
-import SkullRadialMenu from "@/components/SkullRadialMenu"; // Importar SkullRadialMenu
+import SkullRadialMenu from "@/components/SkullRadialMenu";
 
 const dummyChapters = [
   { id: 1, title: "Capítulo 271 - O Incidente de Shibuya, Parte Final", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 0), lang: "PT-BR" },
@@ -55,7 +55,7 @@ const MangaDetailsPage = () => {
   return (
     <div className="min-h-screen bg-background relative overflow-x-hidden noise-bg">
       <Navbar />
-      <SkullRadialMenu /> {/* Adicionando o SkullRadialMenu aqui */}
+      <SkullRadialMenu />
       <main className="pb-20 md:pb-0 pt-24">
         {/* Manga Info Section */}
         <section className="relative py-8 px-4 overflow-hidden">
@@ -89,7 +89,10 @@ const MangaDetailsPage = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-4 w-full">
-                  <Button size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider">
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                  >
                     <BookOpen className="mr-2 w-5 h-5" />
                     Começar a Ler
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -97,7 +100,7 @@ const MangaDetailsPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="w-full border-primary text-foreground hover:bg-primary/10 hover:text-foreground px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"
+                    className="w-full border-primary text-foreground hover:bg-primary/10 hover:text-foreground px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
                     onClick={() => {
                       setIsFavorite(!isFavorite);
                       toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
