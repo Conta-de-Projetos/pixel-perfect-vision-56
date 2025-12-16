@@ -28,7 +28,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button 
               size="lg" 
-              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95"
+              className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300"
             >
               Criar Conta Grátis
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -36,7 +36,7 @@ const CTASection = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-10 py-6 text-base rounded-2xl font-display uppercase tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95"
+              className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-10 py-6 text-base rounded-2xl font-display uppercase tracking-wider transition-all duration-300"
             >
               Explorar Catálogo
             </Button>

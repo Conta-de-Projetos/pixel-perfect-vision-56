@@ -136,7 +136,7 @@ const MangaDetailsPage = () => {
                       {/* Botão Começar a Ler - Estilo Vermelho Escuro */}
                       <Button 
                         size="lg" 
-                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95"
+                        className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300"
                       >
                         <BookOpen className="mr-2 w-5 h-5" />
                         Começar a Ler
@@ -146,7 +146,7 @@ const MangaDetailsPage = () => {
                       <Button 
                         variant="outline" 
                         size="lg" 
-                        className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95"
+                        className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300"
                         onClick={() => {
                           setIsFavorite(!isFavorite);
                           toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
