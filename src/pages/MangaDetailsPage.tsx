@@ -6,14 +6,14 @@ import BottomNavbar from "@/components/BottomNavbar";
 import MangaCard from "@/components/MangaCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen, Crown, User } from "lucide-react";
+import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen, Crown, User, Eye } from "lucide-react"; // Importar Eye
 import { allMangas, getRelativeTime } from "@/data/mangaData";
 import { cn } from "@/lib/utils";
 import { useDragScroll } from "@/hooks/useDragScroll";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import SkullRadialMenu from "@/components/SkullRadialMenu";
-import { useScrollToTop } from "@/hooks/useScrollToTop"; // Importar o hook
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 const dummyChapters = [
   { id: 1, title: "Capítulo 271 - O Incidente de Shibuya, Parte Final", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 0), lang: "PT-BR" },
@@ -29,7 +29,7 @@ const dummyChapters = [
 ];
 
 const MangaDetailsPage = () => {
-  useScrollToTop(); // Chamar o hook aqui
+  useScrollToTop();
 
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -114,7 +114,7 @@ const MangaDetailsPage = () => {
                         "mr-2 w-5 h-5 transition-all", 
                         isFavorite 
                           ? "fill-primary text-primary" 
-                          : "text-muted-foreground group-hover:text-primary group-hover:fill-primary" // Alterado para text-muted-foreground
+                          : "text-muted-foreground group-hover:text-primary group-hover:fill-primary"
                       )} 
                     />
                     {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
@@ -137,9 +137,10 @@ const MangaDetailsPage = () => {
                   ))}
                 </div>
 
-                {/* Author & Rating & Chapters */}
-                <div className="flex items-center justify-center lg:justify-start gap-4 mb-4 text-muted-foreground text-sm">
+                {/* Author & Rating & Chapters & Views */}
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-4 text-muted-foreground text-sm">
                   <p className="flex items-center gap-1">
+                    <User className="w-4 h-4 text-muted-foreground" />
                     <span className="text-foreground font-medium">{manga.author || "Desconhecido"}</span>
                   </p>
                   {manga.rating && (
@@ -152,6 +153,12 @@ const MangaDetailsPage = () => {
                     <BookOpen className="w-4 h-4 text-muted-foreground" />
                     <span className="font-medium">{chapterNumber} capítulos</span>
                   </p>
+                  {manga.views && (
+                    <p className="flex items-center gap-1">
+                      <Eye className="w-4 h-4 text-muted-foreground" />
+                      <span className="font-medium text-muted-foreground">{manga.views} visualizações</span>
+                    </p>
+                  )}
                 </div>
 
                 {/* Synopsis */}

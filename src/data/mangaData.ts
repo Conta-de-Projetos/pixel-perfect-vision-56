@@ -9,7 +9,7 @@ export interface MangaData {
   isNew?: boolean;
   isPremium?: boolean;
   category?: string;
-  views?: string;
+  views?: string; // Novo campo para visualizações
   type?: 'manga' | 'manhwa' | 'novel';
   status?: 'ongoing' | 'completed' | 'hiatus';
   author?: string;
@@ -81,6 +81,7 @@ const baseMangas: MangaData[] = [
     originalLanguage: 'Japonês',
     demography: 'Shounen',
     ageRating: '14+',
+    views: '1.2M',
   },
   { 
     id: 2, 
@@ -101,6 +102,7 @@ const baseMangas: MangaData[] = [
     originalLanguage: 'Japonês',
     demography: 'Shounen',
     ageRating: '16+',
+    views: '2.5M',
   },
   { 
     id: 3, 
@@ -122,6 +124,7 @@ const baseMangas: MangaData[] = [
     originalLanguage: 'Inglês',
     demography: 'Adulto',
     ageRating: '18+',
+    views: '890K',
   },
   { 
     id: 4, 
@@ -142,6 +145,7 @@ const baseMangas: MangaData[] = [
     originalLanguage: 'Japonês',
     demography: 'Shounen',
     ageRating: '14+',
+    views: '1.5M',
   },
   { 
     id: 5, 
@@ -163,6 +167,7 @@ const baseMangas: MangaData[] = [
     originalLanguage: 'Inglês',
     demography: 'Adulto',
     ageRating: '18+',
+    views: '950K',
   },
   {
     id: 6, 
@@ -183,6 +188,7 @@ const baseMangas: MangaData[] = [
     originalLanguage: 'Japonês',
     demography: 'Shounen',
     ageRating: '14+',
+    views: '1.1M',
   },
 ];
 
