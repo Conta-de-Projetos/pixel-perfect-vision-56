@@ -88,12 +88,12 @@ const MangaDetailsPage = () => {
     <div className="min-h-screen bg-background relative overflow-x-hidden noise-bg">
       <Navbar />
       <SkullRadialMenu />
-      <main className="pb-20 md:pb-0 pt-24">
+      <main className="pb-20 md:pb-0 pt-0 lg:pt-24"> {/* Remove padding top on mobile */}
         {/* Manga Info Section */}
-        <section className="relative py-8 px-4 overflow-hidden">
+        <section className="relative py-0 lg:py-8 px-0 lg:px-4 overflow-hidden">
           <div className="max-w-6xl mx-auto relative">
-            {/* Background image with subtle overlay */}
-            <div className="absolute inset-0 z-0">
+            {/* Background image with subtle overlay - Desktop only */}
+            <div className="absolute inset-0 z-0 hidden lg:block">
               <img 
                 src={manga.imageUrl} 
                 alt="Background" 
@@ -104,9 +104,11 @@ const MangaDetailsPage = () => {
             </div>
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-              {/* Left Column: Cover Image and Action Buttons */}
-              <div className="lg:col-span-1 flex flex-col items-center lg:items-start gap-6 w-full max-w-[280px] mx-auto lg:mx-0">
-                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg shadow-xl border border-border/50">
+              
+              {/* Mobile Cover & Fixed Buttons (Top Section) */}
+              <div className="lg:col-span-1 w-full">
+                {/* Cover Image (Mobile Full Width, Desktop Fixed Size) */}
+                <div className="relative aspect-[3/4] w-full lg:w-[280px] mx-auto overflow-hidden shadow-xl border-b lg:border border-border/50 rounded-none lg:rounded-lg">
                   <img 
                     src={manga.imageUrl} 
                     alt={manga.title} 
@@ -117,47 +119,60 @@ const MangaDetailsPage = () => {
                       <Crown className="w-6 h-6 text-amber-100" />
                     </div>
                   )}
+                  {/* Mobile Title Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background/90 to-transparent lg:hidden">
+                    <h1 className="text-2xl font-impact tracking-wider text-foreground leading-tight">
+                      {manga.title.toUpperCase()}
+                    </h1>
+                  </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-col gap-4 w-full">
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
-                  >
-                    <BookOpen className="mr-2 w-5 h-5" />
-                    Começar a Ler
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
-                    onClick={() => {
-                      setIsFavorite(!isFavorite);
-                      toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
-                    }}
-                  >
-                    <Heart 
-                      className={cn(
-                        "mr-2 w-5 h-5 transition-all", 
-                        isFavorite 
-                          ? "fill-primary text-primary" 
-                          : "text-muted-foreground group-hover:text-primary group-hover:fill-primary"
-                      )} 
-                    />
-                    {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-                  </Button>
+                {/* Action Buttons - Fixed on Mobile, Static on Desktop */}
+                <div className="fixed bottom-16 left-0 right-0 z-40 bg-card/90 backdrop-blur-md p-4 border-t border-border/50 lg:static lg:bg-transparent lg:p-0 lg:border-none lg:mt-6">
+                  <div className="flex flex-col gap-3 w-full max-w-md mx-auto lg:max-w-none">
+                    <Button 
+                      size="lg" 
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                    >
+                      <BookOpen className="mr-2 w-5 h-5" />
+                      Começar a Ler
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="lg" 
+                      className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                      onClick={() => {
+                        setIsFavorite(!isFavorite);
+                        toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
+                      }}
+                    >
+                      <Heart 
+                        className={cn(
+                          "mr-2 w-5 h-5 transition-all", 
+                          isFavorite 
+                            ? "fill-primary text-primary" 
+                            : "text-muted-foreground group-hover:text-primary group-hover:fill-primary"
+                        )} 
+                      />
+                      {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+                    </Button>
+                  </div>
                 </div>
+                
+                {/* Spacer for fixed buttons on mobile */}
+                <div className="h-[150px] lg:hidden" /> 
               </div>
 
-              {/* Right Column: Details */}
-              <div className="lg:col-span-2 text-center lg:text-left">
-                <h1 className="text-4xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight">
+              {/* Right Column: Details (Mobile: Full Width below cover, Desktop: Right side) */}
+              <div className="lg:col-span-2 text-center lg:text-left px-4 lg:px-0 pt-4 lg:pt-0">
+                
+                {/* Desktop Title (Hidden on Mobile) */}
+                <h1 className="hidden lg:block text-4xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight">
                   {manga.title.toUpperCase()}
                 </h1>
                 
-                {/* Tags - Adicionando flex-wrap e gap-2 para espaçamento */}
+                {/* Tags */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
                   {manga.tags?.map((tag, index) => (
                     <Badge key={index} className="bg-primary text-primary-foreground font-display uppercase tracking-wide text-xs px-3 py-1 rounded-md">
@@ -194,12 +209,12 @@ const MangaDetailsPage = () => {
                 <h2 className="text-2xl font-bold font-display tracking-wider mb-4 text-foreground text-center lg:text-left">
                   Sinopse
                 </h2>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-2xl mx-auto lg:mx-0"> {/* Increased mb-4 to mb-6 */}
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-2xl mx-auto lg:mx-0">
                   {manga.synopsis}
                 </p>
 
                 {/* Information Grid */}
-                <div className="mt-6 pt-0"> {/* Increased mt-4 to mt-6 for better separation */}
+                <div className="mt-6 pt-0">
                   <h2 className="text-2xl font-bold font-display tracking-wider mb-4 text-foreground text-center lg:text-left">
                     Informações
                   </h2>
