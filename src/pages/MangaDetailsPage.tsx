@@ -63,7 +63,7 @@ const MangaDetailsPage = () => {
               <div className="absolute inset-0 grunge-texture opacity-20" />
             </div>
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start"> {/* Reduzido gap-8 para gap-6 */}
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
               {/* Left Column: Cover Image and Action Buttons */}
               <div className="lg:col-span-1 flex flex-col items-center lg:items-start gap-6 w-full max-w-[280px] mx-auto lg:mx-0">
                 <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg shadow-xl border border-border/50">
@@ -117,7 +117,7 @@ const MangaDetailsPage = () => {
                 </div>
 
                 {/* Author & Rating & Chapters */}
-                <div className="flex items-center justify-center lg:justify-start gap-4 mb-4 text-muted-foreground text-sm"> {/* Reduzido mb-6 para mb-4 */}
+                <div className="flex items-center justify-center lg:justify-start gap-4 mb-4 text-muted-foreground text-sm">
                   <p className="flex items-center gap-1">
                     <span className="text-foreground font-medium">{manga.author || "Desconhecido"}</span>
                   </p>
@@ -137,12 +137,12 @@ const MangaDetailsPage = () => {
                 <h2 className="text-2xl font-bold font-display tracking-wider mb-4 text-foreground text-center lg:text-left">
                   Sinopse
                 </h2>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4 max-w-2xl mx-auto lg:mx-0"> {/* Reduzido mb-6 para mb-4 */}
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-2xl mx-auto lg:mx-0"> {/* Increased mb-4 to mb-6 */}
                   {manga.synopsis}
                 </p>
 
                 {/* Information Grid */}
-                <div className="mt-4 pt-0"> {/* Reduzido mt-6 para mt-4 */}
+                <div className="mt-6 pt-0"> {/* Increased mt-4 to mt-6 for better separation */}
                   <h2 className="text-2xl font-bold font-display tracking-wider mb-4 text-foreground text-center lg:text-left">
                     Informações
                   </h2>
