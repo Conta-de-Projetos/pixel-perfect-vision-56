@@ -1,21 +1,36 @@
 import { useState } from "react";
 import { Home, Library, Search, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
-  { icon: Home, label: "Início", href: "#", id: "inicio" },
-  { icon: Library, label: "Coleção", href: "#colecao", id: "colecao" },
-  { icon: Search, label: "Pesquisar", href: "#pesquisar", id: "pesquisar" },
-  { icon: Sparkles, label: "Explorar", href: "#mais", id: "explorar" },
+  { icon: Home, label: "Início", href: "/", id: "inicio" },
+  { icon: Library, label: "Coleção", href: "/colecao", id: "colecao" },
+  { icon: Search, label: "Pesquisar", href: "/pesquisar", id: "pesquisar" },
+  { icon: Sparkles, label: "Explorar", href: "/explorar", id: "explorar" },
 ];
 
 const BottomNavbar = () => {
-  const [activeItem, setActiveItem] = useState("inicio");
+  const location = useLocation();
   const [splashKey, setSplashKey] = useState(0);
 
+  // Determina o item ativo baseado na rota atual
+  const getActiveId = () => {
+    const currentPath = location.pathname;
+    if (currentPath === '/') return 'inicio';
+    
+    // Lógica simplificada para rotas principais
+    const activeItem = navItems.find(item => item.href !== '/' && currentPath.startsWith(item.href));
+    return activeItem ? activeItem.id : 'inicio';
+  };
+
+  const activeItem = getActiveId();
+
   const handleClick = (id: string) => {
-    setActiveItem(id);
-    setSplashKey(prev => prev + 1); // Trigger splash animation
+    // A navegação é feita pelo Link, aqui apenas disparamos a animação
+    if (activeItem !== id) {
+      setSplashKey(prev => prev + 1); // Trigger splash animation
+    }
   };
 
   return (
@@ -25,9 +40,9 @@ const BottomNavbar = () => {
           const isActive = activeItem === item.id;
           
           return (
-            <a
+            <Link
               key={item.id}
-              href={item.href}
+              to={item.href}
               onClick={() => handleClick(item.id)}
               className="relative flex flex-col items-center justify-center gap-0.5 px-3 py-1.5 rounded-lg transition-all duration-300 active:scale-90"
             >
@@ -136,7 +151,7 @@ const BottomNavbar = () => {
               >
                 {item.label}
               </span>
-            </a>
+            </Link>
           );
         })}
       </div>
