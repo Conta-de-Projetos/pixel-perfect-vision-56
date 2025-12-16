@@ -100,7 +100,7 @@ const MangaDetailsPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="w-full border-primary text-foreground hover:bg-primary/10 hover:text-foreground px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                    className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
                     onClick={() => {
                       setIsFavorite(!isFavorite);
                       toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");

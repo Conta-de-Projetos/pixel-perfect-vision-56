@@ -30,7 +30,11 @@ const CTASection = () => {
               Criar Conta Grátis
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-border hover:bg-secondary px-10 py-6 text-base rounded-2xl">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-10 py-6 text-base rounded-2xl"
+            >
               Explorar Catálogo
             </Button>
           </div>
