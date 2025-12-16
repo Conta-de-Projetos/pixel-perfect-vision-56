@@ -13,6 +13,7 @@ import { useDragScroll } from "@/hooks/useDragScroll";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import SkullRadialMenu from "@/components/SkullRadialMenu";
+import { useScrollToTop } from "@/hooks/useScrollToTop"; // Importar o hook
 
 const dummyChapters = [
   { id: 1, title: "Capítulo 271 - O Incidente de Shibuya, Parte Final", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 0), lang: "PT-BR" },
@@ -28,6 +29,8 @@ const dummyChapters = [
 ];
 
 const MangaDetailsPage = () => {
+  useScrollToTop(); // Chamar o hook aqui
+
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(false);
