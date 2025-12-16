@@ -106,7 +106,14 @@ const MangaDetailsPage = () => {
                       toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
                     }}
                   >
-                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-foreground group-hover:fill-primary")} />
+                    <Heart 
+                      className={cn(
+                        "mr-2 w-5 h-5 transition-all", 
+                        isFavorite 
+                          ? "fill-primary text-primary" 
+                          : "text-muted-foreground group-hover:text-primary group-hover:fill-primary" // Alterado para text-muted-foreground
+                      )} 
+                    />
                     {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
                   </Button>
                 </div>
