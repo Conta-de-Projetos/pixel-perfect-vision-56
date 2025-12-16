@@ -84,7 +84,7 @@ const FeaturesShowcase = () => {
                 </p>
                 <Button 
                   variant="outline" 
-                  className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-2xl transition-all duration-300"
+                  className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-accent hover:text-accent hover:bg-accent/10 font-display uppercase tracking-wide text-xs sm:text-sm py-2 sm:py-3 rounded-2xl transition-all duration-300"
                 >
                   LER AGORA
                 </Button>
