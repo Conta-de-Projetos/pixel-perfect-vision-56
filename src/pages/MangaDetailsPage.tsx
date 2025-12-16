@@ -112,13 +112,8 @@ const MangaDetailsPage = () => {
                   </p>
                 </div>
 
-                {/* Synopsis */}
-                <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
-                  {manga.synopsis}
-                </p>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                {/* Action Buttons - MOVIDO PARA CIMA */}
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8"> {/* Reduzido mb para ficar mais compacto */}
                   <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider">
                     <BookOpen className="mr-2 w-5 h-5" />
                     Começar a Ler
@@ -137,6 +132,11 @@ const MangaDetailsPage = () => {
                     {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
                   </Button>
                 </div>
+
+                {/* Synopsis */}
+                <p className="text-muted-foreground text-sm leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0"> {/* Aumentado mb para separar dos botões */}
+                  {manga.synopsis}
+                </p>
 
                 {/* Information Grid */}
                 <div className="mt-10 pt-8 border-t border-border/30">
