@@ -59,13 +59,13 @@ const MangaDetailsPage = () => {
                 className="w-full h-full object-cover opacity-5 blur-lg scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-              <div className="absolute inset-0 grunge-texture opacity-20" /> {/* Adicionado grunge-texture */}
+              <div className="absolute inset-0 grunge-texture opacity-20" />
             </div>
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start"> {/* items-start para alinhar ao topo */}
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
               {/* Left Column: Cover Image */}
               <div className="lg:col-span-1 flex justify-center lg:justify-start">
-                <div className="relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg shadow-2xl border-2 border-border/50 brutal-card"> {/* Adicionado brutal-card */}
+                <div className="relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg shadow-2xl border-2 border-border/50 brutal-card">
                   <img 
                     src={manga.imageUrl} 
                     alt={manga.title} 
@@ -81,14 +81,14 @@ const MangaDetailsPage = () => {
 
               {/* Right Column: Details */}
               <div className="lg:col-span-2 text-center lg:text-left">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-impact tracking-wider mb-3 text-foreground leading-tight"> {/* Aumentado o tamanho da fonte */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-impact tracking-wider mb-3 text-foreground leading-tight">
                   {manga.title}
                 </h1>
                 
                 {/* Tags */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
                   {manga.tags?.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide"> {/* Estilo de badge aprimorado */}
+                    <Badge key={index} variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide">
                       {tag}
                     </Badge>
                   ))}
@@ -102,7 +102,7 @@ const MangaDetailsPage = () => {
                   {manga.rating && (
                     <div className="flex items-center gap-1 text-amber-500">
                       <Star className="w-4 h-4 fill-amber-500" />
-                      <span className="font-semibold text-base">{formatRating(manga.rating)}</span> {/* Aumentado o tamanho da fonte do rating */}
+                      <span className="font-semibold text-base">{formatRating(manga.rating)}</span>
                     </div>
                   )}
                 </div>
@@ -168,7 +168,7 @@ const MangaDetailsPage = () => {
         <section className="py-12 px-4 bg-card/30">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl md:text-3xl font-impact tracking-wider text-foreground">Capítulos</h2> {/* Aumentado o tamanho da fonte */}
+              <h2 className="text-2xl md:text-3xl font-impact tracking-wider text-foreground">Capítulos</h2>
               <div className="flex items-center gap-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -191,14 +191,14 @@ const MangaDetailsPage = () => {
               </div>
             </div>
 
-            <div className="max-h-[600px] overflow-y-auto scrollbar-hide border border-border/50 rounded-lg shadow-inner bg-background/20 brutal-card"> {/* Adicionado brutal-card */}
+            <div className="max-h-[600px] overflow-y-auto scrollbar-hide border border-border/50 rounded-lg shadow-inner bg-background/20 brutal-card">
               {dummyChapters.map((chapter) => (
                 <div 
                   key={chapter.id} 
-                  className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group" {/* Hover mais pronunciado */}
+                  className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group"
                 >
                   <div>
-                    <p className="text-foreground font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide"> {/* Estilo de texto aprimorado */}
+                    <p className="text-foreground font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide">
                       {chapter.title}
                     </p>
                     <span className="text-muted-foreground text-sm">
@@ -222,12 +222,12 @@ const MangaDetailsPage = () => {
         {/* Related Mangas Section */}
         <section className="py-12 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-impact tracking-wider mb-6 text-foreground">Mangás Relacionados</h2> {/* Aumentado o tamanho da fonte */}
+            <h2 className="text-2xl md:text-3xl font-impact tracking-wider mb-6 text-foreground">Mangás Relacionados</h2>
             <div 
               ref={relatedMangasRef} 
               className="flex overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 cursor-grab active:cursor-grabbing"
             >
-              <div className="flex gap-4 pr-4"> {/* Added pr-4 to ensure last card is not cut off */}
+              <div className="flex gap-4 pr-4">
                 {relatedMangas.map((relatedManga) => (
                   <div key={relatedManga.id} className="flex-shrink-0 w-[160px] sm:w-[180px]">
                     <MangaCard
