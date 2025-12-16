@@ -142,11 +142,11 @@ const MangaDetailsPage = () => {
                         Começar a Ler
                         <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </Button>
-                      {/* Botão Adicionar aos Favoritos - Estilo Outline Escuro */}
+                      {/* Botão Adicionar aos Favoritos - Estilo Outline Estático */}
                       <Button 
                         variant="outline" 
                         size="lg" 
-                        className="w-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-foreground/50 hover:text-foreground hover:bg-secondary px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider transition-all duration-300"
+                        className="w-full border-border/50 bg-card/50 backdrop-blur-sm px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
                         onClick={() => {
                           setIsFavorite(!isFavorite);
                           toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
@@ -157,7 +157,7 @@ const MangaDetailsPage = () => {
                             "mr-2 w-5 h-5 transition-all", 
                             isFavorite 
                               ? "fill-primary text-primary" 
-                              : "text-muted-foreground group-hover:text-foreground group-hover:fill-foreground"
+                              : "text-muted-foreground"
                           )} 
                         />
                         {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
