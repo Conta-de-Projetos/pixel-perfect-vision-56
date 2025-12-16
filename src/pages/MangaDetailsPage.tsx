@@ -6,7 +6,7 @@ import BottomNavbar from "@/components/BottomNavbar";
 import MangaCard from "@/components/MangaCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen } from "lucide-react";
+import { Star, Heart, Download, Search, MoreHorizontal, ArrowRight, BookOpen, Crown } from "lucide-react";
 import { allMangas, getRelativeTime } from "@/data/mangaData";
 import { cn } from "@/lib/utils";
 import { useDragScroll } from "@/hooks/useDragScroll";
@@ -59,12 +59,13 @@ const MangaDetailsPage = () => {
                 className="w-full h-full object-cover opacity-5 blur-lg scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+              <div className="absolute inset-0 grunge-texture opacity-20" /> {/* Adicionado grunge-texture */}
             </div>
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start"> {/* items-start para alinhar ao topo */}
               {/* Left Column: Cover Image */}
               <div className="lg:col-span-1 flex justify-center lg:justify-start">
-                <div className="relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg shadow-2xl border-2 border-border/50">
+                <div className="relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg shadow-2xl border-2 border-border/50 brutal-card"> {/* Adicionado brutal-card */}
                   <img 
                     src={manga.imageUrl} 
                     alt={manga.title} 
@@ -80,14 +81,14 @@ const MangaDetailsPage = () => {
 
               {/* Right Column: Details */}
               <div className="lg:col-span-2 text-center lg:text-left">
-                <h1 className="text-3xl md:text-4xl font-impact tracking-wider mb-3 text-foreground">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-impact tracking-wider mb-3 text-foreground leading-tight"> {/* Aumentado o tamanho da fonte */}
                   {manga.title}
                 </h1>
                 
                 {/* Tags */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
                   {manga.tags?.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="bg-card/50 text-muted-foreground border-border/50">
+                    <Badge key={index} variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide"> {/* Estilo de badge aprimorado */}
                       {tag}
                     </Badge>
                   ))}
@@ -96,12 +97,12 @@ const MangaDetailsPage = () => {
                 {/* Author & Rating */}
                 <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
                   <p className="text-muted-foreground text-sm">
-                    Por <span className="text-primary font-medium">{manga.author || "Desconhecido"}</span>
+                    Por <span className="text-foreground font-medium">{manga.author || "Desconhecido"}</span>
                   </p>
                   {manga.rating && (
                     <div className="flex items-center gap-1 text-amber-500">
                       <Star className="w-4 h-4 fill-amber-500" />
-                      <span className="font-semibold">{formatRating(manga.rating)}</span>
+                      <span className="font-semibold text-base">{formatRating(manga.rating)}</span> {/* Aumentado o tamanho da fonte do rating */}
                     </div>
                   )}
                 </div>
@@ -113,7 +114,7 @@ const MangaDetailsPage = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
-                  <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 glow-primary px-8 py-6 text-base rounded-2xl group">
+                  <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 glow-primary px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider">
                     <BookOpen className="mr-2 w-5 h-5" />
                     Começar a Ler
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -121,7 +122,7 @@ const MangaDetailsPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group"
+                    className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
                     onClick={() => {
                       setIsFavorite(!isFavorite);
                       toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
@@ -139,22 +140,22 @@ const MangaDetailsPage = () => {
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 text-sm text-muted-foreground text-center lg:text-left">
                     <div>
-                      <span className="font-semibold text-foreground">Status:</span> {manga.status === 'ongoing' ? 'Em andamento' : manga.status === 'completed' ? 'Concluído' : 'Hiato'}
+                      <span className="font-display uppercase tracking-wide text-foreground">Status:</span> {manga.status === 'ongoing' ? 'Em andamento' : manga.status === 'completed' ? 'Concluído' : 'Hiato'}
                     </div>
                     <div>
-                      <span className="font-semibold text-foreground">Ano:</span> {manga.year || 'N/A'}
+                      <span className="font-display uppercase tracking-wide text-foreground">Ano:</span> {manga.year || 'N/A'}
                     </div>
                     <div>
-                      <span className="font-semibold text-foreground">Idioma Original:</span> {manga.originalLanguage || 'N/A'}
+                      <span className="font-display uppercase tracking-wide text-foreground">Idioma Original:</span> {manga.originalLanguage || 'N/A'}
                     </div>
                     <div>
-                      <span className="font-semibold text-foreground">Faixa Etária:</span> {manga.ageRating || 'Livre'}
+                      <span className="font-display uppercase tracking-wide text-foreground">Faixa Etária:</span> {manga.ageRating || 'Livre'}
                     </div>
                     <div>
-                      <span className="font-semibold text-foreground">Tipo:</span> {manga.type || 'N/A'}
+                      <span className="font-display uppercase tracking-wide text-foreground">Tipo:</span> {manga.type || 'N/A'}
                     </div>
                     <div>
-                      <span className="font-semibold text-foreground">Demografia:</span> {manga.demography || 'N/A'}
+                      <span className="font-display uppercase tracking-wide text-foreground">Demografia:</span> {manga.demography || 'N/A'}
                     </div>
                   </div>
                 </div>
@@ -167,19 +168,19 @@ const MangaDetailsPage = () => {
         <section className="py-12 px-4 bg-card/30">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-display tracking-wider text-foreground">Capítulos</h2>
+              <h2 className="text-2xl md:text-3xl font-impact tracking-wider text-foreground">Capítulos</h2> {/* Aumentado o tamanho da fonte */}
               <div className="flex items-center gap-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="bg-card/50 border-border/50 text-muted-foreground hover:bg-card hover:text-foreground">
+                    <Button variant="outline" className="bg-card/50 border-border/50 text-muted-foreground hover:bg-card hover:text-foreground font-display uppercase tracking-wide">
                       Mais... <MoreHorizontal className="ml-2 w-4 h-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48 bg-card/90 backdrop-blur-sm border border-border rounded-lg shadow-xl">
-                    <DropdownMenuItem className="cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground">
+                    <DropdownMenuItem className="cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground font-display uppercase tracking-wide">
                       Ordenar por mais novos
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground">
+                    <DropdownMenuItem className="cursor-pointer text-muted-foreground hover:bg-secondary hover:text-foreground font-display uppercase tracking-wide">
                       Ordenar por mais antigos
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -190,14 +191,14 @@ const MangaDetailsPage = () => {
               </div>
             </div>
 
-            <div className="max-h-[600px] overflow-y-auto scrollbar-hide border border-border/50 rounded-lg shadow-inner bg-background/20">
+            <div className="max-h-[600px] overflow-y-auto scrollbar-hide border border-border/50 rounded-lg shadow-inner bg-background/20 brutal-card"> {/* Adicionado brutal-card */}
               {dummyChapters.map((chapter) => (
                 <div 
                   key={chapter.id} 
-                  className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-card/50 transition-colors cursor-pointer group"
+                  className="flex items-center justify-between p-4 border-b border-border/30 last:border-b-0 hover:bg-primary/10 transition-colors cursor-pointer group" {/* Hover mais pronunciado */}
                 >
                   <div>
-                    <p className="text-foreground font-medium text-base group-hover:text-primary transition-colors">
+                    <p className="text-foreground font-medium text-base group-hover:text-primary transition-colors font-display uppercase tracking-wide"> {/* Estilo de texto aprimorado */}
                       {chapter.title}
                     </p>
                     <span className="text-muted-foreground text-sm">
@@ -205,7 +206,7 @@ const MangaDetailsPage = () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/30">
+                    <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide">
                       {chapter.lang}
                     </Badge>
                     <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
@@ -221,7 +222,7 @@ const MangaDetailsPage = () => {
         {/* Related Mangas Section */}
         <section className="py-12 px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-display tracking-wider mb-6 text-foreground">Mangás Relacionados</h2>
+            <h2 className="text-2xl md:text-3xl font-impact tracking-wider mb-6 text-foreground">Mangás Relacionados</h2> {/* Aumentado o tamanho da fonte */}
             <div 
               ref={relatedMangasRef} 
               className="flex overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 cursor-grab active:cursor-grabbing"
@@ -242,6 +243,7 @@ const MangaDetailsPage = () => {
                       lastUpdated={relatedManga.lastUpdated}
                       synopsis={relatedManga.synopsis}
                       simplified
+                      slug={relatedManga.slug}
                     />
                   </div>
                 ))}
