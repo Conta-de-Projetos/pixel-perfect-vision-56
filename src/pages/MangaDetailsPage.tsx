@@ -65,7 +65,7 @@ const MangaDetailsPage = () => {
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
               {/* Left Column: Cover Image */}
               <div className="lg:col-span-1 flex justify-center lg:justify-start">
-                <div className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden rounded-lg shadow-xl border border-border/50"> {/* Ajustado max-w e sombra/borda */}
+                <div className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden rounded-lg shadow-xl border border-border/50">
                   <img 
                     src={manga.imageUrl} 
                     alt={manga.title} 
@@ -81,14 +81,14 @@ const MangaDetailsPage = () => {
 
               {/* Right Column: Details */}
               <div className="lg:col-span-2 text-center lg:text-left">
-                <h1 className="text-4xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight"> {/* Ajustado tamanho da fonte */}
-                  {manga.title.toUpperCase()} {/* Título em maiúsculas */}
+                <h1 className="text-4xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight">
+                  {manga.title.toUpperCase()}
                 </h1>
                 
                 {/* Tags */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
                   {manga.tags?.map((tag, index) => (
-                    <Badge key={index} className="bg-primary text-primary-foreground font-display uppercase tracking-wide text-xs px-3 py-1 rounded-md"> {/* Estilo de badge aprimorado */}
+                    <Badge key={index} className="bg-primary text-primary-foreground font-display uppercase tracking-wide text-xs px-3 py-1 rounded-md">
                       {tag}
                     </Badge>
                   ))}
@@ -108,18 +108,18 @@ const MangaDetailsPage = () => {
                   )}
                   <p className="flex items-center gap-1">
                     <BookOpen className="w-4 h-4 text-muted-foreground" />
-                    <span className="font-medium">{manga.chapter?.split(' ')[1] || dummyChapters.length} capítulos</span> {/* Adicionado número de capítulos */}
+                    <span className="font-medium">{manga.chapter?.split(' ')[1] || dummyChapters.length} capítulos</span>
                   </p>
                 </div>
 
                 {/* Synopsis */}
-                <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0"> {/* Ajustado tamanho da fonte */}
+                <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
                   {manga.synopsis}
                 </p>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
-                  <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"> {/* Removido glow-primary, ajustado rounded */}
+                  <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider">
                     <BookOpen className="mr-2 w-5 h-5" />
                     Começar a Ler
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -127,13 +127,13 @@ const MangaDetailsPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="w-full sm:w-auto border-primary text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider" {/* Ajustado estilo do botão de favoritos */}
+                    className="w-full sm:w-auto border-primary text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"
                     onClick={() => {
                       setIsFavorite(!isFavorite);
                       toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
                     }}
                   >
-                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-primary group-hover:fill-primary")} /> {/* Ícone sempre vermelho, preenche ao favoritar */}
+                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-primary group-hover:fill-primary")} />
                     {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
                   </Button>
                 </div>
