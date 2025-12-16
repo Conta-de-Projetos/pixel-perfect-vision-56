@@ -65,7 +65,7 @@ const MangaDetailsPage = () => {
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
               {/* Left Column: Cover Image */}
               <div className="lg:col-span-1 flex justify-center lg:justify-start">
-                <div className="relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded-lg shadow-2xl border-2 border-border/50 brutal-card">
+                <div className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden rounded-lg shadow-xl border border-border/50"> {/* Ajustado max-w e sombra/borda */}
                   <img 
                     src={manga.imageUrl} 
                     alt={manga.title} 
@@ -81,40 +81,45 @@ const MangaDetailsPage = () => {
 
               {/* Right Column: Details */}
               <div className="lg:col-span-2 text-center lg:text-left">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-impact tracking-wider mb-3 text-foreground leading-tight">
-                  {manga.title}
+                <h1 className="text-4xl md:text-5xl font-impact tracking-wider mb-3 text-foreground leading-tight"> {/* Ajustado tamanho da fonte */}
+                  {manga.title.toUpperCase()} {/* Título em maiúsculas */}
                 </h1>
                 
                 {/* Tags */}
                 <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
                   {manga.tags?.map((tag, index) => (
-                    <Badge key={index} variant="secondary" className="bg-primary/10 text-primary border-primary/30 font-display uppercase tracking-wide">
+                    <Badge key={index} className="bg-primary text-primary-foreground font-display uppercase tracking-wide text-xs px-3 py-1 rounded-md"> {/* Estilo de badge aprimorado */}
                       {tag}
                     </Badge>
                   ))}
                 </div>
 
-                {/* Author & Rating */}
-                <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
-                  <p className="text-muted-foreground text-sm">
+                {/* Author & Rating & Chapters */}
+                <div className="flex items-center justify-center lg:justify-start gap-4 mb-6 text-muted-foreground text-sm">
+                  <p className="flex items-center gap-1">
+                    <BookOpen className="w-4 h-4 text-muted-foreground" />
                     Por <span className="text-foreground font-medium">{manga.author || "Desconhecido"}</span>
                   </p>
                   {manga.rating && (
                     <div className="flex items-center gap-1 text-amber-500">
                       <Star className="w-4 h-4 fill-amber-500" />
-                      <span className="font-semibold text-base">{formatRating(manga.rating)}</span>
+                      <span className="font-semibold text-sm">{formatRating(manga.rating)}</span>
                     </div>
                   )}
+                  <p className="flex items-center gap-1">
+                    <BookOpen className="w-4 h-4 text-muted-foreground" />
+                    <span className="font-medium">{manga.chapter?.split(' ')[1] || dummyChapters.length} capítulos</span> {/* Adicionado número de capítulos */}
+                  </p>
                 </div>
 
                 {/* Synopsis */}
-                <p className="text-muted-foreground text-base leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0"> {/* Ajustado tamanho da fonte */}
                   {manga.synopsis}
                 </p>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
-                  <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 glow-primary px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider">
+                  <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"> {/* Removido glow-primary, ajustado rounded */}
                     <BookOpen className="mr-2 w-5 h-5" />
                     Começar a Ler
                     <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -122,13 +127,13 @@ const MangaDetailsPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="w-full sm:w-auto border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary hover:text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-2xl group font-display uppercase tracking-wider"
+                    className="w-full sm:w-auto border-primary text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider" {/* Ajustado estilo do botão de favoritos */}
                     onClick={() => {
                       setIsFavorite(!isFavorite);
                       toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
                     }}
                   >
-                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-muted-foreground group-hover:text-primary")} />
+                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-primary group-hover:fill-primary")} /> {/* Ícone sempre vermelho, preenche ao favoritar */}
                     {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
                   </Button>
                 </div>
@@ -140,22 +145,22 @@ const MangaDetailsPage = () => {
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-6 text-sm text-muted-foreground text-center lg:text-left">
                     <div>
-                      <span className="font-display uppercase tracking-wide text-foreground">Status:</span> {manga.status === 'ongoing' ? 'Em andamento' : manga.status === 'completed' ? 'Concluído' : 'Hiato'}
+                      <span className="font-bold text-foreground">Status:</span> {manga.status === 'ongoing' ? 'Em andamento' : manga.status === 'completed' ? 'Concluído' : 'Hiato'}
                     </div>
                     <div>
-                      <span className="font-display uppercase tracking-wide text-foreground">Ano:</span> {manga.year || 'N/A'}
+                      <span className="font-bold text-foreground">Ano:</span> {manga.year || 'N/A'}
                     </div>
                     <div>
-                      <span className="font-display uppercase tracking-wide text-foreground">Idioma Original:</span> {manga.originalLanguage || 'N/A'}
+                      <span className="font-bold text-foreground">Idioma Original:</span> {manga.originalLanguage || 'N/A'}
                     </div>
                     <div>
-                      <span className="font-display uppercase tracking-wide text-foreground">Faixa Etária:</span> {manga.ageRating || 'Livre'}
+                      <span className="font-bold text-foreground">Faixa Etária:</span> {manga.ageRating || 'Livre'}
                     </div>
                     <div>
-                      <span className="font-display uppercase tracking-wide text-foreground">Tipo:</span> {manga.type || 'N/A'}
+                      <span className="font-bold text-foreground">Tipo:</span> {manga.type || 'N/A'}
                     </div>
                     <div>
-                      <span className="font-display uppercase tracking-wide text-foreground">Demografia:</span> {manga.demography || 'N/A'}
+                      <span className="font-bold text-foreground">Demografia:</span> {manga.demography || 'N/A'}
                     </div>
                   </div>
                 </div>
