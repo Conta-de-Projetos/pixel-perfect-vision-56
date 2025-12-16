@@ -108,8 +108,8 @@ const MangaDetailsPage = () => {
               {/* Left Column: Cover Image and Action Buttons (Mobile: Centralized Block) */}
               <div className="lg:col-span-1 w-full flex flex-col items-center lg:items-start">
                 
-                {/* Card Container for Cover and Buttons (Mobile Only) */}
-                <div className="w-full max-w-[300px] mx-auto bg-card/70 backdrop-blur-md border border-border/50 rounded-xl p-4 lg:p-0 lg:bg-transparent lg:border-none lg:shadow-none lg:max-w-none">
+                {/* Container para Capa e Botões (Mobile: Limitado e Centralizado) */}
+                <div className="w-full max-w-[300px] mx-auto lg:max-w-none">
                   
                   {/* Cover Image */}
                   <div className="relative aspect-[3/4] w-full overflow-hidden shadow-xl border border-border/50 rounded-lg">
