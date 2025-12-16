@@ -89,13 +89,13 @@ const MangaDetailsPage = () => {
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="w-full border-primary text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"
+                    className="w-full border-primary text-foreground hover:bg-primary/10 hover:text-foreground px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"
                     onClick={() => {
                       setIsFavorite(!isFavorite);
                       toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
                     }}
                   >
-                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-primary group-hover:fill-primary")} />
+                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-foreground group-hover:fill-primary")} />
                     {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
                   </Button>
                 </div>
