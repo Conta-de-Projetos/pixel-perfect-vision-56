@@ -63,9 +63,9 @@ const MangaDetailsPage = () => {
             </div>
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-              {/* Left Column: Cover Image */}
-              <div className="lg:col-span-1 flex justify-center lg:justify-start">
-                <div className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden rounded-lg shadow-xl border border-border/50">
+              {/* Left Column: Cover Image and Action Buttons */}
+              <div className="lg:col-span-1 flex flex-col items-center lg:items-start gap-6 w-full max-w-[280px] mx-auto lg:mx-0">
+                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg shadow-xl border border-border/50">
                   <img 
                     src={manga.imageUrl} 
                     alt={manga.title} 
@@ -76,6 +76,27 @@ const MangaDetailsPage = () => {
                       <Crown className="w-6 h-6 text-amber-100" />
                     </div>
                   )}
+                </div>
+
+                {/* Action Buttons - MOVIDO PARA CIMA */}
+                <div className="flex flex-col gap-4 w-full">
+                  <Button size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider">
+                    <BookOpen className="mr-2 w-5 h-5" />
+                    Começar a Ler
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="w-full border-primary text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"
+                    onClick={() => {
+                      setIsFavorite(!isFavorite);
+                      toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
+                    }}
+                  >
+                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-primary group-hover:fill-primary")} />
+                    {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
+                  </Button>
                 </div>
               </div>
 
@@ -112,29 +133,8 @@ const MangaDetailsPage = () => {
                   </p>
                 </div>
 
-                {/* Action Buttons - MOVIDO PARA CIMA */}
-                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-8"> {/* Reduzido mb para ficar mais compacto */}
-                  <Button size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider">
-                    <BookOpen className="mr-2 w-5 h-5" />
-                    Começar a Ler
-                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="w-full sm:w-auto border-primary text-primary hover:bg-primary/10 px-8 py-6 text-base rounded-md group font-display uppercase tracking-wider"
-                    onClick={() => {
-                      setIsFavorite(!isFavorite);
-                      toast.success(isFavorite ? "Removido dos favoritos!" : "Adicionado aos favoritos!");
-                    }}
-                  >
-                    <Heart className={cn("mr-2 w-5 h-5 transition-all", isFavorite ? "fill-primary text-primary" : "text-primary group-hover:fill-primary")} />
-                    {isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
-                  </Button>
-                </div>
-
                 {/* Synopsis */}
-                <p className="text-muted-foreground text-sm leading-relaxed mb-10 max-w-2xl mx-auto lg:mx-0"> {/* Aumentado mb para separar dos botões */}
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6 max-w-2xl mx-auto lg:mx-0">
                   {manga.synopsis}
                 </p>
 
