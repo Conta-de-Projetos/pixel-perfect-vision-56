@@ -47,7 +47,7 @@ const FooterSection = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8">
             
             {/* Brand Section */}
-            <div className="lg:col-span-4 flex flex-col items-center text-center md:items-center md:text-center lg:items-start lg:text-left">
+            <div className="lg:col-span-4 flex flex-col items-center text-center">
               <h4 className="font-display uppercase tracking-wider mb-4 sm:mb-5 text-foreground text-sm">
                 SOBRE NÓS
               </h4>
@@ -71,7 +71,7 @@ const FooterSection = () => {
               </div>
             </div>
             
-            <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-sm">
+            <p className="text-sm text-muted-foreground mb-8 leading-relaxed max-w-sm text-center">
               Sua plataforma definitiva para mangás, manhwas e HQs. 
               Logo mais lançamos nosso app Justice.
             </p>
@@ -94,7 +94,7 @@ const FooterSection = () => {
               </div>
               
               {/* Social Links */}
-              <div className="flex items-center gap-3 mt-8">
+              <div className="flex items-center justify-center gap-3 mt-8">
                 {socialLinks.map((social) => (
                   <a
                     key={social.name}
