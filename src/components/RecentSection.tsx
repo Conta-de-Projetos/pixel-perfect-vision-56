@@ -234,7 +234,7 @@ const RecentSection = () => {
                 lastUpdated={manga.lastUpdated}
                 synopsis={manga.synopsis}
                 simplified
-                slug={manga.slug} {/* Passando o slug aqui */}
+                slug={manga.slug}
               />
             </ScrollRevealCard>
           ))}
