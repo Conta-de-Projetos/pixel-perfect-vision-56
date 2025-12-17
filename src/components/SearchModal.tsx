@@ -64,11 +64,12 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         onClick={onClose}
       />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-lg bg-card border border-border rounded-xl shadow-2xl shadow-primary/20 animate-scale-in overflow-hidden">
-        {/* Search Input */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-border bg-secondary/50">
-          <Search className="w-5 h-5 text-primary shrink-0" />
+      {/* Modal - Adjusted styling for cleaner look */}
+      <div className="relative w-full max-w-lg bg-card border border-border/50 rounded-xl shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
+        
+        {/* Search Input Bar - Clean, high-contrast area */}
+        <div className="flex items-center px-4 py-3 border-b border-border/50">
+          <Search className="w-5 h-5 text-muted-foreground shrink-0 mr-3" />
           <input
             type="text"
             value={query}
@@ -79,7 +80,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           />
           <button
             onClick={onClose}
-            className="p-1 hover:bg-primary/20 rounded-lg transition-colors text-muted-foreground hover:text-primary"
+            className="p-1 hover:bg-secondary rounded-lg transition-colors text-muted-foreground"
           >
             <X className="w-5 h-5" />
           </button>
@@ -88,11 +89,11 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         {/* Results */}
         <div className="max-h-[60vh] overflow-y-auto scrollbar-hide">
           {query.trim() === "" ? (
-            <div className="p-8 text-center text-muted-foreground text-sm font-display uppercase tracking-wide">
-              Digite o título, autor ou tag para começar a busca...
+            <div className="p-12 text-center text-muted-foreground text-sm">
+              Digite para buscar...
             </div>
           ) : results.length === 0 ? (
-            <div className="p-8 text-center text-muted-foreground text-sm font-display uppercase tracking-wide">
+            <div className="p-12 text-center text-muted-foreground text-sm">
               Nenhum resultado encontrado para "{query}"
             </div>
           ) : (
@@ -104,10 +105,10 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           )}
         </div>
 
-        {/* Footer hint */}
-        <div className="px-4 py-2 border-t border-border bg-secondary/30">
-          <p className="text-xs text-muted-foreground text-center font-display uppercase tracking-wide">
-            Pressione <kbd className="px-1.5 py-0.5 bg-card rounded text-xs text-foreground border border-border">ESC</kbd> para fechar
+        {/* Footer hint - Adjusted styling to match image */}
+        <div className="px-4 py-3 border-t border-border/50 bg-secondary/30">
+          <p className="text-xs text-muted-foreground text-center">
+            Pressione <kbd className="px-1.5 py-0.5 bg-card rounded text-xs text-foreground border border-border/50">ESC</kbd> para fechar
           </p>
         </div>
       </div>
@@ -146,12 +147,12 @@ const SearchResultItem = ({ manga, onClose }: SearchResultItemProps) => {
         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
       />
       
-      {/* Heart icon */}
+      {/* Heart icon - Adjusted size/style */}
       <button className="absolute top-2 right-2 p-1 bg-black/50 rounded-full backdrop-blur-sm hover:bg-primary transition-colors">
         <Heart className="w-4 h-4 text-white/90" />
       </button>
       
-      {/* Premium overlay */}
+      {/* Premium overlay - Adjusted size/style */}
       {manga.isPremium && (
         <div className="absolute top-2 left-2 p-1 bg-amber-500/80 rounded-full backdrop-blur-sm">
           <Crown className="w-4 h-4 text-amber-100 fill-amber-100" />
@@ -161,18 +162,13 @@ const SearchResultItem = ({ manga, onClose }: SearchResultItemProps) => {
       {/* Bottom gradient overlay */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
       
-      {/* Info at bottom */}
+      {/* Info at bottom - Adjusted to match image (larger title, no chapter) */}
       <div className="absolute inset-x-0 bottom-0 p-3">
-        <h4 className="font-impact uppercase tracking-wide text-white text-sm line-clamp-2 leading-tight">
+        <h4 className="font-impact uppercase tracking-wide text-white text-lg line-clamp-2 leading-tight">
           {manga.title}
         </h4>
-        {manga.chapter && (
-          <p className="text-xs text-primary font-semibold mt-1">
-            {manga.chapter}
-          </p>
-        )}
         {manga.lastUpdated && (
-          <p className="text-[10px] text-white/60 mt-0.5">
+          <p className="text-xs text-white/80 mt-1">
             Atualizado {getRelativeTime()}
           </p>
         )}
