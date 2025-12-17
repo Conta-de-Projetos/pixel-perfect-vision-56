@@ -270,7 +270,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
               <Crown className="w-4 h-4 text-amber-500 fill-amber-500/30" />
             )}
             {getRoleBadge(comment.role)}
-            <span className="text-xs text-muted-foreground">• {comment.timestamp}</span>
+            <span className="text-xs text-muted-foreground whitespace-nowrap">• {comment.timestamp}</span>
           </div>
           
           {/* Comment Text with Spoiler Logic */}
