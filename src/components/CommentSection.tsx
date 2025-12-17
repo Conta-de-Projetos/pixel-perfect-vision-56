@@ -269,7 +269,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
             </span>
             {/* Coroa Premium */}
             {comment.role === 'premium' && (
-              <Crown className="w-4 h-4 text-amber-500 fill-amber-500/30 flex-shrink-0" /> {/* Adicionado flex-shrink-0 */}
+              <Crown className="w-4 h-4 text-amber-500 fill-amber-500/30 flex-shrink-0" />
             )}
             <div className="flex items-center gap-2 flex-shrink-0"> {/* Novo contêiner para badges e timestamp */}
               {getRoleBadge(comment.role)}
