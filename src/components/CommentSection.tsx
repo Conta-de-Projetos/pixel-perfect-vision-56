@@ -70,6 +70,7 @@ const dummyComments: Comment[] = [
     content: "Achei que a progressão do personagem principal está um pouco lenta. Espero que ele ganhe um power-up logo. [SPOILER] O vilão principal é na verdade o irmão dele! [/SPOILER]",
     likes: 12,
     dislikes: 5,
+    role: 'moderator',
   },
   {
     id: 3,
