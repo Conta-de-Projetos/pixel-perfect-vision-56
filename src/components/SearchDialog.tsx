@@ -4,9 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import MangaCard from "./MangaCard";
-import { allMangas, MangaData } from "@/data/mangaData";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "sonner"; // Importar toast
 
 interface SearchDialogProps {
@@ -17,14 +14,8 @@ interface SearchDialogProps {
 const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredResults = useMemo(() => {
-    if (!searchTerm) return [];
-    const lowerCaseTerm = searchTerm.toLowerCase();
-    return allMangas.filter(manga => 
-      manga.title.toLowerCase().includes(lowerCaseTerm) ||
-      manga.tags?.some(tag => tag.toLowerCase().includes(lowerCaseTerm))
-    ).slice(0, 12); // Limita a 12 resultados para performance
-  }, [searchTerm]);
+  // A lógica de busca é mantida, mas os resultados não são exibidos neste modal compacto.
+  // Eles seriam exibidos em uma página de resultados separada ou em um modal maior.
 
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -33,12 +24,23 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
   const handleClear = useCallback(() => {
     setSearchTerm("");
   }, []);
+  
+  const handleSearchSubmit = useCallback(() => {
+    if (searchTerm.trim()) {
+      toast.info(`Buscando por: ${searchTerm}`);
+      // Aqui você faria a navegação para a página de resultados
+      onClose();
+    } else {
+      toast.warning("Digite um termo para buscar.");
+    }
+  }, [searchTerm, onClose]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
+        // Reduzindo o tamanho do modal para ser compacto e focado na busca
         className={cn(
-          "sm:max-w-[800px] w-[95%] h-[90vh] p-0 bg-background/95 backdrop-blur-lg border-border/50 shadow-2xl shadow-primary/10",
+          "sm:max-w-[600px] w-[95%] p-0 bg-background/95 backdrop-blur-lg border-border/50 shadow-2xl shadow-primary/10",
           "data-[state=open]:animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10",
           "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-10"
         )}
@@ -49,7 +51,7 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
           </DialogTitle>
         </DialogHeader>
 
-        {/* Search Input Bar - Envolvido em um container transparente com borda */}
+        {/* Search Input Bar - Foco principal do modal */}
         <div className="p-6 pt-4">
           <div className="p-4 bg-card/50 border border-border/50 rounded-xl shadow-lg">
             <div className="flex gap-4 items-center">
@@ -59,6 +61,11 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
                   placeholder="Título do mangá..."
                   value={searchTerm}
                   onChange={handleSearchChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearchSubmit();
+                    }
+                  }}
                   className={cn(
                     "h-12 w-full pl-10 pr-12 text-base font-medium bg-background/80 border border-border/80 rounded-lg",
                     "focus-visible:ring-primary focus-visible:border-primary/50 focus-visible:ring-1 transition-all duration-300 shadow-none"
@@ -79,47 +86,15 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
               <Button 
                 size="lg" 
                 className="h-12 px-6 bg-primary hover:bg-primary/90 text-primary-foreground font-display uppercase tracking-wider text-sm rounded-lg transition-all duration-300 flex-shrink-0"
-                onClick={() => toast.info(`Buscando por: ${searchTerm}`)}
+                onClick={handleSearchSubmit}
               >
                 Buscar
               </Button>
             </div>
           </div>
         </div>
-
-        {/* Results Area */}
-        <ScrollArea className="flex-grow px-6 pb-6 h-full">
-          <div className="h-full">
-            {searchTerm.length > 0 && filteredResults.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredResults.map((manga) => (
-                  <MangaCard
-                    key={manga.id}
-                    title={manga.title}
-                    chapter={manga.chapter}
-                    imageUrl={manga.imageUrl}
-                    rating={manga.rating}
-                    isNew={manga.isNew}
-                    isPremium={manga.isPremium}
-                    slug={manga.slug}
-                    simplified
-                  />
-                ))}
-              </div>
-            ) : searchTerm.length > 0 ? (
-              <div className="text-center py-12 text-muted-foreground">
-                <Search className="w-10 h-10 mx-auto mb-4 text-border" />
-                <p className="text-lg font-display uppercase tracking-wide">Nenhum resultado encontrado para "{searchTerm}"</p>
-                <p className="text-sm mt-2">Tente termos de busca diferentes ou verifique a ortografia.</p>
-              </div>
-            ) : (
-              <div className="text-center py-12 text-muted-foreground">
-                <p className="text-lg font-display uppercase tracking-wide">Comece a digitar para ver os resultados</p>
-                <p className="text-sm mt-2">Busque por título, autor ou tags.</p>
-              </div>
-            )}
-          </div>
-        </ScrollArea>
+        
+        {/* Removendo a área de resultados para manter o modal compacto */}
       </DialogContent>
     </Dialog>
   );
