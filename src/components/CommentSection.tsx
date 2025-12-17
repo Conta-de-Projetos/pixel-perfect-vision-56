@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply } from 'lucide-react';
+import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -17,6 +17,37 @@ interface Comment {
   replies?: Comment[];
 }
 
+// Adicionando mais respostas para testar a funcionalidade 'Ver mais'
+const dummyReplies: Comment[] = [
+  {
+    id: 4,
+    user: "MangaReader_X",
+    avatarUrl: "https://i.pravatar.cc/150?img=4",
+    timestamp: "Há 1 hora",
+    content: "Concordo plenamente! A coreografia da luta foi de tirar o fôlego. Melhor capítulo do arco!",
+    likes: 15,
+    dislikes: 0,
+  },
+  {
+    id: 5,
+    user: "AnimeLover_22",
+    avatarUrl: "https://i.pravatar.cc/150?img=5",
+    timestamp: "Há 45 minutos",
+    content: "Será que o autor vai introduzir um novo vilão no próximo capítulo? Estou ansioso!",
+    likes: 8,
+    dislikes: 1,
+  },
+  {
+    id: 6,
+    user: "OldSchoolFan",
+    avatarUrl: "https://i.pravatar.cc/150?img=6",
+    timestamp: "Há 30 minutos",
+    content: "Prefiro os arcos antigos, mas este está aceitável. A arte continua impecável.",
+    likes: 5,
+    dislikes: 0,
+  },
+];
+
 const dummyComments: Comment[] = [
   {
     id: 1,
@@ -26,17 +57,7 @@ const dummyComments: Comment[] = [
     content: "Capítulo incrível! A luta final foi épica, mal posso esperar pela próxima semana. O autor realmente superou as expectativas.",
     likes: 45,
     dislikes: 2,
-    replies: [
-      {
-        id: 4,
-        user: "MangaReader_X",
-        avatarUrl: "https://i.pravatar.cc/150?img=4",
-        timestamp: "Há 1 hora",
-        content: "Concordo plenamente! A coreografia da luta foi de tirar o fôlego. Melhor capítulo do arco!",
-        likes: 15,
-        dislikes: 0,
-      }
-    ]
+    replies: dummyReplies,
   },
   {
     id: 2,
@@ -61,9 +82,12 @@ const dummyComments: Comment[] = [
 interface CommentItemProps {
   comment: Comment;
   isReply?: boolean;
+  hasMoreReplies?: boolean;
+  onToggleReplies?: () => void;
+  showReplies?: boolean;
 }
 
-const CommentItem = ({ comment, isReply = false }: CommentItemProps) => {
+const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggleReplies, showReplies }: CommentItemProps) => {
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
@@ -99,8 +123,8 @@ const CommentItem = ({ comment, isReply = false }: CommentItemProps) => {
 
   return (
     <div className={cn(
-      "flex flex-col gap-4 p-4 border-b border-border/30 last:border-b-0",
-      isReply ? "bg-secondary/50 border-l-4 border-primary/30 ml-4 sm:ml-8" : "bg-card/50"
+      "flex flex-col gap-4 p-4 transition-colors duration-300",
+      isReply ? "bg-secondary/30" : "bg-card/50 border-b border-border/30 last:border-b-0"
     )}>
       <div className="flex gap-3">
         {/* Avatar */}
@@ -150,12 +174,42 @@ const CommentItem = ({ comment, isReply = false }: CommentItemProps) => {
         </div>
       </div>
 
-      {/* Nested Replies */}
+      {/* Nested Replies Container */}
       {comment.replies && comment.replies.length > 0 && (
-        <div className="mt-2 space-y-2">
-          {comment.replies.map(reply => (
-            <CommentItem key={reply.id} comment={reply} isReply={true} />
-          ))}
+        <div className={cn(
+          "relative mt-2",
+          !isReply && "ml-4 sm:ml-8" // Indent replies only for top-level comments
+        )}>
+          {/* Vertical Hierarchy Line */}
+          <div className="absolute top-0 left-0 w-px h-full bg-border/50" />
+          
+          {/* Replies List */}
+          <div className="pl-4 space-y-2">
+            {/* Show only the first reply if not expanded */}
+            {(showReplies ? comment.replies : comment.replies.slice(0, 1)).map(reply => (
+              <CommentItem key={reply.id} comment={reply} isReply={true} />
+            ))}
+
+            {/* "Ver mais" button */}
+            {hasMoreReplies && onToggleReplies && (
+              <button
+                onClick={onToggleReplies}
+                className="flex items-center gap-1 text-primary hover:text-primary/80 text-sm font-medium transition-colors ml-4 pt-2"
+              >
+                {showReplies ? (
+                  <>
+                    <ChevronUp className="w-4 h-4" />
+                    Ocultar respostas
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-4 h-4" />
+                    Ver mais {comment.replies.length - 1} respostas
+                  </>
+                )}
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -163,7 +217,7 @@ const CommentItem = ({ comment, isReply = false }: CommentItemProps) => {
 };
 
 const RichTextToolbar = () => (
-  <div className="flex items-center gap-1 p-2 border-b border-border/50 bg-card rounded-t-lg">
+  <div className="flex items-center gap-1 p-2 border-b border-border/50 bg-card rounded-t-xl">
     <ToggleGroup type="multiple" size="sm" className="gap-0.5">
       <ToggleGroupItem value="bold" aria-label="Toggle bold" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
         <Bold className="h-4 w-4" />
@@ -184,6 +238,7 @@ const RichTextToolbar = () => (
 
 const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
   const [commentText, setCommentText] = useState('');
+  const [expandedComments, setExpandedComments] = useState<Record<number, boolean>>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -195,6 +250,13 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
     // Simulação de envio
     toast.success("Comentário enviado! Aguardando moderação.");
     setCommentText('');
+  };
+
+  const toggleReplies = (commentId: number) => {
+    setExpandedComments(prev => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
   };
 
   return (
@@ -216,7 +278,8 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
               placeholder="Escreva sua opinião, teoria ou crítica..."
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
-              className="min-h-[100px] bg-background/50 border-border/50 focus-visible:ring-primary focus-visible:border-primary"
+              // Removendo a borda e ajustando o fundo
+              className="min-h-[100px] bg-background/50 border-none focus-visible:ring-primary focus-visible:border-none"
             />
             <div className="flex justify-end">
               <Button 
@@ -234,7 +297,13 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
         {/* Comment List - Cleaned up styling */}
         <div className="border border-border/50 rounded-xl shadow-xl bg-card/80 overflow-hidden">
           {dummyComments.map((comment) => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem 
+              key={comment.id} 
+              comment={comment} 
+              hasMoreReplies={comment.replies && comment.replies.length > 1}
+              onToggleReplies={() => toggleReplies(comment.id)}
+              showReplies={expandedComments[comment.id]}
+            />
           ))}
         </div>
       </div>
