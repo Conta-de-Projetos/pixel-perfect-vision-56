@@ -64,8 +64,8 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         onClick={onClose}
       />
 
-      {/* Modal - Increased max-width to max-w-2xl */}
-      <div className="relative w-full max-w-2xl bg-card border border-border/50 rounded-xl shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
+      {/* Modal - Adjusted max-w for mobile and desktop */}
+      <div className="relative w-full max-w-full sm:max-w-xl lg:max-w-2xl bg-card border border-border/50 rounded-xl shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
         
         {/* Search Input Bar - Clean, high-contrast area */}
         <div className="flex items-center px-4 py-3 border-b border-border/50">
@@ -105,8 +105,8 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           )}
         </div>
 
-        {/* Footer hint - Adjusted styling to match image */}
-        <div className="px-4 py-3 border-t border-border/50 bg-secondary/30">
+        {/* Footer hint - Hidden on mobile/tablet (hidden sm:block) */}
+        <div className="px-4 py-3 border-t border-border/50 bg-secondary/30 hidden lg:block">
           <p className="text-xs text-muted-foreground text-center">
             Pressione <kbd className="px-1.5 py-0.5 bg-card rounded text-xs text-foreground border border-border/50">ESC</kbd> para fechar
           </p>
