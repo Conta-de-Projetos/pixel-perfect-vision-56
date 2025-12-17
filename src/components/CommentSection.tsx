@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp } from 'lucide-react';
+import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp, List, ListOrdered, Code, Heading, AtSign, Hash, CornerUpLeft, Paperclip } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -85,9 +85,10 @@ interface CommentItemProps {
   hasMoreReplies?: boolean;
   onToggleReplies?: () => void;
   showReplies?: boolean;
+  isLastReply?: boolean; // Novo prop para ajudar na linha de hierarquia
 }
 
-const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggleReplies, showReplies }: CommentItemProps) => {
+const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggleReplies, showReplies, isLastReply = false }: CommentItemProps) => {
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
@@ -126,7 +127,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
       "flex flex-col gap-4 p-4 transition-colors duration-300",
       isReply ? "bg-secondary/30" : "bg-card/50 border-b border-border/30 last:border-b-0"
     )}>
-      <div className="flex gap-3">
+      <div className="flex gap-3 relative">
         {/* Avatar */}
         <div className="flex-shrink-0">
           <img 
@@ -180,15 +181,39 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
           "relative mt-2",
           !isReply && "ml-4 sm:ml-8" // Indent replies only for top-level comments
         )}>
-          {/* Vertical Hierarchy Line */}
+          {/* Vertical Hierarchy Line - Complex Connector */}
           <div className="absolute top-0 left-0 w-px h-full bg-border/50" />
           
           {/* Replies List */}
           <div className="pl-4 space-y-2">
-            {/* Show only the first reply if not expanded */}
-            {(showReplies ? comment.replies : comment.replies.slice(0, 1)).map(reply => (
-              <CommentItem key={reply.id} comment={reply} isReply={true} />
-            ))}
+            {(showReplies ? comment.replies : comment.replies.slice(0, 1)).map((reply, index, arr) => {
+              const isCurrentLastReply = index === arr.length - 1;
+              
+              return (
+                <div key={reply.id} className="relative">
+                  {/* Custom Connector Line */}
+                  <div className="absolute top-0 left-0 w-4 h-14">
+                    <div className="absolute top-0 left-0 w-px h-full bg-border/50" />
+                    <div className="absolute top-5 left-0 w-4 h-px bg-border/50" />
+                    <div className="absolute top-5 left-4 w-px h-5 bg-border/50" />
+                    {/* Corner curve effect */}
+                    <div className="absolute top-5 left-0 w-4 h-4 border-l border-b border-border/50 rounded-bl-lg" />
+                    {/* Hide vertical line segment if it's the last visible reply and replies are not expanded */}
+                    {isCurrentLastReply && !showReplies && (
+                      <div className="absolute top-5 left-0 w-px h-full bg-secondary/30" />
+                    )}
+                  </div>
+                  
+                  <div className="pl-4">
+                    <CommentItem 
+                      comment={reply} 
+                      isReply={true} 
+                      isLastReply={isCurrentLastReply}
+                    />
+                  </div>
+                </div>
+              );
+            })}
 
             {/* "Ver mais" button */}
             {hasMoreReplies && onToggleReplies && (
@@ -217,21 +242,49 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
 };
 
 const RichTextToolbar = () => (
-  <div className="flex items-center gap-1 p-2 border-b border-border/50 bg-card rounded-t-xl">
-    <ToggleGroup type="multiple" size="sm" className="gap-0.5">
+  <div className="flex items-center gap-1 p-2 border-b border-border/50 bg-card rounded-t-xl overflow-x-auto scrollbar-hide">
+    <ToggleGroup type="multiple" size="sm" className="gap-0.5 flex-shrink-0">
+      <ToggleGroupItem value="heading" aria-label="Toggle heading" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <Heading className="h-4 w-4" />
+      </ToggleGroupItem>
       <ToggleGroupItem value="bold" aria-label="Toggle bold" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
         <Bold className="h-4 w-4" />
       </ToggleGroupItem>
       <ToggleGroupItem value="italic" aria-label="Toggle italic" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
         <Italic className="h-4 w-4" />
       </ToggleGroupItem>
+      <ToggleGroupItem value="code" aria-label="Toggle code" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <Code className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="link" aria-label="Toggle link" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <Link className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="list" aria-label="Toggle list" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <List className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="list-ordered" aria-label="Toggle ordered list" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <ListOrdered className="h-4 w-4" />
+      </ToggleGroupItem>
       <ToggleGroupItem value="quote" aria-label="Toggle quote" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
         <Quote className="h-4 w-4" />
       </ToggleGroupItem>
     </ToggleGroup>
-    <Button variant="ghost" size="icon" className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-secondary/50">
-      <Link className="h-4 w-4" />
-    </Button>
+    
+    {/* Right side icons */}
+    <div className="flex items-center gap-1 ml-auto flex-shrink-0">
+      <Button variant="ghost" size="icon" className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-secondary/50">
+        <AtSign className="h-4 w-4" />
+      </Button>
+      <Button variant="ghost" size="icon" className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-secondary/50">
+        <Hash className="h-4 w-4" />
+      </Button>
+      <Button variant="ghost" size="icon" className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-secondary/50">
+        <CornerUpLeft className="h-4 w-4" />
+      </Button>
+      <Button variant="ghost" size="icon" className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-secondary/50">
+        <Paperclip className="h-4 w-4" />
+      </Button>
+    </div>
   </div>
 );
 
