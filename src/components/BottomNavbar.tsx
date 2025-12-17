@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, Library, Search, Sparkles } from "lucide-react";
+import { Home, Library, Search, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
 import SearchModal from "./SearchModal"; // Importar o novo componente
@@ -8,7 +8,7 @@ const navItems = [
   { icon: Home, label: "Início", href: "/", id: "inicio" },
   { icon: Library, label: "Coleção", href: "/colecao", id: "colecao" },
   { icon: Search, label: "Pesquisar", href: "/pesquisar", id: "pesquisar", isSearch: true }, // Adicionado isSearch
-  { icon: Sparkles, label: "Explorar", href: "/explorar", id: "explorar" },
+  { icon: Menu, label: "Menu", href: "/menu", id: "menu" }, // Alterado de Sparkles/Explorar para Menu/Menu
 ];
 
 const BottomNavbar = () => {
