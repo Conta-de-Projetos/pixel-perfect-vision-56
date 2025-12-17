@@ -121,25 +121,12 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
     }
   };
 
-  // Determina se o comentário atual é uma resposta e se deve ter a linha de hierarquia
-  const shouldShowHierarchy = isReply;
-
   return (
     <div className={cn(
       "flex flex-col gap-4 p-4 transition-colors duration-300",
       isReply ? "bg-secondary/30" : "bg-card/50 border-b border-border/30 last:border-b-0"
     )}>
       <div className="flex gap-3 relative">
-        {/* Linha de Hierarquia para Respostas */}
-        {shouldShowHierarchy && (
-          <div className="absolute -left-4 sm:-left-8 top-0 bottom-0 w-4 sm:w-8">
-            <div className="absolute top-0 left-0 w-px h-full bg-border/50" />
-            <div className="absolute top-5 left-0 w-4 h-px bg-border/50" />
-            {/* Corner curve effect */}
-            <div className="absolute top-5 left-0 w-4 h-4 border-l border-b border-border/50 rounded-bl-lg" />
-          </div>
-        )}
-
         {/* Avatar */}
         <div className="flex-shrink-0">
           <img 
@@ -191,7 +178,8 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
       {comment.replies && comment.replies.length > 0 && (
         <div className={cn(
           "relative mt-2",
-          !isReply && "ml-4 sm:ml-8" // Indent replies only for top-level comments
+          // Mantém o recuo para indicar que são respostas
+          !isReply && "ml-4 sm:ml-8" 
         )}>
           
           {/* Replies List - Render only if expanded */}
@@ -209,7 +197,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
               onClick={onToggleReplies}
               className={cn(
                 "flex items-center gap-1 text-primary hover:text-primary/80 text-sm font-medium transition-colors pt-2",
-                // Se for um comentário principal, o botão fica alinhado com a hierarquia
+                // Ajusta o alinhamento do botão de acordo com o recuo
                 !isReply ? "ml-4" : "ml-0"
               )}
             >
