@@ -38,9 +38,9 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
-        // Reduzindo o tamanho do modal para ser compacto e focado na busca
+        // Mantendo a borda externa aqui, mas aumentando a transparência do fundo
         className={cn(
-          "sm:max-w-[600px] w-[95%] p-0 bg-background/95 backdrop-blur-lg border-border/50 shadow-2xl shadow-primary/10",
+          "sm:max-w-[600px] w-[95%] p-0 bg-background/80 backdrop-blur-xl border border-border/50 shadow-2xl shadow-primary/10",
           "data-[state=open]:animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10",
           "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-10"
         )}
@@ -53,7 +53,8 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
 
         {/* Search Input Bar - Foco principal do modal */}
         <div className="p-6 pt-4">
-          <div className="p-4 bg-card/50 border border-border/50 rounded-xl shadow-lg">
+          {/* Removendo borda e shadow, aumentando transparência do fundo */}
+          <div className="p-4 bg-card/30 rounded-xl">
             <div className="flex gap-4 items-center">
               <div className="flex-grow relative">
                 <Input
@@ -66,9 +67,10 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
                       handleSearchSubmit();
                     }
                   }}
+                  // Removendo a borda do input e usando um fundo mais transparente
                   className={cn(
-                    "h-12 w-full pl-10 pr-12 text-base font-medium bg-background/80 border border-border/80 rounded-lg",
-                    "focus-visible:ring-primary focus-visible:border-primary/50 focus-visible:ring-1 transition-all duration-300 shadow-none"
+                    "h-12 w-full pl-10 pr-12 text-base font-medium bg-background/50 rounded-lg",
+                    "focus-visible:ring-primary focus-visible:border-primary/50 focus-visible:ring-1 transition-all duration-300 shadow-none border-none"
                   )}
                 />
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
@@ -93,8 +95,6 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
             </div>
           </div>
         </div>
-        
-        {/* Removendo a área de resultados para manter o modal compacto */}
       </DialogContent>
     </Dialog>
   );
