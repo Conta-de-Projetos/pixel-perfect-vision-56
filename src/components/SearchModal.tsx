@@ -97,7 +97,8 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               Nenhum resultado encontrado para "{query}"
             </div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 p-4">
+            {/* Adjusted grid to show larger cards: 2 columns on mobile, 3 on sm+ */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
               {results.map((manga, index) => (
                 <SearchResultItem key={`${manga.id}-${index}`} manga={manga} onClose={onClose} />
               ))}
@@ -164,7 +165,7 @@ const SearchResultItem = ({ manga, onClose }: SearchResultItemProps) => {
       
       {/* Info at bottom - Adjusted font size for title */}
       <div className="absolute inset-x-0 bottom-0 p-3">
-        <h4 className="font-impact uppercase tracking-wide text-white text-lg sm:text-xl line-clamp-2 leading-tight">
+        <h4 className="font-impact uppercase tracking-wide text-white text-xl sm:text-2xl line-clamp-2 leading-tight">
           {manga.title}
         </h4>
         {manga.lastUpdated && (
