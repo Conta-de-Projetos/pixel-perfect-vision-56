@@ -36,7 +36,7 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent 
         className={cn(
-          "sm:max-w-[600px] w-[95%] p-0 bg-background/90 backdrop-blur-xl border-2 border-border/50 shadow-2xl shadow-primary/20", // Increased definition and shadow
+          "sm:max-w-[600px] w-[95%] p-0 bg-background/95 backdrop-blur-xl border-2 border-border/50 shadow-2xl shadow-primary/20",
           "data-[state=open]:animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10",
           "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[data-state=closed]:slide-out-to-bottom-10"
         )}
@@ -49,46 +49,39 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
 
         {/* Search Input Bar - Foco principal do modal */}
         <div className="p-6 pt-4">
-          {/* Input Container with defined border and background */}
-          <div className="p-4 bg-card/70 border border-border/80 rounded-xl shadow-lg">
-            <div className="flex gap-4 items-center">
-              <div className="flex-grow relative">
-                <Input
-                  type="text"
-                  placeholder="Título do mangá..."
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSearchSubmit();
-                    }
-                  }}
-                  // Input field is now cleaner, using a darker background for contrast
-                  className={cn(
-                    "h-14 w-full pl-12 pr-12 text-base font-medium bg-background/70 rounded-xl",
-                    "focus-visible:ring-primary focus-visible:border-primary focus-visible:ring-2 transition-all duration-300 shadow-none border-none"
-                  )}
-                />
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-                {searchTerm && (
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 text-muted-foreground hover:text-primary"
-                    onClick={handleClear}
-                  >
-                    <X className="w-5 h-5" />
-                  </Button>
+          {/* Combined Input and Button Container matching the image design */}
+          <div className="flex items-center bg-card border border-border/80 rounded-xl shadow-lg overflow-hidden">
+            
+            {/* Input Area */}
+            <div className="flex-grow relative">
+              <Input
+                type="text"
+                placeholder="Título do mangá..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearchSubmit();
+                  }
+                }}
+                // Input styling: transparent background, no border/ring, large padding for icon
+                className={cn(
+                  "h-14 w-full pl-12 pr-4 text-base font-medium bg-transparent border-none shadow-none",
+                  "focus-visible:ring-0 focus-visible:border-none focus-visible:outline-none"
                 )}
-              </div>
-              <Button 
-                size="lg" 
-                className="h-14 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-display uppercase tracking-wider text-base rounded-xl transition-all duration-300 flex-shrink-0 hover:shadow-lg hover:shadow-primary/30 active:scale-95"
-                onClick={handleSearchSubmit}
-              >
-                Buscar
-              </Button>
+              />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+              {/* Removed Clear Button logic for simplicity and to match image */}
             </div>
+            
+            {/* Button Area - Dark Red background (blood-dark) */}
+            <Button 
+              size="lg" 
+              className="h-14 px-8 bg-blood-dark hover:bg-primary text-primary-foreground font-display uppercase tracking-wider text-base rounded-none transition-all duration-300 flex-shrink-0 active:scale-[0.98] hover:shadow-lg hover:shadow-primary/30"
+              onClick={handleSearchSubmit}
+            >
+              BUSCAR
+            </Button>
           </div>
         </div>
       </DialogContent>
