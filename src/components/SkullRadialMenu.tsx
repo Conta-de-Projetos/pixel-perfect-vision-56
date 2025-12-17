@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { BookOpen, Clock, Download, User, Crown, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import caveira from "@/assets/caveira.png";
@@ -71,7 +71,7 @@ const SkullRadialMenu = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [readingMode, setReadingMode] = useState(false);
 
-  const handleReadingModeToggle = () => {
+  const handleReadingModeToggle = useCallback(() => {
     setReadingMode(prev => {
       const newState = !prev;
       if (newState) {
@@ -81,7 +81,27 @@ const SkullRadialMenu = () => {
       }
       return newState;
     });
-  };
+  }, []);
+
+  const handleToggle = useCallback(() => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setIsOpen(!isOpen);
+    setTimeout(() => setIsAnimating(false), 500);
+  }, [isOpen, isAnimating]);
+
+  const handleClose = useCallback(() => {
+    if (isOpen && !isAnimating) {
+      setIsAnimating(true);
+      setIsOpen(false);
+      setTimeout(() => setIsAnimating(false), 500);
+    }
+  }, [isOpen, isAnimating]);
+
+  const handleItemClick = useCallback((action: () => void) => {
+    action();
+    handleClose();
+  }, [handleClose]);
 
   const menuItems = [
     { icon: <BookOpen size={18} strokeWidth={1.5} className="md:hidden" />, label: readingMode ? "Desativar Leitura" : "Modo Leitura", angle: -90, action: handleReadingModeToggle, isActive: readingMode, iconMd: <BookOpen size={20} strokeWidth={1.5} className="hidden md:block" /> },
@@ -90,33 +110,13 @@ const SkullRadialMenu = () => {
     { icon: <User size={18} strokeWidth={1.5} className="md:hidden" />, label: "Perfil", angle: 180, action: () => toast.info("Abrindo Perfil..."), iconMd: <User size={20} strokeWidth={1.5} className="hidden md:block" /> },
   ];
 
-  const handleToggle = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setIsOpen(!isOpen);
-    setTimeout(() => setIsAnimating(false), 500);
-  };
-
-  const handleClose = () => {
-    if (isOpen && !isAnimating) {
-      setIsAnimating(true);
-      setIsOpen(false);
-      setTimeout(() => setIsAnimating(false), 500);
-    }
-  };
-
-  const handleItemClick = (action: () => void) => {
-    action();
-    handleClose();
-  };
-
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') handleClose();
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [isOpen]);
+  }, [handleClose]);
 
   return (
     <>

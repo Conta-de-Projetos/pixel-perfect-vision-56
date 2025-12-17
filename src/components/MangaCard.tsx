@@ -1,5 +1,5 @@
 import { Heart, Star, Crown, Lock } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { useImageColor } from "@/hooks/useImageColor";
 import { Link } from "react-router-dom"; // Importar Link
@@ -37,14 +37,19 @@ const MangaCard = ({
   // Extract dominant color only for non-premium cards
   const dominantColor = useImageColor(imageUrl, !isPremium && !imageError);
 
-  const formatRating = (r: number) => r.toFixed(1);
+  const formatRating = useCallback((r: number) => r.toFixed(1), []);
 
-  const handleCardClick = (e: React.MouseEvent) => {
+  const handleCardClick = useCallback((e: React.MouseEvent) => {
     if (isPremium) {
       e.preventDefault(); // Previne a navegação se for premium
-      setShowPremiumOverlay(!showPremiumOverlay);
+      setShowPremiumOverlay(prev => !prev);
     }
-  };
+  }, [isPremium]);
+
+  const handleFavoriteToggle = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFavorite(prev => !prev);
+  }, []);
 
   // Dynamic border style for non-premium cards
   const hasDynamicBorder = !isPremium && dominantColor;
@@ -116,10 +121,7 @@ const MangaCard = ({
 
       {/* Favorite button - only on hover/desktop */}
       <button 
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsFavorite(!isFavorite);
-        }}
+        onClick={handleFavoriteToggle}
         className="absolute bottom-2 right-2 p-1.5 sm:p-2 bg-card/80 backdrop-blur-sm border border-border/50 hover:bg-primary hover:border-primary transition-all duration-300 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 shadow-lg rounded-lg hidden sm:block"
       >
         <Heart 
