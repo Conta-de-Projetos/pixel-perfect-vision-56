@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, User, MessageSquare, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface Comment {
   id: number;
@@ -13,6 +14,7 @@ interface Comment {
   content: string;
   likes: number;
   dislikes: number;
+  replies?: Comment[];
 }
 
 const dummyComments: Comment[] = [
@@ -24,6 +26,17 @@ const dummyComments: Comment[] = [
     content: "Capítulo incrível! A luta final foi épica, mal posso esperar pela próxima semana. O autor realmente superou as expectativas.",
     likes: 45,
     dislikes: 2,
+    replies: [
+      {
+        id: 4,
+        user: "MangaReader_X",
+        avatarUrl: "https://i.pravatar.cc/150?img=4",
+        timestamp: "Há 1 hora",
+        content: "Concordo plenamente! A coreografia da luta foi de tirar o fôlego. Melhor capítulo do arco!",
+        likes: 15,
+        dislikes: 0,
+      }
+    ]
   },
   {
     id: 2,
@@ -45,7 +58,12 @@ const dummyComments: Comment[] = [
   },
 ];
 
-const CommentItem = ({ comment }: { comment: Comment }) => {
+interface CommentItemProps {
+  comment: Comment;
+  isReply?: boolean;
+}
+
+const CommentItem = ({ comment, isReply = false }: CommentItemProps) => {
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
@@ -80,54 +98,89 @@ const CommentItem = ({ comment }: { comment: Comment }) => {
   };
 
   return (
-    <div className="flex gap-4 p-4 bg-card/50 border-b border-border/50 last:border-b-0">
-      {/* Avatar */}
-      <div className="flex-shrink-0">
-        <img 
-          src={comment.avatarUrl} 
-          alt={comment.user} 
-          className="w-10 h-10 rounded-full object-cover border-2 border-primary/50"
-        />
-      </div>
-      
-      {/* Content */}
-      <div className="flex-grow">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="font-semibold text-foreground font-display uppercase tracking-wide text-sm">{comment.user}</span>
-          <span className="text-xs text-muted-foreground">• {comment.timestamp}</span>
+    <div className={cn(
+      "flex flex-col gap-4 p-4 border-b border-border/30 last:border-b-0",
+      isReply ? "bg-secondary/50 border-l-4 border-primary/30 ml-4 sm:ml-8" : "bg-card/50"
+    )}>
+      <div className="flex gap-3">
+        {/* Avatar */}
+        <div className="flex-shrink-0">
+          <img 
+            src={comment.avatarUrl} 
+            alt={comment.user} 
+            className="w-10 h-10 rounded-full object-cover border-2 border-primary/50 shadow-md"
+          />
         </div>
-        <p className="text-sm text-foreground/90 mb-3 leading-relaxed">{comment.content}</p>
         
-        {/* Actions */}
-        <div className="flex items-center gap-4 text-xs text-muted-foreground">
-          <button 
-            onClick={handleLike}
-            className={cn(
-              "flex items-center gap-1 transition-colors",
-              userLiked ? "text-primary font-bold" : "hover:text-primary"
-            )}
-          >
-            <ThumbsUp className={cn("w-4 h-4", userLiked && "fill-primary")} />
-            {likes}
-          </button>
-          <button 
-            onClick={handleDislike}
-            className={cn(
-              "flex items-center gap-1 transition-colors",
-              userDisliked ? "text-primary font-bold" : "hover:text-primary"
-            )}
-          >
-            <ThumbsDown className={cn("w-4 h-4", userDisliked && "fill-primary")} />
-            {dislikes}
-          </button>
-          <button className="flex items-center gap-1 hover:text-foreground transition-colors">
-            Responder
-          </button>
+        {/* Content */}
+        <div className="flex-grow">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="font-semibold text-foreground font-display uppercase tracking-wide text-sm">{comment.user}</span>
+            <span className="text-xs text-muted-foreground">• {comment.timestamp}</span>
+          </div>
+          <p className="text-sm text-foreground/90 mb-3 leading-relaxed">{comment.content}</p>
+          
+          {/* Actions */}
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <button 
+              onClick={handleLike}
+              className={cn(
+                "flex items-center gap-1 transition-colors",
+                userLiked ? "text-primary font-bold" : "hover:text-primary"
+              )}
+            >
+              <ThumbsUp className={cn("w-4 h-4", userLiked && "fill-primary")} />
+              {likes}
+            </button>
+            <button 
+              onClick={handleDislike}
+              className={cn(
+                "flex items-center gap-1 transition-colors",
+                userDisliked ? "text-primary font-bold" : "hover:text-primary"
+              )}
+            >
+              <ThumbsDown className={cn("w-4 h-4", userDisliked && "fill-primary")} />
+              {dislikes}
+            </button>
+            <button className="flex items-center gap-1 hover:text-foreground transition-colors font-medium">
+              <Reply className="w-4 h-4" />
+              Responder
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Nested Replies */}
+      {comment.replies && comment.replies.length > 0 && (
+        <div className="mt-2 space-y-2">
+          {comment.replies.map(reply => (
+            <CommentItem key={reply.id} comment={reply} isReply={true} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
+
+const RichTextToolbar = () => (
+  <div className="flex items-center gap-1 p-2 border-b border-border/50 bg-card rounded-t-lg">
+    <ToggleGroup type="multiple" size="sm" className="gap-0.5">
+      <ToggleGroupItem value="bold" aria-label="Toggle bold" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="quote" aria-label="Toggle quote" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <Quote className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+    <Button variant="ghost" size="icon" className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-secondary/50">
+      <Link className="h-4 w-4" />
+    </Button>
+  </div>
+);
+
 
 const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
   const [commentText, setCommentText] = useState('');
@@ -152,12 +205,13 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
           Comentários ({dummyComments.length})
         </h2>
 
-        {/* Comment Submission Form */}
-        <div className="mb-10 p-6 brutal-card bg-card/80">
-          <h3 className="text-lg font-display uppercase tracking-wide mb-4 text-foreground">
-            Deixe seu comentário sobre {mangaTitle}
-          </h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Comment Submission Form with RTE Toolbar */}
+        <div className="mb-10 border border-border/50 rounded-xl shadow-lg bg-card/80 overflow-hidden">
+          <RichTextToolbar />
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4">
+            <h3 className="text-lg font-display uppercase tracking-wide text-foreground">
+              Deixe seu comentário sobre {mangaTitle}
+            </h3>
             <Textarea
               placeholder="Escreva sua opinião, teoria ou crítica..."
               value={commentText}
@@ -177,8 +231,8 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
           </form>
         </div>
 
-        {/* Comment List */}
-        <div className="border border-border/50 rounded-lg shadow-inner bg-background/20 brutal-card overflow-hidden">
+        {/* Comment List - Cleaned up styling */}
+        <div className="border border-border/50 rounded-xl shadow-xl bg-card/80 overflow-hidden">
           {dummyComments.map((comment) => (
             <CommentItem key={comment.id} comment={comment} />
           ))}
