@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp, List, ListOrdered, Code, Heading, AtSign, Hash, CornerUpLeft, Paperclip, EyeOff } from 'lucide-react';
+import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp, List, ListOrdered, Code, Heading, AtSign, Hash, CornerUpLeft, Paperclip, EyeOff, Crown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -35,7 +35,7 @@ const dummyReplies: Comment[] = [
     user: "AnimeLover_22",
     avatarUrl: "https://i.pravatar.cc/150?img=5",
     timestamp: "Há 45 minutos",
-    content: "Será que o autor vai introduzir um novo vilão no próximo capítulo? Estou ansioso!",
+    content: "Será que o autor vai introduzir um novo vilão no próximo capítulo? [SPOILER] Ele vai se sacrificar para salvar o mundo. [/SPOILER] Estou ansioso!",
     likes: 8,
     dislikes: 1,
   },
@@ -67,7 +67,7 @@ const dummyComments: Comment[] = [
     user: "MangaGeek_99",
     avatarUrl: "https://i.pravatar.cc/150?img=2",
     timestamp: "Há 1 dia",
-    content: "Achei que a progressão do personagem principal está um pouco lenta. Espero que ele ganhe um power-up logo.",
+    content: "Achei que a progressão do personagem principal está um pouco lenta. Espero que ele ganhe um power-up logo. [SPOILER] O vilão principal é na verdade o irmão dele! [/SPOILER]",
     likes: 12,
     dislikes: 5,
   },
@@ -83,6 +83,9 @@ const dummyComments: Comment[] = [
   },
 ];
 
+// Regex para encontrar e envolver spoilers
+const SPOILER_REGEX = /\[SPOILER\](.*?)\[\/SPOILER\]/gs;
+
 interface CommentItemProps {
   comment: Comment;
   isReply?: boolean;
@@ -96,7 +99,29 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
   const [dislikes, setDislikes] = useState(comment.dislikes);
-  const [showSpoiler, setShowSpoiler] = useState(false); // Estado para spoiler
+
+  // Estado para controlar a revelação de spoilers neste comentário
+  const [revealedSpoilers, setRevealedSpoilers] = useState<boolean[]>([]);
+
+  // Processa o conteúdo para identificar spoilers
+  const processedContent = comment.content.replace(SPOILER_REGEX, (match, content) => {
+    // Usamos um placeholder temporário para renderização
+    return `<span class="spoiler-placeholder" data-content="${content.trim()}"></span>`;
+  });
+
+  // Efeito para inicializar o estado de revelação de spoilers
+  React.useEffect(() => {
+    const spoilerCount = (comment.content.match(SPOILER_REGEX) || []).length;
+    setRevealedSpoilers(new Array(spoilerCount).fill(false));
+  }, [comment.content]);
+
+  const handleRevealSpoiler = (index: number) => {
+    setRevealedSpoilers(prev => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
+  };
 
   const handleLike = () => {
     if (userLiked) {
@@ -151,10 +176,57 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
     }
   };
 
-  // Simulação de conteúdo com spoiler (para demonstração)
-  const contentWithSpoiler = comment.content.includes("power-up") 
-    ? comment.content.replace("power-up", "<span class='spoiler-content'>power-up</span>")
-    : comment.content;
+  // Renderiza o conteúdo, substituindo placeholders de spoiler por componentes interativos
+  const renderContent = () => {
+    const parts = processedContent.split('<span class="spoiler-placeholder"');
+    const elements: React.ReactNode[] = [];
+    let spoilerIndex = 0;
+
+    parts.forEach((part, index) => {
+      // Adiciona o texto normal
+      if (part) {
+        elements.push(<span key={`text-${index}`}>{part}</span>);
+      }
+
+      // Se houver um placeholder de spoiler, renderiza o componente de spoiler
+      if (index < parts.length - 1) {
+        const match = part.match(/data-content="(.*?)"/);
+        const spoilerContent = match ? match[1] : 'Conteúdo Oculto';
+        const isRevealed = revealedSpoilers[spoilerIndex];
+
+        elements.push(
+          <span 
+            key={`spoiler-${spoilerIndex}`} 
+            className="relative inline-block mx-1"
+          >
+            <span
+              className={cn(
+                "transition-all duration-300 inline-block px-2 py-0.5 rounded-md",
+                isRevealed 
+                  ? "bg-transparent text-foreground blur-none" 
+                  : "bg-foreground/10 text-transparent blur-sm cursor-pointer hover:bg-foreground/20"
+              )}
+              onClick={() => !isRevealed && handleRevealSpoiler(spoilerIndex)}
+            >
+              {spoilerContent}
+            </span>
+            {!isRevealed && (
+              <button 
+                className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md text-primary font-bold text-xs px-2 py-1"
+                onClick={() => handleRevealSpoiler(spoilerIndex)}
+              >
+                <EyeOff className="w-3 h-3 mr-1" /> Spoiler
+              </button>
+            )}
+          </span>
+        );
+        spoilerIndex++;
+      }
+    });
+
+    return elements;
+  };
+
 
   return (
     <div className={cn(
@@ -165,11 +237,15 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
     )}>
       <div className="flex gap-3 relative">
         {/* Avatar */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 relative">
           <img 
             src={comment.avatarUrl} 
             alt={comment.user} 
-            className="w-10 h-10 rounded-full object-cover shadow-md"
+            className={cn(
+              "w-10 h-10 rounded-full object-cover shadow-md",
+              // Borda Premium
+              comment.role === 'premium' && "ring-2 ring-amber-500 ring-offset-2 ring-offset-background"
+            )}
           />
         </div>
         
@@ -177,36 +253,18 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
         <div className="flex-grow">
           <div className="flex items-center gap-2 mb-1">
             <span className="font-semibold text-foreground font-display uppercase tracking-wide text-sm">{comment.user}</span>
+            {/* Coroa Premium */}
+            {comment.role === 'premium' && (
+              <Crown className="w-4 h-4 text-amber-500 fill-amber-500/30" />
+            )}
             {getRoleBadge(comment.role)}
             <span className="text-xs text-muted-foreground">• {comment.timestamp}</span>
           </div>
           
-          {/* Comment Text - Applying spoiler logic */}
-          <div className="text-sm text-foreground/90 mb-3 leading-relaxed">
-            {/* Renderiza o conteúdo. Se houver spoiler, envolve em um container */}
-            {contentWithSpoiler.includes('spoiler-content') ? (
-              <div className="relative inline-block">
-                <div 
-                  className={cn(
-                    "transition-all duration-300",
-                    !showSpoiler ? "blur-sm cursor-pointer" : "blur-none"
-                  )}
-                  dangerouslySetInnerHTML={{ __html: contentWithSpoiler }}
-                  onClick={() => !showSpoiler && setShowSpoiler(true)}
-                />
-                {!showSpoiler && (
-                  <button 
-                    className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md text-primary font-bold text-xs px-2 py-1"
-                    onClick={() => setShowSpoiler(true)}
-                  >
-                    <EyeOff className="w-4 h-4 mr-1" /> Mostrar Spoiler
-                  </button>
-                )}
-              </div>
-            ) : (
-              <p>{comment.content}</p>
-            )}
-          </div>
+          {/* Comment Text with Spoiler Logic */}
+          <p className="text-sm text-foreground/90 mb-3 leading-relaxed">
+            {renderContent()}
+          </p>
           
           {/* Actions */}
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
@@ -242,7 +300,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
       {comment.replies && comment.replies.length > 0 && (
         <div className={cn(
           "relative mt-2",
-          // Mantém o recuo para indicar que são respostas
+          // Aplica recuo para aninhamento
           !isReply && "ml-4 sm:ml-8" 
         )}>
           
@@ -311,7 +369,7 @@ const RichTextToolbar = () => (
       <ToggleGroupItem value="quote" aria-label="Toggle quote" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
         <Quote className="h-4 w-4" />
       </ToggleGroupItem>
-      {/* Novo botão de Spoiler */}
+      {/* Botão de Spoiler */}
       <ToggleGroupItem value="spoiler" aria-label="Toggle spoiler" className="h-8 w-8 p-0 text-primary hover:bg-primary/20 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
         <EyeOff className="h-4 w-4" />
       </ToggleGroupItem>
@@ -378,8 +436,8 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
               placeholder="Escreva sua opinião, teoria ou crítica..."
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
-              // Removendo a borda e ajustando o fundo
-              className="min-h-[100px] bg-background/50 border-none focus-visible:ring-primary focus-visible:border-none"
+              // Estilo minimalista e foco vermelho
+              className="min-h-[100px] bg-background/50 border border-border/50 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/50 transition-all duration-300"
             />
             <div className="flex justify-end">
               <Button 
