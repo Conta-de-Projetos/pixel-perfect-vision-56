@@ -68,15 +68,6 @@ const PopularPage = () => {
           </p>
         </div>
 
-        {/* Pagination Controls (Top) */}
-        <PaginationControls
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPrevious={handlePrevious}
-          onNext={handleNext}
-          className="mb-8"
-        />
-
         {/* Manga Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {paginatedMangas.map((manga, index) => (
