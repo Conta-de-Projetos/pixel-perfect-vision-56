@@ -262,15 +262,19 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
         </div>
         
         {/* Content */}
-        <div className="flex-grow">
+        <div className="flex-grow min-w-0"> {/* Adicionado min-w-0 para permitir que o flex-grow funcione corretamente */}
           <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold text-foreground font-display uppercase tracking-wide text-sm">{comment.user}</span>
+            <span className="font-semibold text-foreground font-display uppercase tracking-wide text-sm truncate min-w-0"> {/* Adicionado truncate e min-w-0 */}
+              {comment.user}
+            </span>
             {/* Coroa Premium */}
             {comment.role === 'premium' && (
-              <Crown className="w-4 h-4 text-amber-500 fill-amber-500/30" />
+              <Crown className="w-4 h-4 text-amber-500 fill-amber-500/30 flex-shrink-0" /> {/* Adicionado flex-shrink-0 */}
             )}
-            {getRoleBadge(comment.role)}
-            <span className="text-xs text-muted-foreground whitespace-nowrap">• {comment.timestamp}</span>
+            <div className="flex items-center gap-2 flex-shrink-0"> {/* Novo contêiner para badges e timestamp */}
+              {getRoleBadge(comment.role)}
+              <span className="text-xs text-muted-foreground whitespace-nowrap">• {comment.timestamp}</span>
+            </div>
           </div>
           
           {/* Comment Text with Spoiler Logic */}
