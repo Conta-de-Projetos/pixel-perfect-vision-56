@@ -64,8 +64,8 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         onClick={onClose}
       />
 
-      {/* Modal - Increased max-width to max-w-xl */}
-      <div className="relative w-full max-w-xl bg-card border border-border/50 rounded-xl shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
+      {/* Modal - Increased max-width to max-w-2xl */}
+      <div className="relative w-full max-w-2xl bg-card border border-border/50 rounded-xl shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
         
         {/* Search Input Bar - Clean, high-contrast area */}
         <div className="flex items-center px-4 py-3 border-b border-border/50">
@@ -97,7 +97,8 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               Nenhum resultado encontrado para "{query}"
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
+            {/* Reduced grid to 2 columns for larger cards */}
+            <div className="grid grid-cols-2 gap-4 p-4">
               {results.map((manga, index) => (
                 <SearchResultItem key={`${manga.id}-${index}`} manga={manga} onClose={onClose} />
               ))}
