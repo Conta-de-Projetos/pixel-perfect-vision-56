@@ -47,9 +47,6 @@ const SearchDialog = ({ isOpen, onClose }: SearchDialogProps) => {
           <DialogTitle className="text-3xl font-impact tracking-wider text-primary gradient-text-blood">
             Pesquisar Mangás
           </DialogTitle>
-          <p className="text-muted-foreground text-sm">
-            Digite o título do mangá que está procurando
-          </p>
         </DialogHeader>
 
         {/* Search Input Bar - Envolvido em um container transparente com borda */}
