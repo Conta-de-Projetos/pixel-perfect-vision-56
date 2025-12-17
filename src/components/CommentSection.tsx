@@ -85,10 +85,9 @@ interface CommentItemProps {
   hasMoreReplies?: boolean;
   onToggleReplies?: () => void;
   showReplies?: boolean;
-  isLastReply?: boolean; // Novo prop para ajudar na linha de hierarquia
 }
 
-const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggleReplies, showReplies, isLastReply = false }: CommentItemProps) => {
+const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggleReplies, showReplies }: CommentItemProps) => {
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
@@ -122,12 +121,25 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
     }
   };
 
+  // Determina se o comentário atual é uma resposta e se deve ter a linha de hierarquia
+  const shouldShowHierarchy = isReply;
+
   return (
     <div className={cn(
       "flex flex-col gap-4 p-4 transition-colors duration-300",
       isReply ? "bg-secondary/30" : "bg-card/50 border-b border-border/30 last:border-b-0"
     )}>
       <div className="flex gap-3 relative">
+        {/* Linha de Hierarquia para Respostas */}
+        {shouldShowHierarchy && (
+          <div className="absolute -left-4 sm:-left-8 top-0 bottom-0 w-4 sm:w-8">
+            <div className="absolute top-0 left-0 w-px h-full bg-border/50" />
+            <div className="absolute top-5 left-0 w-4 h-px bg-border/50" />
+            {/* Corner curve effect */}
+            <div className="absolute top-5 left-0 w-4 h-4 border-l border-b border-border/50 rounded-bl-lg" />
+          </div>
+        )}
+
         {/* Avatar */}
         <div className="flex-shrink-0">
           <img 
@@ -181,60 +193,39 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
           "relative mt-2",
           !isReply && "ml-4 sm:ml-8" // Indent replies only for top-level comments
         )}>
-          {/* Vertical Hierarchy Line - Complex Connector */}
-          <div className="absolute top-0 left-0 w-px h-full bg-border/50" />
           
-          {/* Replies List */}
-          <div className="pl-4 space-y-2">
-            {(showReplies ? comment.replies : comment.replies.slice(0, 1)).map((reply, index, arr) => {
-              const isCurrentLastReply = index === arr.length - 1;
-              
-              return (
-                <div key={reply.id} className="relative">
-                  {/* Custom Connector Line */}
-                  <div className="absolute top-0 left-0 w-4 h-14">
-                    <div className="absolute top-0 left-0 w-px h-full bg-border/50" />
-                    <div className="absolute top-5 left-0 w-4 h-px bg-border/50" />
-                    <div className="absolute top-5 left-4 w-px h-5 bg-border/50" />
-                    {/* Corner curve effect */}
-                    <div className="absolute top-5 left-0 w-4 h-4 border-l border-b border-border/50 rounded-bl-lg" />
-                    {/* Hide vertical line segment if it's the last visible reply and replies are not expanded */}
-                    {isCurrentLastReply && !showReplies && (
-                      <div className="absolute top-5 left-0 w-px h-full bg-secondary/30" />
-                    )}
-                  </div>
-                  
-                  <div className="pl-4">
-                    <CommentItem 
-                      comment={reply} 
-                      isReply={true} 
-                      isLastReply={isCurrentLastReply}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+          {/* Replies List - Render only if expanded */}
+          {showReplies && (
+            <div className="pl-4 space-y-2">
+              {comment.replies.map(reply => (
+                <CommentItem key={reply.id} comment={reply} isReply={true} />
+              ))}
+            </div>
+          )}
 
-            {/* "Ver mais" button */}
-            {hasMoreReplies && onToggleReplies && (
-              <button
-                onClick={onToggleReplies}
-                className="flex items-center gap-1 text-primary hover:text-primary/80 text-sm font-medium transition-colors ml-4 pt-2"
-              >
-                {showReplies ? (
-                  <>
-                    <ChevronUp className="w-4 h-4" />
-                    Ocultar respostas
-                  </>
-                ) : (
-                  <>
-                    <ChevronDown className="w-4 h-4" />
-                    Ver mais {comment.replies.length - 1} respostas
-                  </>
-                )}
-              </button>
-            )}
-          </div>
+          {/* "Ver mais" button - Always visible if replies exist */}
+          {onToggleReplies && (
+            <button
+              onClick={onToggleReplies}
+              className={cn(
+                "flex items-center gap-1 text-primary hover:text-primary/80 text-sm font-medium transition-colors pt-2",
+                // Se for um comentário principal, o botão fica alinhado com a hierarquia
+                !isReply ? "ml-4" : "ml-0"
+              )}
+            >
+              {showReplies ? (
+                <>
+                  <ChevronUp className="w-4 h-4" />
+                  Ocultar {comment.replies.length} respostas
+                </>
+              ) : (
+                <>
+                  <ChevronDown className="w-4 h-4" />
+                  Ver {comment.replies.length} respostas
+                </>
+              )}
+            </button>
+          )}
         </div>
       )}
     </div>
@@ -353,7 +344,7 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
             <CommentItem 
               key={comment.id} 
               comment={comment} 
-              hasMoreReplies={comment.replies && comment.replies.length > 1}
+              hasMoreReplies={comment.replies && comment.replies.length > 0} // Verifica se há respostas
               onToggleReplies={() => toggleReplies(comment.id)}
               showReplies={expandedComments[comment.id]}
             />
