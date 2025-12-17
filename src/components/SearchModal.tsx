@@ -64,8 +64,8 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         onClick={onClose}
       />
 
-      {/* Modal - Adjusted styling for cleaner look */}
-      <div className="relative w-full max-w-lg bg-card border border-border/50 rounded-xl shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
+      {/* Modal - Increased max-width to max-w-xl */}
+      <div className="relative w-full max-w-xl bg-card border border-border/50 rounded-xl shadow-2xl shadow-black/50 animate-scale-in overflow-hidden">
         
         {/* Search Input Bar - Clean, high-contrast area */}
         <div className="flex items-center px-4 py-3 border-b border-border/50">
@@ -97,7 +97,8 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               Nenhum resultado encontrado para "{query}"
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
+            {/* Adjusted grid to show more/larger cards */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 p-4">
               {results.map((manga, index) => (
                 <SearchResultItem key={`${manga.id}-${index}`} manga={manga} onClose={onClose} />
               ))}
@@ -162,9 +163,9 @@ const SearchResultItem = ({ manga, onClose }: SearchResultItemProps) => {
       {/* Bottom gradient overlay */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
       
-      {/* Info at bottom - Adjusted to match image (larger title, no chapter) */}
+      {/* Info at bottom - Adjusted font size for title */}
       <div className="absolute inset-x-0 bottom-0 p-3">
-        <h4 className="font-impact uppercase tracking-wide text-white text-lg line-clamp-2 leading-tight">
+        <h4 className="font-impact uppercase tracking-wide text-white text-lg sm:text-xl line-clamp-2 leading-tight">
           {manga.title}
         </h4>
         {manga.lastUpdated && (
