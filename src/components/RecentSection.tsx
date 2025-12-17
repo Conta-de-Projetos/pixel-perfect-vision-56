@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import MangaCard from "./MangaCard";
 import ScrollRevealCard from "./ScrollRevealCard";
 import { Clock, Sparkles } from "lucide-react";
@@ -28,23 +28,26 @@ const RecentSection = () => {
   const isMobile = useIsMobile(); // Use the hook
   const dragScrollRef = useDragScroll<HTMLDivElement>(); // Use the drag scroll hook
 
-  const filteredMangas = activeCategory === "Todos" 
-    ? recentMangas 
-    : recentMangas.filter((manga) => 
-        manga.category === activeCategory || 
-        (activeCategory === "Ação" && manga.type === "manga") ||
-        (activeCategory === "Manhwa" && manga.type === "manhwa")
-      );
+  // Memoiza a lista filtrada
+  const filteredMangas = useMemo(() => {
+    return activeCategory === "Todos" 
+      ? recentMangas 
+      : recentMangas.filter((manga) => 
+          manga.category === activeCategory || 
+          (activeCategory === "Ação" && manga.tags?.includes("Ação")) || // Usando tags para filtragem mais robusta
+          (activeCategory === "Manhwa" && manga.type === "manhwa")
+        );
+  }, [activeCategory]);
 
-  const handlePress = () => {
+  const handlePress = useCallback(() => {
     setTriggerBulletAnimation(true);
     setTimeout(() => setTriggerBulletAnimation(false), 300);
-  };
+  }, []);
 
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryClick = useCallback((category: string) => {
     setActiveCategory(category);
     setSplashKey((prev) => prev + 1);
-  };
+  }, []);
 
   return (
     <section id="lancamentos" className="relative py-16 sm:py-24 px-4 grunge-texture overflow-hidden">

@@ -1,5 +1,5 @@
 import { Heart, Star, Crown, Lock } from "lucide-react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { useImageColor } from "@/hooks/useImageColor";
 import { Link } from "react-router-dom"; // Importar Link
@@ -27,7 +27,6 @@ const MangaCard = ({
   rating, 
   isNew,
   isPremium,
-  author,
   slug, // Receber slug
 }: MangaCardProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -37,6 +36,7 @@ const MangaCard = ({
   // Extract dominant color only for non-premium cards
   const dominantColor = useImageColor(imageUrl, !isPremium && !imageError);
 
+  // Memoriza a função de formatação
   const formatRating = useCallback((r: number) => r.toFixed(1), []);
 
   const handleCardClick = useCallback((e: React.MouseEvent) => {
@@ -53,9 +53,9 @@ const MangaCard = ({
 
   // Dynamic border style for non-premium cards
   const hasDynamicBorder = !isPremium && dominantColor;
-  const dynamicBorderStyle = hasDynamicBorder ? {
+  const dynamicBorderStyle = useMemo(() => hasDynamicBorder ? {
     boxShadow: `0 0 0 2px ${dominantColor}, 0 4px 20px -4px ${dominantColor}50`,
-  } : {};
+  } : {}, [hasDynamicBorder, dominantColor]);
 
   const cardContent = (
     <div 

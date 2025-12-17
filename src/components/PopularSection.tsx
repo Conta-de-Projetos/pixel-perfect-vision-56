@@ -3,15 +3,15 @@ import ScrollRevealCard from "./ScrollRevealCard";
 import { Flame, Sparkles } from "lucide-react";
 import { popularMangas } from "@/data/mangaData";
 import BulletIcon from "./BulletIcon";
-import { useState } from "react"; // Importar useState
+import { useState, useCallback } from "react"; // Importar useCallback
 
 const PopularSection = () => {
   const [triggerBulletAnimation, setTriggerBulletAnimation] = useState(false);
 
-  const handlePress = () => {
+  const handlePress = useCallback(() => {
     setTriggerBulletAnimation(true);
     setTimeout(() => setTriggerBulletAnimation(false), 300); // Reset animation state after 300ms
-  };
+  }, []);
 
   return (
     <section id="populares" className="relative py-24 px-4 grunge-texture overflow-hidden">

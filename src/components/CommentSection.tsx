@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp, List, ListOrdered, Code, Heading, AtSign, Hash, CornerUpLeft, Paperclip, EyeOff, Crown } from 'lucide-react';
@@ -95,7 +95,7 @@ interface CommentItemProps {
   showReplies?: boolean;
 }
 
-const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggleReplies, showReplies }: CommentItemProps) => {
+const CommentItem = React.memo(({ comment, isReply = false, hasMoreReplies = false, onToggleReplies, showReplies }: CommentItemProps) => {
   const [userLiked, setUserLiked] = useState(false);
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
@@ -105,10 +105,13 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
   const [revealedSpoilers, setRevealedSpoilers] = useState<boolean[]>([]);
 
   // Função para dividir o conteúdo em partes normais e partes de spoiler
-  const parseContent = (content: string) => {
+  const parseContent = useCallback((content: string) => {
     const parts: { type: 'text' | 'spoiler', content: string }[] = [];
     let lastIndex = 0;
     let match;
+
+    // Reset regex state before use
+    SPOILER_REGEX.lastIndex = 0; 
 
     while ((match = SPOILER_REGEX.exec(content)) !== null) {
       // Adiciona o texto normal antes do spoiler
@@ -126,25 +129,26 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
     }
 
     return parts;
-  };
+  }, []);
 
-  const contentParts = parseContent(comment.content);
+  // Memoiza o resultado da análise de conteúdo
+  const contentParts = useMemo(() => parseContent(comment.content), [comment.content, parseContent]);
 
   // Efeito para inicializar o estado de revelação de spoilers
   React.useEffect(() => {
     const spoilerCount = contentParts.filter(p => p.type === 'spoiler').length;
     setRevealedSpoilers(new Array(spoilerCount).fill(false));
-  }, [comment.content]); // Dependência ajustada para garantir que o efeito rode apenas quando o conteúdo muda
+  }, [contentParts]);
 
-  const handleRevealSpoiler = (index: number) => {
+  const handleRevealSpoiler = useCallback((index: number) => {
     setRevealedSpoilers(prev => {
       const newState = [...prev];
       newState[index] = true;
       return newState;
     });
-  };
+  }, []);
 
-  const handleLike = () => {
+  const handleLike = useCallback(() => {
     if (userLiked) {
       setLikes(prev => prev - 1);
       setUserLiked(false);
@@ -156,9 +160,9 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
         setUserDisliked(false);
       }
     }
-  };
+  }, [userLiked, userDisliked]);
 
-  const handleDislike = () => {
+  const handleDislike = useCallback(() => {
     if (userDisliked) {
       setDislikes(prev => prev - 1);
       setUserDisliked(false);
@@ -170,9 +174,9 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
         setUserLiked(false);
       }
     }
-  };
+  }, [userLiked, userDisliked]);
   
-  const getRoleBadge = (role: Comment['role']) => {
+  const getRoleBadge = useCallback((role: Comment['role']) => {
     switch (role) {
       case 'admin':
         return (
@@ -195,7 +199,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
       default:
         return null;
     }
-  };
+  }, []);
 
   // Renderiza o conteúdo, tratando spoilers como blocos
   const renderContent = () => {
@@ -356,9 +360,9 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
       )}
     </div>
   );
-};
+});
 
-const RichTextToolbar = () => (
+const RichTextToolbar = React.memo(() => (
   <div className="flex items-center gap-1 p-2 border-b border-border/50 bg-card rounded-t-xl overflow-x-auto scrollbar-hide">
     <ToggleGroup type="multiple" size="sm" className="gap-0.5 flex-shrink-0">
       <ToggleGroupItem value="heading" aria-label="Toggle heading" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
@@ -407,14 +411,14 @@ const RichTextToolbar = () => (
       </Button>
     </div>
   </div>
-);
+));
 
 
 const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
   const [commentText, setCommentText] = useState('');
   const [expandedComments, setExpandedComments] = useState<Record<number, boolean>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     if (commentText.trim().length < 5) {
       toast.error("O comentário deve ter pelo menos 5 caracteres.");
@@ -424,14 +428,18 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
     // Simulação de envio
     toast.success("Comentário enviado! Aguardando moderação.");
     setCommentText('');
-  };
+  }, [commentText]);
 
-  const toggleReplies = (commentId: number) => {
+  const toggleReplies = useCallback((commentId: number) => {
     setExpandedComments(prev => ({
       ...prev,
       [commentId]: !prev[commentId],
     }));
-  };
+  }, []);
+
+  const handleCommentTextChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentText(e.target.value);
+  }, []);
 
   return (
     <section id="comentarios" className="py-12 px-4">
@@ -451,7 +459,7 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
             <Textarea
               placeholder="Escreva sua opinião, teoria ou crítica..."
               value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
+              onChange={handleCommentTextChange}
               // Estilo minimalista e foco vermelho
               className="min-h-[100px] bg-background/50 border border-border/50 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/50 transition-all duration-300"
             />
