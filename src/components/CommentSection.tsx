@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp, List, ListOrdered, Code, Heading, AtSign, Hash, CornerUpLeft, Paperclip } from 'lucide-react';
+import { Send, User, MessageSquare, ThumbsUp, ThumbsDown, Bold, Italic, Link, Quote, Reply, ChevronDown, ChevronUp, List, ListOrdered, Code, Heading, AtSign, Hash, CornerUpLeft, Paperclip, EyeOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Badge } from "@/components/ui/badge"; // Importar Badge
 
 interface Comment {
   id: number;
@@ -15,6 +16,7 @@ interface Comment {
   likes: number;
   dislikes: number;
   replies?: Comment[];
+  role?: 'admin' | 'premium' | 'moderator'; // Novo campo para função
 }
 
 // Adicionando mais respostas para testar a funcionalidade 'Ver mais'
@@ -58,6 +60,7 @@ const dummyComments: Comment[] = [
     likes: 45,
     dislikes: 2,
     replies: dummyReplies,
+    role: 'admin',
   },
   {
     id: 2,
@@ -76,6 +79,7 @@ const dummyComments: Comment[] = [
     content: "Leitura offline é uma benção. Vale cada centavo do Premium!",
     likes: 88,
     dislikes: 1,
+    role: 'premium',
   },
 ];
 
@@ -92,6 +96,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
   const [userDisliked, setUserDisliked] = useState(false);
   const [likes, setLikes] = useState(comment.likes);
   const [dislikes, setDislikes] = useState(comment.dislikes);
+  const [showSpoiler, setShowSpoiler] = useState(false); // Estado para spoiler
 
   const handleLike = () => {
     if (userLiked) {
@@ -120,6 +125,36 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
       }
     }
   };
+  
+  const getRoleBadge = (role: Comment['role']) => {
+    switch (role) {
+      case 'admin':
+        return (
+          <Badge className="bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wide text-[10px] px-2 py-0.5">
+            Admin
+          </Badge>
+        );
+      case 'premium':
+        return (
+          <Badge className="bg-amber-500 text-amber-900 hover:bg-amber-500/90 font-display uppercase tracking-wide text-[10px] px-2 py-0.5">
+            Premium
+          </Badge>
+        );
+      case 'moderator':
+        return (
+          <Badge className="bg-blue-600 text-blue-100 hover:bg-blue-600/90 font-display uppercase tracking-wide text-[10px] px-2 py-0.5">
+            Mod
+          </Badge>
+        );
+      default:
+        return null;
+    }
+  };
+
+  // Simulação de conteúdo com spoiler (para demonstração)
+  const contentWithSpoiler = comment.content.includes("power-up") 
+    ? comment.content.replace("power-up", "<span class='spoiler-content'>power-up</span>")
+    : comment.content;
 
   return (
     <div className={cn(
@@ -142,9 +177,36 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
         <div className="flex-grow">
           <div className="flex items-center gap-2 mb-1">
             <span className="font-semibold text-foreground font-display uppercase tracking-wide text-sm">{comment.user}</span>
+            {getRoleBadge(comment.role)}
             <span className="text-xs text-muted-foreground">• {comment.timestamp}</span>
           </div>
-          <p className="text-sm text-foreground/90 mb-3 leading-relaxed">{comment.content}</p>
+          
+          {/* Comment Text - Applying spoiler logic */}
+          <div className="text-sm text-foreground/90 mb-3 leading-relaxed">
+            {/* Renderiza o conteúdo. Se houver spoiler, envolve em um container */}
+            {contentWithSpoiler.includes('spoiler-content') ? (
+              <div className="relative inline-block">
+                <div 
+                  className={cn(
+                    "transition-all duration-300",
+                    !showSpoiler ? "blur-sm cursor-pointer" : "blur-none"
+                  )}
+                  dangerouslySetInnerHTML={{ __html: contentWithSpoiler }}
+                  onClick={() => !showSpoiler && setShowSpoiler(true)}
+                />
+                {!showSpoiler && (
+                  <button 
+                    className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md text-primary font-bold text-xs px-2 py-1"
+                    onClick={() => setShowSpoiler(true)}
+                  >
+                    <EyeOff className="w-4 h-4 mr-1" /> Mostrar Spoiler
+                  </button>
+                )}
+              </div>
+            ) : (
+              <p>{comment.content}</p>
+            )}
+          </div>
           
           {/* Actions */}
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
@@ -249,6 +311,10 @@ const RichTextToolbar = () => (
       <ToggleGroupItem value="quote" aria-label="Toggle quote" className="h-8 w-8 p-0 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
         <Quote className="h-4 w-4" />
       </ToggleGroupItem>
+      {/* Novo botão de Spoiler */}
+      <ToggleGroupItem value="spoiler" aria-label="Toggle spoiler" className="h-8 w-8 p-0 text-primary hover:bg-primary/20 data-[state=on]:bg-primary/20 data-[state=on]:text-primary hover:bg-secondary/50">
+        <EyeOff className="h-4 w-4" />
+      </ToggleGroupItem>
     </ToggleGroup>
     
     {/* Right side icons */}
@@ -329,7 +395,7 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
         </div>
 
         {/* Comment List - Cleaned up styling */}
-        <div className="border border-border/50 rounded-xl overflow-hidden"> {/* Removido shadow-xl e bg-card/80 */}
+        <div className="border border-border/50 rounded-xl overflow-hidden">
           {dummyComments.map((comment) => (
             <CommentItem 
               key={comment.id} 
