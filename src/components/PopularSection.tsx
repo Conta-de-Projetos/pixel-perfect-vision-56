@@ -4,6 +4,7 @@ import { Flame, Sparkles } from "lucide-react";
 import { popularMangas } from "@/data/mangaData";
 import BulletIcon from "./BulletIcon";
 import { useState, useCallback } from "react"; // Importar useCallback
+import { Link } from "react-router-dom"; // Importar Link
 
 const PopularSection = () => {
   const [triggerBulletAnimation, setTriggerBulletAnimation] = useState(false);
@@ -49,15 +50,15 @@ const PopularSection = () => {
 
         {/* Ver todos link - positioned above cards on the right */}
         <div className="flex justify-end mb-4">
-          <a 
-            href="#" 
+          <Link 
+            to="/populares" // Updated to use Link and point to the new page
             className="flex items-center gap-2 text-primary hover:text-primary/80 text-base sm:text-lg font-impact uppercase tracking-wide transition-all duration-300 group py-2 px-3 -mr-3 active:scale-95" // Added active:scale-95
             onMouseDown={handlePress}
             onTouchStart={(e) => { e.preventDefault(); handlePress(); }}
           >
             Ver todos
             <BulletIcon size="md" className={triggerBulletAnimation ? 'animate-bullet-fire' : ''} /> {/* Conditional animation */}
-          </a>
+          </Link>
         </div>
 
         {/* Manga Grid with stagger animation - responsive grid */}
