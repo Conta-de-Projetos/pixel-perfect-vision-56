@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Home, Library, Search, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import { toast } from "sonner"; // Importar toast
+import SearchDialog from "./SearchDialog"; // Importar o SearchDialog
 
 const navItems = [
   { icon: Home, label: "Início", href: "/", id: "inicio" },
@@ -14,6 +14,7 @@ const navItems = [
 const BottomNavbar = () => {
   const location = useLocation();
   const [splashKey, setSplashKey] = useState(0);
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // Estado para o diálogo de busca
 
   // Determina o item ativo baseado na rota atual
   const getActiveId = () => {
@@ -29,7 +30,7 @@ const BottomNavbar = () => {
 
   const handleClick = (item: typeof navItems[0]) => {
     if (item.isSearch) {
-      toast.info("Funcionalidade de busca em desenvolvimento...");
+      setIsSearchOpen(true);
       return;
     }
     
@@ -46,7 +47,7 @@ const BottomNavbar = () => {
           {navItems.map((item) => {
             const isActive = activeItem === item.id && !item.isSearch;
             
-            // Se for o item de busca, usamos um botão simples
+            // Se for o item de busca, usamos um botão para abrir o modal
             const Content = item.isSearch ? (
               <button
                 onClick={() => handleClick(item)}
@@ -55,13 +56,17 @@ const BottomNavbar = () => {
                 <item.icon 
                   className={cn(
                     "w-5 h-5 relative z-10 transition-all duration-300",
-                    "text-muted-foreground hover:text-foreground"
+                    isSearchOpen 
+                      ? "text-red-100 drop-shadow-[0_0_8px_rgba(139,0,0,0.8)]" 
+                      : "text-muted-foreground hover:text-foreground"
                   )} 
                 />
                 <span 
                   className={cn(
                     "text-[10px] font-medium relative z-10 transition-all duration-300",
-                    "text-muted-foreground"
+                    isSearchOpen 
+                      ? "text-red-100" 
+                      : "text-muted-foreground"
                   )}
                 >
                   {item.label}
@@ -185,6 +190,9 @@ const BottomNavbar = () => {
           })}
         </div>
       </nav>
+      
+      {/* Search Dialog Component */}
+      <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 };

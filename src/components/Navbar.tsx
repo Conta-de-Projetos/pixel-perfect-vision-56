@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Search, Home, BookOpen, Sparkles, Rocket, Star } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import SearchInput from "./SearchInput"; // Importar o novo componente de busca
+import SearchDialog from "./SearchDialog"; // Importar o novo componente
 
 const navItems = [
   { label: "Início", href: "/", icon: Home },
@@ -13,6 +13,7 @@ const navItems = [
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false); // Novo estado para o diálogo de busca
   const location = useLocation();
 
   const isActive = (href: string) => {
@@ -61,11 +62,16 @@ const Navbar = () => {
 
               </div>
 
-              {/* CTA Buttons and Search Input */}
+              {/* CTA Buttons */}
               <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
-                {/* Novo componente de busca integrado */}
-                <SearchInput />
-                
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="text-muted-foreground hover:text-primary rounded-lg"
+                  onClick={() => setIsSearchOpen(true)} // Abre o diálogo de busca
+                >
+                  <Search className="w-5 h-5" />
+                </Button>
                 <Button variant="ghost" size="sm" className="font-display uppercase tracking-wide text-muted-foreground hover:text-foreground whitespace-nowrap rounded-lg">
                   Entrar
                 </Button>
@@ -126,6 +132,9 @@ const Navbar = () => {
           </nav>
         </div>
       </header>
+      
+      {/* Search Dialog Component */}
+      <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 };
