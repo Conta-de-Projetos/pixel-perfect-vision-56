@@ -124,7 +124,9 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
   return (
     <div className={cn(
       "flex flex-col gap-4 p-4 transition-colors duration-300",
-      isReply ? "bg-secondary/30" : "bg-card/50 border-b border-border/30 last:border-b-0"
+      isReply 
+        ? "bg-secondary/30 rounded-lg" // Adicionado rounded-lg para respostas
+        : "bg-card/50 border-b border-border/30 last:border-b-0"
     )}>
       <div className="flex gap-3 relative">
         {/* Avatar */}
@@ -132,7 +134,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
           <img 
             src={comment.avatarUrl} 
             alt={comment.user} 
-            className="w-10 h-10 rounded-full object-cover shadow-md" // Removida a borda: border-2 border-primary/50
+            className="w-10 h-10 rounded-full object-cover shadow-md" // Adicionado shadow-md
           />
         </div>
         
