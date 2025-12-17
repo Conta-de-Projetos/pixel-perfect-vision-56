@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Home, Library, Search, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import SearchDialog from "./SearchDialog"; // Importar o SearchDialog
+import SearchModal from "./SearchModal"; // Importar o novo componente
 
 const navItems = [
   { icon: Home, label: "Início", href: "/", id: "inicio" },
@@ -192,7 +192,7 @@ const BottomNavbar = () => {
       </nav>
       
       {/* Search Dialog Component */}
-      <SearchDialog isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </>
   );
 };
