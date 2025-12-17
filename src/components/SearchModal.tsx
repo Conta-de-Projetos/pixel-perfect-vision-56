@@ -97,7 +97,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
               Nenhum resultado encontrado para "{query}"
             </div>
           ) : (
-            {/* Adjusted grid to show larger cards: 2 columns on mobile, 3 on sm+ */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-4">
               {results.map((manga, index) => (
                 <SearchResultItem key={`${manga.id}-${index}`} manga={manga} onClose={onClose} />
