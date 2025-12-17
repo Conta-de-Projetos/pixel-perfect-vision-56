@@ -125,8 +125,8 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
     <div className={cn(
       "flex flex-col gap-4 p-4 transition-colors duration-300",
       isReply 
-        ? "bg-secondary/30 rounded-lg" // Adicionado rounded-lg para respostas
-        : "bg-card/50 border-b border-border/30 last:border-b-0"
+        ? "bg-secondary/30 rounded-lg" // Fundo sutil para respostas
+        : "bg-transparent border-b border-border/30 last:border-b-0 hover:bg-secondary/10" // Fundo transparente para comentários principais
     )}>
       <div className="flex gap-3 relative">
         {/* Avatar */}
@@ -134,7 +134,7 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
           <img 
             src={comment.avatarUrl} 
             alt={comment.user} 
-            className="w-10 h-10 rounded-full object-cover shadow-md" // Adicionado shadow-md
+            className="w-10 h-10 rounded-full object-cover shadow-md"
           />
         </div>
         
@@ -329,7 +329,7 @@ const CommentSection = ({ mangaTitle }: { mangaTitle: string }) => {
         </div>
 
         {/* Comment List - Cleaned up styling */}
-        <div className="border border-border/50 rounded-xl shadow-xl bg-card/80 overflow-hidden">
+        <div className="border border-border/50 rounded-xl overflow-hidden"> {/* Removido shadow-xl e bg-card/80 */}
           {dummyComments.map((comment) => (
             <CommentItem 
               key={comment.id} 
