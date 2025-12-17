@@ -104,17 +104,37 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
   // Estado para controlar a revelação de spoilers neste comentário
   const [revealedSpoilers, setRevealedSpoilers] = useState<boolean[]>([]);
 
-  // Processa o conteúdo para identificar spoilers
-  const processedContent = comment.content.replace(SPOILER_REGEX, (match, content) => {
-    // Usamos um placeholder temporário para renderização
-    return `<span class="spoiler-placeholder" data-content="${content.trim()}"></span>`;
-  });
+  // Função para dividir o conteúdo em partes normais e partes de spoiler
+  const parseContent = (content: string) => {
+    const parts: { type: 'text' | 'spoiler', content: string }[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = SPOILER_REGEX.exec(content)) !== null) {
+      // Adiciona o texto normal antes do spoiler
+      if (match.index > lastIndex) {
+        parts.push({ type: 'text', content: content.substring(lastIndex, match.index) });
+      }
+      // Adiciona o conteúdo do spoiler
+      parts.push({ type: 'spoiler', content: match[1].trim() });
+      lastIndex = match.index + match[0].length;
+    }
+
+    // Adiciona o texto normal após o último spoiler
+    if (lastIndex < content.length) {
+      parts.push({ type: 'text', content: content.substring(lastIndex) });
+    }
+
+    return parts;
+  };
+
+  const contentParts = parseContent(comment.content);
 
   // Efeito para inicializar o estado de revelação de spoilers
   React.useEffect(() => {
-    const spoilerCount = (comment.content.match(SPOILER_REGEX) || []).length;
+    const spoilerCount = contentParts.filter(p => p.type === 'spoiler').length;
     setRevealedSpoilers(new Array(spoilerCount).fill(false));
-  }, [comment.content]);
+  }, [comment.content]); // Dependência ajustada para garantir que o efeito rode apenas quando o conteúdo muda
 
   const handleRevealSpoiler = (index: number) => {
     setRevealedSpoilers(prev => {
@@ -177,55 +197,46 @@ const CommentItem = ({ comment, isReply = false, hasMoreReplies = false, onToggl
     }
   };
 
-  // Renderiza o conteúdo, substituindo placeholders de spoiler por componentes interativos
+  // Renderiza o conteúdo, tratando spoilers como blocos
   const renderContent = () => {
-    const parts = processedContent.split('<span class="spoiler-placeholder"');
-    const elements: React.ReactNode[] = [];
     let spoilerIndex = 0;
 
-    parts.forEach((part, index) => {
-      // Adiciona o texto normal
-      if (part) {
-        elements.push(<span key={`text-${index}`}>{part}</span>);
+    return contentParts.map((part, index) => {
+      if (part.type === 'text') {
+        return <React.Fragment key={index}>{part.content}</React.Fragment>;
       }
 
-      // Se houver um placeholder de spoiler, renderiza o componente de spoiler
-      if (index < parts.length - 1) {
-        const match = part.match(/data-content="(.*?)"/);
-        const spoilerContent = match ? match[1] : 'Conteúdo Oculto';
-        const isRevealed = revealedSpoilers[spoilerIndex];
+      // É um spoiler
+      const currentSpoilerIndex = spoilerIndex++;
+      const isRevealed = revealedSpoilers[currentSpoilerIndex];
 
-        elements.push(
-          <span 
-            key={`spoiler-${spoilerIndex}`} 
-            className="relative inline-block mx-1"
-          >
-            <span
-              className={cn(
-                "transition-all duration-300 inline-block px-2 py-0.5 rounded-md",
-                isRevealed 
-                  ? "bg-transparent text-foreground blur-none" 
-                  : "bg-foreground/10 text-transparent blur-sm cursor-pointer hover:bg-foreground/20"
-              )}
-              onClick={() => !isRevealed && handleRevealSpoiler(spoilerIndex)}
-            >
-              {spoilerContent}
-            </span>
-            {!isRevealed && (
-              <button 
-                className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md text-primary font-bold text-xs px-2 py-1"
-                onClick={() => handleRevealSpoiler(spoilerIndex)}
-              >
-                <EyeOff className="w-3 h-3 mr-1" /> Spoiler
-              </button>
+      return (
+        <span 
+          key={`spoiler-${index}`} 
+          className="relative inline-block mx-1"
+        >
+          <span
+            className={cn(
+              "transition-all duration-300 inline-block px-2 py-0.5 rounded-md",
+              isRevealed 
+                ? "bg-transparent text-foreground blur-none" 
+                : "bg-foreground/10 text-transparent blur-sm cursor-pointer hover:bg-foreground/20"
             )}
+            onClick={() => !isRevealed && handleRevealSpoiler(currentSpoilerIndex)}
+          >
+            {part.content}
           </span>
-        );
-        spoilerIndex++;
-      }
+          {!isRevealed && (
+            <button 
+              className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-md text-primary font-bold text-xs px-2 py-1"
+              onClick={() => handleRevealSpoiler(currentSpoilerIndex)}
+            >
+              <EyeOff className="w-3 h-3 mr-1" /> Spoiler
+            </button>
+          )}
+        </span>
+      );
     });
-
-    return elements;
   };
 
 
