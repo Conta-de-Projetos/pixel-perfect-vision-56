@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { toast } from "sonner";
 import SkullRadialMenu from "@/components/SkullRadialMenu";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
+import CommentSection from "@/components/CommentSection"; // Importar o novo componente
 
 const dummyChapters = [
   { id: 1, title: "Capítulo 271 - O Incidente de Shibuya, Parte Final", date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 0), lang: "PT-BR" },
@@ -351,6 +352,10 @@ const MangaDetailsPage = () => {
             </div>
           </div>
         </section>
+        
+        {/* Comment Section */}
+        <CommentSection mangaTitle={manga.title} />
+
       </main>
       <FooterSection />
       <BottomNavbar />
