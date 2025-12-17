@@ -34,10 +34,8 @@ const BottomNavbar = () => {
       return;
     }
     
-    // A navegação é feita pelo Link, aqui apenas disparamos a animação
-    if (activeItem !== item.id) {
-      setSplashKey(prev => prev + 1); // Trigger splash animation
-    }
+    // A navegação é feita pelo Link. Atualizamos splashKey para garantir que a animação rode no próximo render.
+    setSplashKey(prev => prev + 1);
   };
 
   return (
