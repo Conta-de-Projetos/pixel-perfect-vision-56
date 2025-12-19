@@ -34,11 +34,11 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
       {/* Filter Icon - Now a simple clickable icon without the button box */}
       <span 
         onClick={handleFilterClick}
-        className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg transition-none"
+        // Aplicando transition-none e duration-0 no wrapper
+        className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg transition-none duration-0"
         aria-label="Filtrar"
       >
-        {/* Aplicando transition-none e duration-0 diretamente ao ícone */}
-        <Filter className="w-5 h-5 transition-none duration-0" />
+        <Filter className="w-5 h-5" />
       </span>
 
       {/* Sort Dropdown */}
