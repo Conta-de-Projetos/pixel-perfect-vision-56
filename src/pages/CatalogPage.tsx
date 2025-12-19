@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import BottomNavbar from "@/components/BottomNavbar";
 import MangaCard from "@/components/MangaCard";
-import MangaListItem from "@/components/MangaListItem"; // Importar MangaListItem
+import MangaListItem from "@/components/MangaListItem";
 import ScrollRevealCard from "@/components/ScrollRevealCard";
 import PaginationControls from "@/components/PaginationControls";
 import SortFilterControls from "@/components/SortFilterControls";
@@ -106,7 +106,8 @@ const CatalogPage = () => {
         </div>
 
         {/* Controls: Sort/Filter (Left) and View Mode (Right) */}
-        <div className="flex justify-between items-center mb-8">
+        {/* Alterado para justify-end para mover todos os controles para a direita */}
+        <div className="flex justify-end items-center gap-4 mb-8">
           <SortFilterControls 
             currentSort={currentSort}
             onSortChange={setCurrentSort}
