@@ -38,7 +38,8 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
         className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg transition-none duration-0"
         aria-label="Filtrar"
       >
-        <Filter className="w-5 h-5" />
+        {/* Aplicando transition-none e duration-0 no ícone também, para garantir */}
+        <Filter className="w-5 h-5 transition-none duration-0" />
       </span>
 
       {/* Sort Dropdown */}
