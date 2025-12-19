@@ -37,7 +37,7 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
         className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg transition-none"
         aria-label="Filtrar"
       >
-        <Filter className="w-5 h-5" />
+        <Filter className="w-5 h-5 transition-none" />
       </span>
 
       {/* Sort Dropdown */}
