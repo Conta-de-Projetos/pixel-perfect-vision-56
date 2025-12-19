@@ -1,6 +1,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, List, Grid3x3, Filter } from "lucide-react"; // Re-import Filter
+import { ChevronDown, List, Grid3x3, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type SortOption = 'a-z' | 'rating' | 'recent' | 'views';
@@ -23,17 +23,22 @@ const sortOptions: { value: SortOption, label: string }[] = [
 const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: SortDropdownProps) => {
   const activeLabel = sortOptions.find(opt => opt.value === currentSort)?.label || 'A-Z';
 
+  // Função placeholder para o clique do filtro
+  const handleFilterClick = () => {
+    console.log("Abrir modal de filtro");
+    // toast.info("Funcionalidade de filtro em desenvolvimento.");
+  };
+
   return (
     <div className="flex items-center gap-3">
-      {/* Filter Icon Button - Re-added */}
-      <Button 
-        variant="outline" 
-        size="icon" 
-        className="bg-card/80 border-border/50 text-muted-foreground hover:bg-card hover:text-primary"
+      {/* Filter Icon - Now a simple clickable icon without the button box */}
+      <span 
+        onClick={handleFilterClick}
+        className="p-2 text-muted-foreground hover:text-primary transition-colors cursor-pointer rounded-lg"
         aria-label="Filtrar"
       >
         <Filter className="w-5 h-5" />
-      </Button>
+      </span>
 
       {/* Sort Dropdown */}
       <DropdownMenu>
