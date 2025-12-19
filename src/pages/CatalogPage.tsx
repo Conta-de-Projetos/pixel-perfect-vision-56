@@ -3,10 +3,11 @@ import Navbar from "@/components/Navbar";
 import FooterSection from "@/components/FooterSection";
 import BottomNavbar from "@/components/BottomNavbar";
 import MangaCard from "@/components/MangaCard";
+import MangaListItem from "@/components/MangaListItem"; // Importar MangaListItem
 import ScrollRevealCard from "@/components/ScrollRevealCard";
 import PaginationControls from "@/components/PaginationControls";
-import SortFilterControls from "@/components/SortFilterControls"; // Importar componente renomeado
-import ViewModeToggle from "@/components/ViewModeToggle"; // Importar novo componente
+import SortFilterControls from "@/components/SortFilterControls";
+import ViewModeToggle from "@/components/ViewModeToggle";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { ArrowLeft } from "lucide-react";
 import { popularMangas } from "@/data/mangaData";
@@ -139,9 +140,13 @@ const CatalogPage = () => {
             ))}
           </div>
         ) : (
-          // Placeholder for List View
-          <div className="text-center py-16 text-muted-foreground">
-            Visualização em Lista em breve...
+          // List View Implementation
+          <div className="space-y-4">
+            {paginatedMangas.map((manga, index) => (
+              <ScrollRevealCard key={manga.id} delay={index * 50}>
+                <MangaListItem manga={manga} />
+              </ScrollRevealCard>
+            ))}
           </div>
         )}
 
