@@ -103,8 +103,8 @@ const CatalogPage = () => {
           </div>
         </div>
 
-        {/* Controls: Sort and View Mode */}
-        <div className="flex justify-end mb-8">
+        {/* Controls: Sort and View Mode - Changed justify-end to justify-start */}
+        <div className="flex justify-start mb-8">
           <SortDropdown 
             currentSort={currentSort}
             onSortChange={setCurrentSort}
