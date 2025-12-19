@@ -59,15 +59,15 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
         </DropdownMenuContent>
       </DropdownMenu>
       
-      {/* View Mode Toggles */}
-      <div className="flex bg-card/80 border border-border/50 rounded-xl overflow-hidden">
+      {/* View Mode Toggles - Updated to match reference image */}
+      <div className="flex bg-card/80 border border-border/50 rounded-xl overflow-hidden shadow-lg">
         <Button 
           size="icon" 
           onClick={() => onViewChange('grid')}
           className={cn(
-            "w-12 h-12 rounded-none transition-colors",
+            "w-12 h-12 rounded-xl transition-all duration-300",
             currentView === 'grid' 
-              ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+              ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30" 
               : "bg-transparent text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
           )}
         >
@@ -77,9 +77,9 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
           size="icon" 
           onClick={() => onViewChange('list')}
           className={cn(
-            "w-12 h-12 rounded-none transition-colors",
+            "w-12 h-12 rounded-xl transition-colors",
             currentView === 'list' 
-              ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+              ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30" 
               : "bg-transparent text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
           )}
         >
