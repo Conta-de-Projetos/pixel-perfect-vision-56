@@ -7,7 +7,7 @@ import Premium from "./pages/Premium";
 import MangaDetailsPage from "./pages/MangaDetailsPage";
 import CollectionPage from "./pages/CollectionPage";
 import MenuPage from "./pages/MenuPage";
-import PopularPage from "./pages/PopularPage"; // Import new page
+import CatalogPage from "./pages/CatalogPage"; // Import CatalogPage
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,7 +23,7 @@ const App = () => (
           <Route path="/manga/:slug" element={<MangaDetailsPage />} />
           <Route path="/colecao" element={<CollectionPage />} />
           <Route path="/menu" element={<MenuPage />} />
-          <Route path="/populares" element={<PopularPage />} /> {/* New route */}
+          <Route path="/catalogo" element={<CatalogPage />} /> {/* Updated route */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
