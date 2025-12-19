@@ -1,6 +1,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, List, Grid3x3, Filter } from "lucide-react"; // Re-importing Filter
+import { ChevronDown, List, Grid3x3, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type SortOption = 'a-z' | 'rating' | 'recent' | 'views';
@@ -31,11 +31,11 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
 
   return (
     <div className="flex items-center gap-3">
-      {/* Filter Icon - Re-added with transition-none and duration-0 */}
+      {/* Filter Icon - Now with inline style to force transition removal */}
       <span 
         onClick={handleFilterClick}
-        // Usando transition-none e duration-0 para desativar a transição de cor
         className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg transition-none duration-0"
+        style={{ transitionProperty: 'none' }} // Força a desativação de todas as transições
         aria-label="Filtrar"
       >
         <Filter className="w-5 h-5" />
