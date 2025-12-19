@@ -1,16 +1,13 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, List, Grid3x3, Filter } from "lucide-react";
+import { ChevronDown, Filter } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type SortOption = 'a-z' | 'rating' | 'recent' | 'views';
-type ViewMode = 'grid' | 'list';
 
-interface SortDropdownProps {
+interface SortFilterControlsProps {
   currentSort: SortOption;
   onSortChange: (sort: SortOption) => void;
-  currentView: ViewMode;
-  onViewChange: (view: ViewMode) => void;
 }
 
 const sortOptions: { value: SortOption, label: string }[] = [
@@ -20,7 +17,7 @@ const sortOptions: { value: SortOption, label: string }[] = [
   { value: 'views', label: 'Mais Vistos' },
 ];
 
-const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: SortDropdownProps) => {
+const SortFilterControls = ({ currentSort, onSortChange }: SortFilterControlsProps) => {
   const activeLabel = sortOptions.find(opt => opt.value === currentSort)?.label || 'A-Z';
 
   // Função placeholder para o clique do filtro
@@ -31,7 +28,7 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
 
   return (
     <div className="flex items-center gap-3">
-      {/* Filter Icon - Using !transition-none for high specificity */}
+      {/* Filter Icon */}
       <span 
         onClick={handleFilterClick}
         className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg !transition-none duration-0"
@@ -68,36 +65,8 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      
-      {/* View Mode Toggles */}
-      <div className="flex p-1 bg-card/80 border border-border/50 rounded-xl shadow-lg">
-        <button 
-          onClick={() => onViewChange('grid')}
-          className={cn(
-            "w-10 h-10 flex items-center justify-center transition-all duration-300 rounded-lg",
-            currentView === 'grid' 
-              ? "bg-primary text-primary-foreground ring-2 ring-primary/50" 
-              : "bg-transparent text-muted-foreground hover:bg-secondary/50"
-          )}
-          aria-label="Visualização em Grade"
-        >
-          <Grid3x3 className="w-5 h-5" />
-        </button>
-        <button 
-          onClick={() => onViewChange('list')}
-          className={cn(
-            "w-10 h-10 flex items-center justify-center transition-all duration-300 rounded-lg",
-            currentView === 'list' 
-              ? "bg-primary text-primary-foreground ring-2 ring-primary/50" 
-              : "bg-transparent text-muted-foreground hover:bg-secondary/50"
-          )}
-          aria-label="Visualização em Lista"
-        >
-          <List className="w-5 h-5" />
-        </button>
-      </div>
     </div>
   );
 };
 
-export default SortDropdown;
+export default SortFilterControls;

@@ -5,7 +5,8 @@ import BottomNavbar from "@/components/BottomNavbar";
 import MangaCard from "@/components/MangaCard";
 import ScrollRevealCard from "@/components/ScrollRevealCard";
 import PaginationControls from "@/components/PaginationControls";
-import SortDropdown from "@/components/SortDropdown"; // Importar novo componente
+import SortFilterControls from "@/components/SortFilterControls"; // Importar componente renomeado
+import ViewModeToggle from "@/components/ViewModeToggle"; // Importar novo componente
 import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { ArrowLeft } from "lucide-react";
 import { popularMangas } from "@/data/mangaData";
@@ -103,11 +104,13 @@ const CatalogPage = () => {
           </div>
         </div>
 
-        {/* Controls: Sort and View Mode - Changed justify-end to justify-start */}
-        <div className="flex justify-start mb-8">
-          <SortDropdown 
+        {/* Controls: Sort/Filter (Left) and View Mode (Right) */}
+        <div className="flex justify-between items-center mb-8">
+          <SortFilterControls 
             currentSort={currentSort}
             onSortChange={setCurrentSort}
+          />
+          <ViewModeToggle
             currentView={currentView}
             onViewChange={setCurrentView}
           />
