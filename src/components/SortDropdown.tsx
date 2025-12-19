@@ -59,32 +59,32 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
         </DropdownMenuContent>
       </DropdownMenu>
       
-      {/* View Mode Toggles - Updated to match reference image */}
-      <div className="flex bg-card/80 border border-border/50 rounded-xl overflow-hidden shadow-lg">
-        <Button 
-          size="icon" 
+      {/* View Mode Toggles - Exact match to reference image */}
+      <div className="flex p-1 bg-card/80 border border-border/50 rounded-xl shadow-lg">
+        <button 
           onClick={() => onViewChange('grid')}
           className={cn(
-            "w-12 h-12 rounded-xl transition-all duration-300",
+            "w-10 h-10 flex items-center justify-center transition-all duration-300 rounded-lg",
             currentView === 'grid' 
-              ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30" 
-              : "bg-transparent text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
+              ? "bg-primary text-primary-foreground ring-2 ring-primary/50" 
+              : "bg-transparent text-muted-foreground hover:bg-secondary/50"
           )}
+          aria-label="Visualização em Grade"
         >
           <Grid3x3 className="w-5 h-5" />
-        </Button>
-        <Button 
-          size="icon" 
+        </button>
+        <button 
           onClick={() => onViewChange('list')}
           className={cn(
-            "w-12 h-12 rounded-xl transition-colors",
+            "w-10 h-10 flex items-center justify-center transition-colors rounded-lg",
             currentView === 'list' 
-              ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl shadow-primary/30" 
-              : "bg-transparent text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
+              ? "bg-primary text-primary-foreground ring-2 ring-primary/50" 
+              : "bg-transparent text-muted-foreground hover:bg-secondary/50"
           )}
+          aria-label="Visualização em Lista"
         >
           <List className="w-5 h-5" />
-        </Button>
+        </button>
       </div>
     </div>
   );
