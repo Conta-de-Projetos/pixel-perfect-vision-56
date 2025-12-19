@@ -31,11 +31,10 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
 
   return (
     <div className="flex items-center gap-3">
-      {/* Filter Icon - Now with inline style to force transition removal */}
+      {/* Filter Icon - Using !transition-none for high specificity */}
       <span 
         onClick={handleFilterClick}
-        className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg transition-none duration-0"
-        style={{ transitionProperty: 'none' }} // Força a desativação de todas as transições
+        className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg !transition-none duration-0"
         aria-label="Filtrar"
       >
         <Filter className="w-5 h-5" />
