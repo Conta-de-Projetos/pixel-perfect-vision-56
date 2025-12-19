@@ -22,9 +22,9 @@ const MangaListItem = ({ manga }: MangaListItemProps) => {
     >
       {/* Rating Badge (Top Right Corner) */}
       {manga.rating && (
-        <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 bg-card/90 backdrop-blur-sm border border-primary/30 rounded-lg shadow-lg group-hover:bg-primary/10 transition-colors">
-          <Star className="w-4 h-4 fill-primary text-primary" />
-          <span className="text-sm font-bold text-primary">{formatRating(manga.rating)}</span>
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 bg-card/90 backdrop-blur-sm border border-amber-500/30 rounded-lg shadow-lg group-hover:bg-card/90 transition-colors">
+          <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
+          <span className="text-sm font-bold text-amber-500">{formatRating(manga.rating)}</span>
         </div>
       )}
 

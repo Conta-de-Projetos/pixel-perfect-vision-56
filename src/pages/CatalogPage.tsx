@@ -36,7 +36,8 @@ const CatalogPage = () => {
       list = list.concat(popularMangas.map(m => ({
         ...m,
         id: m.id + i * popularMangas.length, // Garante IDs únicos
-        title: `${m.title} (P${i + 1})`, // Apenas para visualização
+        // Removendo o sufixo de paginação, mantendo o título original
+        title: m.title, 
         isNew: i === 0 ? m.isNew : false,
       })));
     }
