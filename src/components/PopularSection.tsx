@@ -3,16 +3,10 @@ import ScrollRevealCard from "./ScrollRevealCard";
 import { Flame, Sparkles } from "lucide-react";
 import { popularMangas } from "@/data/mangaData";
 import BulletIcon from "./BulletIcon";
-import { useState, useCallback } from "react"; // Importar useCallback
 import { Link } from "react-router-dom"; // Importar Link
 
 const PopularSection = () => {
-  const [triggerBulletAnimation, setTriggerBulletAnimation] = useState(false);
-
-  const handlePress = useCallback(() => {
-    setTriggerBulletAnimation(true);
-    setTimeout(() => setTriggerBulletAnimation(false), 300); // Reset animation state after 300ms
-  }, []);
+  // Removendo estados e callbacks de animação
 
   return (
     <section id="populares" className="relative py-24 px-4 grunge-texture overflow-hidden">
@@ -52,12 +46,10 @@ const PopularSection = () => {
         <div className="flex justify-end mb-4">
           <Link 
             to="/catalogo" // Updated to use Link and point to the new page
-            className="flex items-center gap-2 text-primary hover:text-primary/80 text-base sm:text-lg font-impact uppercase tracking-wide transition-all duration-300 group py-2 px-3 -mr-3 active:scale-95" // Added active:scale-95
-            onMouseDown={handlePress}
-            onTouchStart={(e) => { e.preventDefault(); handlePress(); }}
+            className="flex items-center gap-2 text-primary hover:text-primary/80 text-base sm:text-lg font-impact uppercase tracking-wide transition-all duration-300 group py-2 px-3 -mr-3 active:scale-95"
           >
             Ver todos
-            <BulletIcon size="md" className={triggerBulletAnimation ? 'animate-bullet-fire' : ''} /> {/* Conditional animation */}
+            <BulletIcon size="md" /> {/* BulletIcon estático */}
           </Link>
         </div>
 
