@@ -109,16 +109,22 @@ const CatalogPage = () => {
           </div>
 
           {/* Controls: Sort/Filter and View Mode (Right) */}
-          <div className="flex items-center gap-4 justify-end sm:justify-start">
-            <SortFilterControls 
-              currentSort={currentSort}
-              onSortChange={setCurrentSort}
-            />
-            <ViewModeToggle
-              currentView={currentView}
-              onViewChange={setCurrentView}
-            />
-          </div>
+          {/* Este contêiner agora está vazio, pois os controles foram movidos para a linha abaixo do título */}
+          {/* Removendo o contêiner de controles duplicado */}
+        </div>
+        
+        {/* Controls Row: Sort/Filter (Left) and View Mode (Right) */}
+        <div className="flex justify-between items-center mb-8">
+          {/* Left: Sort and Filter */}
+          <SortFilterControls 
+            currentSort={currentSort}
+            onSortChange={setCurrentSort}
+          />
+          {/* Right: View Mode */}
+          <ViewModeToggle
+            currentView={currentView}
+            onViewChange={setCurrentView}
+          />
         </div>
 
         {/* Manga Grid / List */}
