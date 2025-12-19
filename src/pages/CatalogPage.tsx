@@ -86,36 +86,39 @@ const CatalogPage = () => {
       <Navbar />
       <main className="pt-32 pb-20 md:pb-0 max-w-6xl mx-auto px-4">
         
-        {/* Header - CATÁLOGO */}
-        <div className="flex items-center gap-4 mb-10">
-          <button 
-            onClick={() => navigate(-1)} 
-            className="p-2 text-muted-foreground hover:text-primary transition-colors"
-            aria-label="Voltar"
-          >
-            <ArrowLeft className="w-6 h-6" />
-          </button>
-          <div>
-            <h1 className="text-4xl md:text-5xl font-impact tracking-wider text-foreground leading-none">
-              CATÁLOGO
-            </h1>
-            <p className="text-muted-foreground text-sm mt-1 font-display uppercase tracking-wide">
-              {totalItems} títulos encontrados
-            </p>
+        {/* Header and Controls Container */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+          
+          {/* Title Section (Left) */}
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => navigate(-1)} 
+              className="p-2 text-muted-foreground hover:text-primary transition-colors"
+              aria-label="Voltar"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+            <div>
+              <h1 className="text-4xl md:text-5xl font-impact tracking-wider text-foreground leading-none">
+                CATÁLOGO
+              </h1>
+              <p className="text-muted-foreground text-sm mt-1 font-display uppercase tracking-wide">
+                {totalItems} títulos encontrados
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Controls: Sort/Filter (Left) and View Mode (Right) */}
-        {/* Alterado para justify-end para mover todos os controles para a direita */}
-        <div className="flex justify-end items-center gap-4 mb-8">
-          <SortFilterControls 
-            currentSort={currentSort}
-            onSortChange={setCurrentSort}
-          />
-          <ViewModeToggle
-            currentView={currentView}
-            onViewChange={setCurrentView}
-          />
+          {/* Controls: Sort/Filter and View Mode (Right) */}
+          <div className="flex items-center gap-4 justify-end sm:justify-start">
+            <SortFilterControls 
+              currentSort={currentSort}
+              onSortChange={setCurrentSort}
+            />
+            <ViewModeToggle
+              currentView={currentView}
+              onViewChange={setCurrentView}
+            />
+          </div>
         </div>
 
         {/* Manga Grid / List */}
