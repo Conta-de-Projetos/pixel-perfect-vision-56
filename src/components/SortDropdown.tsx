@@ -1,6 +1,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Filter, List, Grid3x3 } from "lucide-react";
+import { ChevronDown, List, Grid3x3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type SortOption = 'a-z' | 'rating' | 'recent' | 'views';
@@ -25,11 +25,6 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
 
   return (
     <div className="flex items-center gap-3">
-      {/* Filter Icon (Placeholder for future filter modal) */}
-      <Button variant="outline" size="icon" className="bg-card/80 border-border/50 text-muted-foreground hover:bg-card hover:text-primary">
-        <Filter className="w-5 h-5" />
-      </Button>
-
       {/* Sort Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
