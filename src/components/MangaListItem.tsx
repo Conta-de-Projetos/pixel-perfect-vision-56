@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { MangaData, getRelativeTime } from "@/data/mangaData";
 import { cn } from "@/lib/utils";
-import { Star, BookOpen, Crown, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Star, Crown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 interface MangaListItemProps {
@@ -37,13 +36,6 @@ const MangaListItem = ({ manga }: MangaListItemProps) => {
         
         {/* Metadata Row */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs sm:text-sm text-muted-foreground">
-          {/* Rating */}
-          {manga.rating && (
-            <div className="flex items-center gap-1 text-amber-500">
-              <Star className="w-3 h-3 fill-amber-500" />
-              <span className="font-semibold">{formatRating(manga.rating)}</span>
-            </div>
-          )}
           
           {/* Latest Chapter */}
           <span className="font-medium text-primary">
@@ -69,29 +61,16 @@ const MangaListItem = ({ manga }: MangaListItemProps) => {
           </Badge>
         </div>
         
-        {/* Tags (Desktop only) */}
-        <div className="hidden lg:flex flex-wrap gap-2 mt-2">
-          {manga.tags?.slice(0, 3).map((tag) => (
-            <Badge 
-              key={tag} 
-              variant="outline" 
-              className="text-[10px] px-2 py-0.5 font-display uppercase tracking-wide bg-background/50 border-border/50 text-muted-foreground"
-            >
-              {tag}
-            </Badge>
-          ))}
-        </div>
+        {/* Tags (Removed) */}
       </div>
 
-      {/* Action Button (Right side) */}
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        className="flex-shrink-0 w-10 h-10 ml-4 text-muted-foreground hover:text-primary group-hover:bg-primary/10 transition-colors"
-        aria-label="Ler Agora"
-      >
-        <BookOpen className="w-5 h-5" />
-      </Button>
+      {/* Rating (Right side) */}
+      {manga.rating && (
+        <div className="flex-shrink-0 flex items-center gap-1 ml-4 text-sm sm:text-base text-amber-500 font-display uppercase tracking-wide">
+          <Star className="w-4 h-4 sm:w-5 h-5 fill-amber-500" />
+          <span className="font-semibold">{formatRating(manga.rating)}</span>
+        </div>
+      )}
     </Link>
   );
 };
