@@ -34,11 +34,11 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
       {/* Filter Icon - Now a simple clickable icon without the button box */}
       <span 
         onClick={handleFilterClick}
-        // Garantindo que transition-none e duration-0 sejam aplicados
+        // Usando transition-none e duration-0, e adicionando estilo inline para forçar a desativação
         className="p-2 text-muted-foreground hover:text-primary cursor-pointer rounded-lg transition-none duration-0"
+        style={{ transitionProperty: 'none' }} // Força a desativação de todas as transições
         aria-label="Filtrar"
       >
-        {/* O ícone não precisa de classes de transição se o pai já tem transition-none */}
         <Filter className="w-5 h-5" />
       </span>
 
@@ -88,7 +88,6 @@ const SortDropdown = ({ currentSort, onSortChange, currentView, onViewChange }: 
         <button 
           onClick={() => onViewChange('list')}
           className={cn(
-            // Removendo 'transition-colors' redundante, mantendo 'transition-all duration-300' para o estado ativo
             "w-10 h-10 flex items-center justify-center transition-all duration-300 rounded-lg",
             currentView === 'list' 
               ? "bg-primary text-primary-foreground ring-2 ring-primary/50" 
